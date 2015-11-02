@@ -1,0 +1,25 @@
+{
+  "name": "OnlineSurvey",
+  "description": "0.0.0",
+  "main": "",
+  "license": "MIT",
+  "moduleType": [],
+  "homepage": "https://github.com/IronKim/OnlineSurvey",
+  "authors": [
+    "Minchan Kim <livingkmc@gmail.com>"
+  ],
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "~3.3.5",
+    "bourbon": "~4.2.6",
+    "jquery": "~2.1.4",
+    "font-awesome": "~4.4.0"
+  }
+}
