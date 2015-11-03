@@ -5,6 +5,12 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
+//Session
+var session = require('express-session');
+
+//Override
+var methodOverride = require('method-override');
+
 //MongoDB
 var flash = require('connect-flash');
 var mongoose   = require('mongoose');
@@ -34,7 +40,15 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
-//app.use(methodOverride('_method', {methods: ['POST', 'GET']}));       //????
+app.use(methodOverride('_method', {methods: ['POST', 'GET']}));       //????
+
+//session
+app.use(session({
+  resave: true,
+  saveUninitialized: true,
+  secret: 'long-long-long-secret-string-1313513tefgwdsvbjkvasd'
+}));
+app.use(flash());
 
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/bower_components',  express.static(path.join(__dirname, '/bower_components')));
