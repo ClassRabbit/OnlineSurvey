@@ -18,6 +18,10 @@ var mongoose   = require('mongoose');
 var routes = require('./routes/index');
 var users = require('./routes/users');
 
+var passport = require('passport');
+var configAuth = require('./config/auth');
+var routeAuth = require('./routes/auth');
+
 var app = express();
 
 // view engine setup
@@ -53,8 +57,26 @@ app.use(flash());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/bower_components',  express.static(path.join(__dirname, '/bower_components')));
 
+
+//?????
+app.use(passport.initialize());
+app.use(passport.session());
+
+app.use(function(req, res, next) {
+  console.log("REQ USER", req.user);
+  res.locals.currentUser = req.user;
+  res.locals.flashMessages = req.flash();
+  next();
+});
+
+configAuth(passport);
+
+//routes
 app.use('/', routes);
 app.use('/users', users);
+
+//?????
+routeAuth(app, passport);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
