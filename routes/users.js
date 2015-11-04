@@ -119,7 +119,8 @@ router.get('/:id', function(req, res, next) {
 });
 
 router.post('/', function(req, res, next) {
-  if (validateForm(req.body, {needPassword: true})) {
+  var err = validateForm(req.body, {needPassword: true});
+  if (err) {
     req.flash('danger', err);
     return res.redirect('back');
   }
