@@ -64,7 +64,7 @@ app.use(passport.session());
 
 app.use(function(req, res, next) {
   console.log("REQ USER", req.user);
-  res.locals.currentUser = req.user;
+  res.locals.currentUser = req.user;    //유저가 없으면 undifind
   res.locals.flashMessages = req.flash();
   next();
 });

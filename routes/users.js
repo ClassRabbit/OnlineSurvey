@@ -11,7 +11,7 @@ function needAuth(req, res, next) {
   }
 }
 
-function validateForm(form) {
+function validateForm(form, options) {
   var name = form.name || "";
   var email = form.email || "";
   name = name.trim();
@@ -29,7 +29,7 @@ function validateForm(form) {
     return '비밀번호를 입력해주세요.';
   }
 
-  if (form.password != form.password_confirmation) {
+  if (form.password !== form.password_confirmation) {
     return '비밀번호가 일치하지 않습니다.';
   }
 
