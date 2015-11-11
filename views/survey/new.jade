@@ -1,0 +1,19 @@
+extends layout
+
+block content
+  .container
+    h1 설문 만들기
+    form(action='/new', method='POST')
+      p 설문 제목
+      input(name='title' type='text')
+      
+  
+  
+  
+    button.add_field_button.btn.btn-info Add More Fields
+    form(action='/test', method='POST')
+      .form-group
+        .wrapper
+          input.textInput(type='text', id='mytext_0', name='mytext_0')
+      button.btn.btn-primary(type='submit') 완료
+  script(type='text/javascript', src='/javascripts/test.js')
