@@ -17,6 +17,7 @@ var mongoose   = require('mongoose');
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
+var servey = require('./routes/servey');
 
 var passport = require('passport');
 var configAuth = require('./config/auth');
@@ -74,7 +75,7 @@ configAuth(passport);
 //routes
 app.use('/', routes);
 app.use('/users', users);
-
+app.use('/servey', servey);
 //?????
 routeAuth(app, passport);
 
