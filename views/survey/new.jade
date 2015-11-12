@@ -5,73 +5,88 @@ block content
     h1 설문 만들기
     form(action='/new', method='POST')
       label 설문 제목
-      input.form-control(type='text' name='serveyTitle' id='serveyTitle')
+      input.form-control(type='text' name='surveyTitle' id='surveyTitle')
       label 설문 설명
-      textarea.form-control(rows='5' name='serveyComment' id='serveyComment')
-      .contentArea
+      textarea.form-control(rows='5' name='surveyComment' id='surveyComment')
+    .contentArea
+    p
     button.btn.btn-primary.contentAdd 문항 추가
+    button.btn.btn-primary.surveyFin 설문지 완성
     
   script(type='text/template', id='contentTemplate')
     p
-    .content
+    form.content(action='/new', method='POST')
       .row
         .col-md-2.contentNum
-        .com-md-12
+        .col-md-2
           button.btn.btn-danger.contentDel(type='button') 문항 제거
+          
       .row
         .col-md-2
           label 문항 이름
         .col-md-8
-          input.form-control.contentTitle(type='text')
+          input.form-control.contentTitle(type='text' name='contentTitle' id='contentTitle')
+        .col-md-2
+          input.contentNecessari(type='checkbox' id='contentNecessari' name='contentNecessari')
+          | 필수 항목
       .row
         .col-md-2
           label 문항 설명
         .col-md-8
-          input.form-control.contentComment(type='text')
+          input.form-control.contentComment(type='text' name='contentComment' id='contentComment')
       .row
         .col-md-2
           label 문항 유형
         .col-md-8
-          select.form-control.contentType
-            option(selected) 객관식
-            option 단일 입력
-            option 의견
-            option 날짜 입력
-            option 날짜,시간 입력
-            option 점수 선택
+          select.form-control.contentType(name='contentType' id='contentType')
+            option(selected value='0') 객관식
+            option(value='1') 단일 입력
+            option(value='2') 의견
+            option(value='3') 날짜 입력
+            option(value='4') 날짜,시간 입력
+            option(value='5') 점수 선택
+      p
       .contentValue
+        .objMulti
+          input.objMultiValue(type='checkbox' id='objMultiValue' name='objMultiValue')
+          | 다중 선택 가능
         .objOpt
-          input.objOptValue(type='text', id='objOptValue_0', name='objOptValue_0')
+          input.objOptValue(type='text' id='objOptValue' name='objOptValue')
         .objBtnArea
+          p
           .button.btn.btn-primary.objOptCreate(type='button') 옵션 추가
           .button.btn.btn-primary.objEtcCreate(type='button') 기타 추가
       p
           
   script(type='text/template', id='objBtnAreaTemplate_1')
     .objBtnArea
+      p
       .button.btn.btn-primary.objOptCreate(type='button') 옵션 추가
       .button.btn.btn-primary.objEtcCreate(type='button') 기타 추가
-      p
       
   script(type='text/template', id='objBtnAreaTemplate_2')
     .objBtnArea
-      .button.btn.btn-primary.objOptCreate(type='button') 옵션 추가
       p
+      .button.btn.btn-primary.objOptCreate(type='button') 옵션 추가
   
   script(type='text/template', id='objEtcTemplate')
     .objEtc
-      input.objEtcValue(type='text' id='objEtcValue' name='objEtcValue' value='기타' disabled)
+      input.objEtcValue(type='text' id='objEtcValue' name='objEtcValue' value='기타' readonly)
       a.objEtcDel Remove
       
   script(type='text/template', id='objOptTemplate')    
     .objOpt
-      input.objOptValue(type='text')
+      input.objOptValue(type='text' id='objOptValue' name='objOptValue')
       a.objOptDel Remove
   
   script(type='text/template', id='objectiveTemplate')
+    .objMulti
+      input.objMultiValue(type='checkbox' id='objMultiValue' name='objMultiValue')
+      | 다중 선택 가능
     .objOpt
-      input.objOptValue(type='text' id='objOptValue_0' name='objOptValue_0')
+      input.objOptValue(type='text' id='objOptValue' name='objOptValue')
     .objBtnArea
+      p
       .button.btn.btn-primary.objOptCreate(type='button') 옵션 추가
       .button.btn.btn-primary.objEtcCreate(type='button') 기타 추가
   
@@ -89,6 +104,23 @@ block content
   
   script(type='text/template', id='dateTimeTemplate')
     .dateTime
-      input.datTimeeValue(type='datetime-local' name='dateTimeValue')
+      input.dateTimeValue(type='datetime-local' name='dateTimeValue')
+      
+  script(type='text/template', id='scoreTemplate')
+    .score
+      input.scoreValue(type='radio' name='scoreValue' value='상')
+      | 상
+      br
+      input.scoreValue(type='radio' name='scoreValue' value='중상')
+      | 중상
+      br
+      input.scoreValue(type='radio' name='scoreValue' value='중')
+      | 중
+      br
+      input.scoreValue(type='radio' name='scoreValue' value='중하')
+      | 중하
+      br
+      input.scoreValue(type='radio' name='scoreValue' value='하')
+      | 하
   
   script(type='text/javascript', src='/javascripts/surveyNew.js')
