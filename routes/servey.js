@@ -4,7 +4,7 @@ var router = express.Router();
 
 /* GET home page. */
 router.get('/new', function(req, res, next) {
-  res.render('servey/new');
+  res.render('survey/new');
 });
 
 router.post('/test', function(req, res, next) {

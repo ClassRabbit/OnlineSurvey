@@ -30,8 +30,8 @@ $(function() {
     }
 		$(this).parents('.content').find('.contentValue').append($('#objOptTemplate').html());
     optCnt++;
-    $(this).parents('.contentValue').find('.objOptText:last').attr('id','objOptText_'+(optCnt-1));
-    $(this).parents('.contentValue').find('.objOptText:last').attr('name','objOptText_'+(optCnt-1));
+    $(this).parents('.contentValue').find('.objOptValue:last').attr('id','objOptValue_'+(optCnt-1));
+    $(this).parents('.contentValue').find('.objOptValue:last').attr('name','objOptValue_'+(optCnt-1));
 		//console.log($(this).parents('.Content').find('.objectiveEtc').length);
 		if($(this).parents('.content').find('.objEtc').length == 0) {
       $(this).parents('.content').find('.contentValue').append($('#objBtnAreaTemplate_1').html());
@@ -48,15 +48,15 @@ $(function() {
     var thisContentValue = $(this).parents('.contentValue');
     $(this).parents('.objOpt').remove();
     thisContentValue.find('.objOpt:gt(0)').each(function (index, item){
-      textValues.push($(item).find('.objOptText').val());
+      textValues.push($(item).find('.objOptValue').val());
       $(item).remove();
     });
     thisContentValue.find('.objBtnArea').remove();
     for(idx in textValues){
       thisContentValue.append($('#objOptTemplate').html());
-      thisContentValue.find('.objOptText:last').val(textValues[idx]);
-      thisContentValue.find('.objOptText:last').attr('id','objOptText_'+(1+parseInt(idx)));
-      thisContentValue.find('.objOptText:last').attr('name','objOptText_'+(1+parseInt(idx)));
+      thisContentValue.find('.objOptValue:last').val(textValues[idx]);
+      thisContentValue.find('.objOptValue:last').attr('id','objOptValue_'+(1+parseInt(idx)));
+      thisContentValue.find('.objOptValue:last').attr('name','objOptValue_'+(1+parseInt(idx)));
     }
     if(thisContentValue.find('.objEtc').length != 0) {
       thisContentValue.find('.objEtc').remove();
@@ -74,9 +74,32 @@ $(function() {
 	});
 
   $(document).on("click", ".objEtcDel" , function() {
-    console.log("yes");
 		$(this).parents('.contentValue').find('.objBtnArea').remove();
 		$(this).parents('.contentValue').append($('#objBtnAreaTemplate_1').html());
 		$(this).parents('.objEtc').remove();
 	});
+
+  $(document).on("change", ".contentType" , function() {
+		$(this).parents('.content').find('.contentValue').empty();
+
+		switch(	$(this).val())
+		{
+			case '객관식':
+				$(this).parents('.content').find('.contentValue').append($('#objectiveTemplate').html());
+				break;
+			case '단일 입력':
+				$(this).parents('.content').find('.contentValue').append($('#subjectiveTemplate').html());
+				break;
+      case '의견':
+  			$(this).parents('.content').find('.contentValue').append($('#longSubjectiveTemplate').html());
+  			break;
+      case '날짜 입력':
+    		$(this).parents('.content').find('.contentValue').append($('#dateTemplate').html());
+    		break;
+      case '날짜,시간 입력':
+      	$(this).parents('.content').find('.contentValue').append($('#dateTimeTemplate').html());
+      	break;
+		}
+
+  });
 });

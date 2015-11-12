@@ -5,10 +5,90 @@ block content
     h1 설문 만들기
     form(action='/new', method='POST')
       label 설문 제목
-      input(type='text' name='serveyTitle' id='serveyTitle')
+      input.form-control(type='text' name='serveyTitle' id='serveyTitle')
       label 설문 설명
-      textarea(rows='5' name='serveyComment' id='serveyComment')
+      textarea.form-control(rows='5' name='serveyComment' id='serveyComment')
       .contentArea
-      button.btn.btn-primary.contentAdd 문항 추가
+    button.btn.btn-primary.contentAdd 문항 추가
+    
+  script(type='text/template', id='contentTemplate')
+    p
+    .content
+      .row
+        .col-md-2.contentNum
+        .com-md-12
+          button.btn.btn-danger.contentDel(type='button') 문항 제거
+      .row
+        .col-md-2
+          label 문항 이름
+        .col-md-8
+          input.form-control.contentTitle(type='text')
+      .row
+        .col-md-2
+          label 문항 설명
+        .col-md-8
+          input.form-control.contentComment(type='text')
+      .row
+        .col-md-2
+          label 문항 유형
+        .col-md-8
+          select.form-control.contentType
+            option(selected) 객관식
+            option 단일 입력
+            option 의견
+            option 날짜 입력
+            option 날짜,시간 입력
+            option 점수 선택
+      .contentValue
+        .objOpt
+          input.objOptValue(type='text', id='objOptValue_0', name='objOptValue_0')
+        .objBtnArea
+          .button.btn.btn-primary.objOptCreate(type='button') 옵션 추가
+          .button.btn.btn-primary.objEtcCreate(type='button') 기타 추가
+      p
+          
+  script(type='text/template', id='objBtnAreaTemplate_1')
+    .objBtnArea
+      .button.btn.btn-primary.objOptCreate(type='button') 옵션 추가
+      .button.btn.btn-primary.objEtcCreate(type='button') 기타 추가
+      p
+      
+  script(type='text/template', id='objBtnAreaTemplate_2')
+    .objBtnArea
+      .button.btn.btn-primary.objOptCreate(type='button') 옵션 추가
+      p
+  
+  script(type='text/template', id='objEtcTemplate')
+    .objEtc
+      input.objEtcValue(type='text' id='objEtcValue' name='objEtcValue' value='기타' disabled)
+      a.objEtcDel Remove
+      
+  script(type='text/template', id='objOptTemplate')    
+    .objOpt
+      input.objOptValue(type='text')
+      a.objOptDel Remove
+  
+  script(type='text/template', id='objectiveTemplate')
+    .objOpt
+      input.objOptValue(type='text' id='objOptValue_0' name='objOptValue_0')
+    .objBtnArea
+      .button.btn.btn-primary.objOptCreate(type='button') 옵션 추가
+      .button.btn.btn-primary.objEtcCreate(type='button') 기타 추가
+  
+  script(type='text/template', id='subjectiveTemplate')
+    .subjective
+      input.form-control.subjectiveValue(type='text' name='subjectiveValue')
+  
+  script(type='text/template', id='longSubjectiveTemplate')
+    .longSubjective
+      textarea.form-control.longSubjectiveValue(rows='5' name='longSubjectiveValue')
+      
+  script(type='text/template', id='dateTemplate')
+    .date
+      input.dateValue(type='date' name='dateValue')
+  
+  script(type='text/template', id='dateTimeTemplate')
+    .dateTime
+      input.datTimeeValue(type='datetime-local' name='dateTimeValue')
+  
   script(type='text/javascript', src='/javascripts/surveyNew.js')
-  script(type='text/template', src='/javascripts/surveyNewTemplate.js')
