@@ -3,16 +3,19 @@ var mongoose = require('mongoose'),
     Schema = mongoose.Schema;
 
 var schema = new Schema({
-  email: {type: String, required: true, index: true, unique: true, trim: true},
-  surveyCnt: {type: Number},
-  surveyValue: {type: Array}
+  title: {type: String},
+  comment: {type: String},
+  contents: {type: String},
+  deadline: {type: Date},
+  user: {type: Schema.Types.ObjectId, index: true, required: true},
+  createdAt: {type: Date, default: Date.now}
 }, {
   toJSON: { virtuals: true},
   toObject: {virtuals: true}
 });
 
 
-var User = mongoose.model('Survey', schema);
+var Survey = mongoose.model('Survey', schema);
 
 
-module.exports = User;
+module.exports = Survey;

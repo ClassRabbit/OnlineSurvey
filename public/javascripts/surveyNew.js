@@ -3,20 +3,19 @@ $(function() {
   var contents;
 //contentScript
   $(document).on("click",".surveyFin", function(){
+
     formValues = $('form').serializeArray();
 
-    // for(i in formValues) {
-    //   if(formValues[i].name == 'serveyTitle') {
-    //     console.log(formValues[i]);
-    //   }
-    //
-    // }
+    $('#main').addClass('loading');
 
+    for(i in formValues) {
+      console.log(formValues[i]);
+    }
     var surveyTitle;
+    var surveyDeadline;
     var surveyComment;
     var contents = [];
     var content;
-    var beforeIsOpt = false;
     // if(content)  {
     //   console.log("true");
     // } else {
@@ -27,6 +26,9 @@ $(function() {
       switch(formValues[i].name) {
         case 'surveyTitle':
           surveyTitle = formValues[i].value;
+          break;
+        case 'surveyDeadline':
+          surveyDeadline = formValues[i].value;
           break;
         case 'surveyComment':
           surveyComment = formValues[i].value;
@@ -63,10 +65,35 @@ $(function() {
     if(content) {
       contents.push(content);
     }
+    console.log(JSON.stringify(contents));
+    console.log(surveyTitle);
+    console.log(surveyDeadline);
+    console.log(surveyComment);
+    //jQuery.ajaxSettings.traditional = true;
+    //sContent = JSON.stringify(contents);
+    //oContent = JSON.parse(sContent);
 
-    for(i in contents) {
-      console.log(contents[i].optValues.toString());
-    }
+    $.ajax({
+      type: 'POST',
+      url: '/survey/new',
+      dataType: 'json',
+      data: {
+        surveyTitle: surveyTitle,
+        surveyDeadline: surveyDeadline,
+        surveyComment: surveyComment,
+        contents: JSON.stringify(contents)
+      },
+      success: function(data) {
+        $('#main').removeClass('loading');
+      },
+      complete: function() {
+        window.location.replace('/');
+      }
+    });
+
+    // for(i in contents) {
+    //   console.log(contents[i].optValues.toString());
+    // }
 
 
   });

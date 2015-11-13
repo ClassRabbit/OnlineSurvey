@@ -1,17 +1,30 @@
 extends ../layout
 
 block content
-  .container
+  #main.container
+    .spinner
+      .background
+      .foreground
+        p
+          i.fa.fa-circle-o-notch.fa-spin.fa-4x
+        p Loading...
     h1 설문 만들기
     form(action='/new', method='POST')
       label 설문 제목
-      input.form-control(type='text' name='surveyTitle' id='surveyTitle')
+      .row
+        .col-md-6
+          input.form-control(type='text' name='surveyTitle' id='surveyTitle')
+        .col-md-6
+          | 마감시간
+          input.surveyDeadline(type='date' name='surveyDeadline' id='surveyDeadline')
+          
       label 설문 설명
       textarea.form-control(rows='5' name='surveyComment' id='surveyComment')
     .contentArea
     p
     button.btn.btn-primary.contentAdd 문항 추가
     button.btn.btn-primary.surveyFin 설문지 완성
+    .resultArea
     
   script(type='text/template', id='contentTemplate')
     p

@@ -19,6 +19,10 @@ router.get('/test2', function(req, res, next) {
   res.render('test2');
 });
 
+router.get('/test3', function(req, res, next) {
+  res.render('test3', {id: req.user.id});
+});
+
 router.post('/test', function(req, res, next) {
   var array = [];
   array.push(req.body.mytext_0);
