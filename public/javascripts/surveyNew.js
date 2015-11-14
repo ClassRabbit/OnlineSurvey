@@ -85,9 +85,10 @@ $(function() {
       },
       success: function(data) {
         $('#main').removeClass('loading');
+        window.location.replace('/main');
       },
       complete: function() {
-        window.location.replace('/');
+
       }
     });
 

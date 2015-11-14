@@ -1,0 +1,81 @@
+extends ../layout
+// jade는 비로직적으로 짜야하지만 jade API 연습겸 로직으로 구현해봄
+
+block content
+  #main.container
+    .spinner
+      .background
+      .foreground
+        p
+          i.fa.fa-circle-o-notch.fa-spin.fa-4x
+        p Loading...
+    h1 설문 조사
+    label  #{surveyTitle}
+    p
+    label 설문 기간  
+    |  
+    | #{surveyDeadline}
+    p
+    label #{surveyComment}
+    each content in contents
+      form
+        p
+        label #{content.title}
+        p
+        | #{content.comment}
+        p
+        if content.necessary
+          b.necessary 이 문항은 필수 항목 입니다!
+        if content.type == 0
+          if content.objMultiValue
+            each optValues, i in content.optValues
+              input.optMulti(type='checkbox' name='optMulti' id='optMulti' value='#{i}')
+              | #{optValues}
+            if content.etcValue
+              input.optMultiEtc(type='checkbox' name='optMulti' id='optMulti' value='optMultiEtc')
+              | 기타
+          else
+            each optValues, i in content.optValues
+              input.opt(type='radio' name='opt' id='opt' value='#{i}')
+              | #{optValues}
+            if content.etcValue
+              input.optEtc(type='radio' name='opt' id='opt' value='optEtc')
+              | 기타
+        else if content.type == 1
+          input.subjective.form-control(type='text' name='subjective')
+        else if content.type == 2
+          textarea.form-control.longSubjective(rows='5' name='longSubjective')
+        else if content.type == 3
+          input.date.form-control(type='date' name='date')
+        else if content.type == 4
+          input.dateTime.form-control(type='datetime-local' name='dateTime')
+        else if content.type == 5
+          input.scoreValue(type='radio' name='scoreValue' value='상')
+          | 상
+          br
+          input.scoreValue(type='radio' name='scoreValue' value='중상')
+          | 중상
+          br
+          input.scoreValue(type='radio' name='scoreValue' value='중')
+          | 중
+          br
+          input.scoreValue(type='radio' name='scoreValue' value='중하')
+          | 중하
+          br
+          input.scoreValue(type='radio' name='scoreValue' value='하')
+          | 하
+
+
+        //- if content.necessary
+        //-   b 이 문항은 필수 항목 입니다!
+        //-   p
+        //-   label= content.title
+        //-   p
+        //-   |= content.comment
+        //-   if content.type == 0
+        //-     if content.objMultiValue
+        //-       each optValues, i in content.optValues
+        //-         input.optMulti(type='checkbox' name='optMultiValue' id='optMultiValue' value='#{i}')
+        //-     else
+        //-       each optValues, i in content.optValues
+        //-         input.opt(type='radio' name='optMultiValue' id='optMultiValue' value='#{i}')

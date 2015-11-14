@@ -12,10 +12,26 @@ function needAuth(req, res, next) {
 }
 
 
-/* GET home page. */
-router.get('/', needAuth, function(req, res, next) {
+router.get('/new', needAuth, function(req, res, next) {
   res.render('survey/new');
 });
+
+router.get('/question/:id', function(req, res, next) {
+  Survey.findById({_id: req.params.id}, function(err, survey) {
+    if (err) {
+      return next(err);
+    }
+    var test = JSON.parse(survey.contents);
+    res.render('survey/question', {
+      surveyTitle: survey.title,
+      surveyDeadline: survey.deadline,
+      surveyComment: survey.comment,
+      contents: JSON.parse(survey.contents)
+    });
+  });
+});
+
+
 
 router.post('/new', function(req, res, next) {
   //console.log(req.body.contents.length);

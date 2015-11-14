@@ -9,7 +9,7 @@ block content
           i.fa.fa-circle-o-notch.fa-spin.fa-4x
         p Loading...
     h1 설문 만들기
-    form(action='/new', method='POST')
+    form
       label 설문 제목
       .row
         .col-md-6
@@ -24,7 +24,6 @@ block content
     p
     button.btn.btn-primary.contentAdd 문항 추가
     button.btn.btn-primary.surveyFin 설문지 완성
-    .resultArea
     
   script(type='text/template', id='contentTemplate')
     p
