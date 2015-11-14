@@ -14,11 +14,12 @@ block content
     p
     label 설문 기간  
     |  
-    | #{surveyDeadline}
+    - var deadline = moment(surveyDeadline).format('YYYY-MM-DD')
+    | #{deadline}
     p
     label #{surveyComment}
     each content in contents
-      form
+      form.content
         p
         label #{content.title}
         p

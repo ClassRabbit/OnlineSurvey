@@ -24,11 +24,15 @@ block content
         .col-md-6
           | 마감시간
           if surveyDeadline
-            input.surveyDeadline(type='date' name='surveyDeadline' id='surveyDeadline' value='#{surveyTitle}')
+            - var deadline = moment(surveyDeadline).format('YYYY-MM-DD')
+            input.surveyDeadline(type='date' name='surveyDeadline' id='surveyDeadline' value='#{deadline}')
           else
             input.surveyDeadline(type='date' name='surveyDeadline' id='surveyDeadline')
       label 설문 설명
-      textarea.form-control(rows='5' name='surveyComment' id='surveyComment')
+      if surveyComment
+        textarea.form-control(rows='5' name='surveyComment' id='surveyComment') #{surveyComment}
+      else
+        textarea.form-control(rows='5' name='surveyComment' id='surveyComment')
     .contentArea
       each content, idx in contents
         p
@@ -48,9 +52,9 @@ block content
                 input.form-control.contentTitle(type='text' name='contentTitle' id='contentTitle')
             .col-md-2
               if content.necessary
-                input.contentNecessari(type='checkbox' id='contentNecessari' name='contentNecessari' checked)
+                input.contentNecessary(type='checkbox' id='contentNecessary' name='contentNecessary' checked)
               else
-                input.contentNecessari(type='checkbox' id='contentNecessari' name='contentNecessari')
+                input.contentNecessary(type='checkbox' id='contentNecessary' name='contentNecessary')
               | 필수 항목
           .row
             .col-md-2
@@ -166,7 +170,7 @@ block content
         .col-md-8
           input.form-control.contentTitle(type='text' name='contentTitle' id='contentTitle')
         .col-md-2
-          input.contentNecessari(type='checkbox' id='contentNecessari' name='contentNecessari')
+          input.contentNecessary(type='checkbox' id='contentNecessary' name='contentNecessary')
           | 필수 항목
       .row
         .col-md-2

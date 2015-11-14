@@ -1,0 +1,7 @@
+extends layout
+
+block content
+  .container
+    .list-group
+      each survey in surveys
+        a.list-group-item(href='/survey/edit/#{survey._id}') #{survey.title}
