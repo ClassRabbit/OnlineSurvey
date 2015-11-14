@@ -3,18 +3,17 @@ $(function() {
   var contents;
 //contentScript
   $(document).on("click",".surveyFin", function(){
-    //console.log($('form:eq(0)').serializeArray().toString());
 
     $('#main').addClass('loading');
 
+    var surveyId = $('#surveyId').val();
     var surveyTitle;
     var surveyDeadline;
     var surveyComment;
     var contents = [];
     var content;
 
-
-    var baseValue = $('form:eq(0)').serializeArray();
+    var baseValue = $('form:eq(0)').serializeArray();         //첫번째 폼은 무조건 base값들
     for(i in baseValue) {
       switch(baseValue[i].name) {
         case 'surveyTitle':
@@ -29,16 +28,12 @@ $(function() {
       }
     }
 
-    // thisContentValue.find('.objOpt:gt(0)').each(function (index, item){
-    $('form:gt(0)').each(function (index, item){
+    $('form:gt(0)').each(function (index, item){        //두번쨰 값부터는 content들
       var contentValue = $(item).serializeArray();
+      content = new Object();
       for(i in contentValue) {
         switch(contentValue[i].name) {
           case 'contentTitle':
-            if(content) {
-              contents.push(content);
-            }
-            content = new Object();
             content.title = contentValue[i].value;
             break;
           case 'contentNecessary':
@@ -66,36 +61,111 @@ $(function() {
       contents.push(content);
     });
 
-    // console.log(JSON.stringify(contents));
-    // console.log(surveyTitle);
-    // console.log(surveyDeadline);
-    // console.log(surveyComment);
-    //jQuery.ajaxSettings.traditional = true;
-    //sContent = JSON.stringify(contents);
-    //oContent = JSON.parse(sContent);
-
     $.ajax({
       type: 'POST',
       url: '/survey/new',
       dataType: 'json',
       data: {
+        surveyId: surveyId,
         surveyTitle: surveyTitle,
         surveyDeadline: surveyDeadline,
         surveyComment: surveyComment,
         contents: JSON.stringify(contents)
       },
       success: function(data) {
+        console.log(data._id);
         $('#main').removeClass('loading');
         window.location.replace('/main');
+
       },
       complete: function() {
 
       }
     });
 
-    // for(i in contents) {
-    //   console.log(contents[i].optValues.toString());
-    // }
+
+  });
+
+
+  $(document).on("click",".surveySave", function(){
+
+    $('#main').addClass('loading');
+
+    var surveyId = $('#surveyId').val();
+    var surveyTitle;
+    var surveyDeadline;
+    var surveyComment;
+    var contents = [];
+    var content;
+
+    var baseValue = $('form:eq(0)').serializeArray();         //첫번째 폼은 무조건 base값들
+    for(i in baseValue) {
+      switch(baseValue[i].name) {
+        case 'surveyTitle':
+          surveyTitle = baseValue[i].value;
+          break;
+        case 'surveyDeadline':
+          surveyDeadline = baseValue[i].value;
+          break;
+        case 'surveyComment':
+          surveyComment = baseValue[i].value;
+          break;
+      }
+    }
+
+    $('form:gt(0)').each(function (index, item){        //두번쨰 값부터는 content들
+      var contentValue = $(item).serializeArray();
+      content = new Object();
+      for(i in contentValue) {
+        switch(contentValue[i].name) {
+          case 'contentTitle':
+            content.title = contentValue[i].value;
+            break;
+          case 'contentNecessary':
+            content.necessary = true;
+            break;
+          case 'contentComment':
+            content.comment = contentValue[i].value;
+            break;
+          case 'contentType':
+            content.type = contentValue[i].value;
+            if(contentValue[i].value == 0) {
+              content.optValues = [];
+            }
+            break;
+          case 'objMultiValue':
+            content.objMultiValue = true;
+            break;
+          case 'objOptValue':
+            content.optValues.push(contentValue[i].value);
+            break;
+          case 'objEtcValue':
+            content.etcValue = true;
+        }
+      }
+      contents.push(content);
+    });
+
+    $.ajax({
+      type: 'PUT',
+      url: '/survey/new',
+      dataType: 'json',
+      data: {
+        surveyId: surveyId,
+        surveyTitle: surveyTitle,
+        surveyDeadline: surveyDeadline,
+        surveyComment: surveyComment,
+        contents: JSON.stringify(contents)
+      },
+      success: function(data) {
+        console.log(data);
+        $('#surveyId').val(data._id);
+        $('#main').removeClass('loading');
+      },
+      complete: function() {
+
+      }
+    });
 
 
   });
@@ -191,24 +261,19 @@ $(function() {
 				break;
 			case '1':
 				$(this).parents('.content').find('.contentValue').append($('#subjectiveTemplate').html());
-        $(this).parents('.content').find('.subjectiveValue').attr('disabled',true);
 				break;
       case '2':
   			$(this).parents('.content').find('.contentValue').append($('#longSubjectiveTemplate').html());
-        $(this).parents('.content').find('.longSubjectiveValue').attr('disabled',true);
   			break;
       case '3':
     		$(this).parents('.content').find('.contentValue').append($('#dateTemplate').html());
-        $(this).parents('.content').find('.dateValue').attr('disabled',true);
     		break;
       case '4':
       	$(this).parents('.content').find('.contentValue').append($('#dateTimeTemplate').html());
-        $(this).parents('.content').find('.dateTimeValue').attr('disabled',true);
       	break;
       case '5':
         $(this).parents('.content').find('.contentValue').append($('#scoreTemplate').html());
         console.log($(this).parents('.content').find('.scoreValue').length);
-        $(this).parents('.content').find('.scoreValue').attr('disabled',true);
         break;
 		}
 

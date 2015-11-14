@@ -9,20 +9,148 @@ block content
           i.fa.fa-circle-o-notch.fa-spin.fa-4x
         p Loading...
     h1 설문 만들기
+    if surveyId
+      input#surveyId(type='hidden' name='surveyId' value='#{surveyId}')
+    else
+      input#surveyId(type='hidden' name='surveyId')
     form
       label 설문 제목
       .row
         .col-md-6
-          input.form-control(type='text' name='surveyTitle' id='surveyTitle')
+          if surveyTitle
+            input.form-control(type='text' name='surveyTitle' id='surveyTitle' value='#{surveyTitle}')
+          else
+            input.form-control(type='text' name='surveyTitle' id='surveyTitle')
         .col-md-6
           | 마감시간
-          input.surveyDeadline(type='date' name='surveyDeadline' id='surveyDeadline')
-          
+          if surveyDeadline
+            input.surveyDeadline(type='date' name='surveyDeadline' id='surveyDeadline' value='#{surveyTitle}')
+          else
+            input.surveyDeadline(type='date' name='surveyDeadline' id='surveyDeadline')
       label 설문 설명
       textarea.form-control(rows='5' name='surveyComment' id='surveyComment')
     .contentArea
+      each content, idx in contents
+        p
+        form.content(action='/new', method='POST')
+          .row
+            .col-md-2.contentNum
+              | #{idx+1}
+            .col-md-2
+              button.btn.btn-danger.contentDel(type='button') 문항 제거
+          .row
+            .col-md-2
+              label 문항 이름
+            .col-md-8
+              if content.title
+                input.form-control.contentTitle(type='text' name='contentTitle' id='contentTitle' value='#{content.title}')
+              else 
+                input.form-control.contentTitle(type='text' name='contentTitle' id='contentTitle')
+            .col-md-2
+              if content.necessary
+                input.contentNecessari(type='checkbox' id='contentNecessari' name='contentNecessari' checked)
+              else
+                input.contentNecessari(type='checkbox' id='contentNecessari' name='contentNecessari')
+              | 필수 항목
+          .row
+            .col-md-2
+              label 문항 설명
+            .col-md-8
+              if content.comment
+                input.form-control.contentComment(type='text' name='contentComment' id='contentComment' value="#{content.comment}")
+              else
+                input.form-control.contentComment(type='text' name='contentComment' id='contentComment')
+          .row
+            .col-md-2
+              label 문항 유형
+            .col-md-8
+              select.form-control.contentType(name='contentType' id='contentType')
+                if content.type == 0
+                  option(selected value='0') 객관식
+                else
+                  option(value='0') 객관식
+                if content.type == 1
+                  option(selected value='1') 단일 입력
+                else
+                  option(value='1') 단일 입력
+                if content.type == 2
+                  option(selected value='2') 의견
+                else
+                  option(value='2') 의견
+                if content.type == 3
+                  option(selected value='3') 날짜 입력
+                else
+                  option(value='3') 날짜 입력
+                if content.type == 4
+                  option(selected value='4') 날짜,시간 입력
+                else
+                  option(value='4') 점수 선택
+                if content.type == 5
+                  option(selected value='5') 점수 선택
+                else
+                  option(value='5') 날짜,시간 입력
+          p
+          .contentValue
+            case content.type
+              when '0'
+                .objMulti
+                  if content.objMultiValue
+                    input.objMultiValue(type='checkbox' id='objMultiValue' name='objMultiValue' checked)
+                  else
+                    input.objMultiValue(type='checkbox' id='objMultiValue' name='objMultiValue')
+                  | 다중 선택 가능
+                each optValue, i in content.optValues
+                  if i == 0
+                    .objOpt
+                      input.objOptValue(type='text' id='objOptValue' name='objOptValue' value='#{optValue}')
+                  else
+                    .objOpt
+                      input.objOptValue(type='text' id='objOptValue' name='objOptValue' value='#{optValue}')
+                      a.objOptDel Remove
+                if content.etcValue
+                  .objEtc
+                    input.objEtcValue(type='text' id='objEtcValue' name='objEtcValue' value='기타' readonly)
+                    a.objEtcDel Remove
+                  .objBtnArea
+                    p
+                    .button.btn.btn-primary.objOptCreate(type='button') 옵션 추가
+                else
+                  .objBtnArea
+                    p
+                    .button.btn.btn-primary.objOptCreate(type='button') 옵션 추가
+                    .button.btn.btn-primary.objEtcCreate(type='button') 기타 추가
+              when '1'
+                .subjective
+                  input.form-control.subjectiveValue(type='text' name='subjectiveValue' disabled)
+              when '2'
+                .longSubjective
+                  textarea.form-control.longSubjectiveValue(rows='5' name='longSubjectiveValue' disabled)
+              when '3'
+                .date
+                  input.dateValue(type='date' name='dateValue' disabled)
+              when '4'
+                .dateTime
+                  input.dateTimeValue(type='datetime-local' name='dateTimeValue' disabled)
+              when '5'
+                .score
+                  input.scoreValue(type='radio' name='scoreValue' value='상' disabled)
+                  | 상
+                  br
+                  input.scoreValue(type='radio' name='scoreValue' value='중상' disabled)
+                  | 중상
+                  br
+                  input.scoreValue(type='radio' name='scoreValue' value='중' disabled)
+                  | 중
+                  br
+                  input.scoreValue(type='radio' name='scoreValue' value='중하' disabled)
+                  | 중하
+                  br
+                  input.scoreValue(type='radio' name='scoreValue' value='하' disabled)
+                  | 하
+          p
     p
     button.btn.btn-primary.contentAdd 문항 추가
+    button.btn.btn-success.surveySave 설문지 저장
     button.btn.btn-primary.surveyFin 설문지 완성
     
   script(type='text/template', id='contentTemplate')
@@ -32,7 +160,6 @@ block content
         .col-md-2.contentNum
         .col-md-2
           button.btn.btn-danger.contentDel(type='button') 문항 제거
-          
       .row
         .col-md-2
           label 문항 이름
@@ -104,35 +231,35 @@ block content
   
   script(type='text/template', id='subjectiveTemplate')
     .subjective
-      input.form-control.subjectiveValue(type='text' name='subjectiveValue')
+      input.form-control.subjectiveValue(type='text' name='subjectiveValue' disabled)
   
   script(type='text/template', id='longSubjectiveTemplate')
     .longSubjective
-      textarea.form-control.longSubjectiveValue(rows='5' name='longSubjectiveValue')
+      textarea.form-control.longSubjectiveValue(rows='5' name='longSubjectiveValue' disabled)
       
   script(type='text/template', id='dateTemplate')
     .date
-      input.dateValue(type='date' name='dateValue')
+      input.dateValue(type='date' name='dateValue' disabled)
   
   script(type='text/template', id='dateTimeTemplate')
     .dateTime
-      input.dateTimeValue(type='datetime-local' name='dateTimeValue')
+      input.dateTimeValue(type='datetime-local' name='dateTimeValue' disabled)
       
   script(type='text/template', id='scoreTemplate')
     .score
-      input.scoreValue(type='radio' name='scoreValue' value='상')
+      input.scoreValue(type='radio' name='scoreValue' value='상' disabled)
       | 상
       br
-      input.scoreValue(type='radio' name='scoreValue' value='중상')
+      input.scoreValue(type='radio' name='scoreValue' value='중상' disabled)
       | 중상
       br
-      input.scoreValue(type='radio' name='scoreValue' value='중')
+      input.scoreValue(type='radio' name='scoreValue' value='중' disabled)
       | 중
       br
-      input.scoreValue(type='radio' name='scoreValue' value='중하')
+      input.scoreValue(type='radio' name='scoreValue' value='중하' disabled)
       | 중하
       br
-      input.scoreValue(type='radio' name='scoreValue' value='하')
+      input.scoreValue(type='radio' name='scoreValue' value='하' disabled)
       | 하
   
   script(type='text/javascript', src='/javascripts/surveyNew.js')

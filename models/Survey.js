@@ -7,6 +7,7 @@ var schema = new Schema({
   comment: {type: String},
   contents: {type: String},
   deadline: {type: Date},
+  complete: {type: Boolean},
   user: {type: Schema.Types.ObjectId, index: true, required: true},
   createdAt: {type: Date, default: Date.now}
 }, {

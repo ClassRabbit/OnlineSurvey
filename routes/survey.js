@@ -12,45 +12,140 @@ function needAuth(req, res, next) {
 }
 
 
-router.get('/new', needAuth, function(req, res, next) {
-  res.render('survey/new');
+router.get('/new', needAuth, function(req, res, next) {         //설문 새로 생성
+  res.render('survey/new', {
+    contents: {}
+  });
 });
 
-router.get('/question/:id', function(req, res, next) {
+router.post('/new', function(req, res, next) {
+  if(req.body.surveyId){
+    Survey.findById(req.body.surveyId, function(err, existSurvey){
+      if (err) {
+        return next(err);
+      }
+      existSurvey.title = req.body.surveyTitle;
+      existSurvey.deadline = req.body.surveyDeadline;
+      existSurvey.comment = req.body.surveyComment;
+      existSurvey.contents = req.body.contents;
+      existSurvey.complete = true;
+      existSurvey.user = req.user.id;
+
+      existSurvey.save(function(err, doc) {
+        if (err) {
+          next(err);
+        } else {
+          res.status(201).json(doc);
+        }
+      });
+    });
+  }
+  else {
+    var newSurvey = new Survey({
+      title: req.body.surveyTitle,
+      deadline: req.body.surveyDeadline,
+      comment: req.body.surveyComment,
+      contents: req.body.contents,
+      complete: true,
+      user: req.user.id
+    });
+
+    newSurvey.save(function(err, survey) {
+      if (err) {
+        next(err);
+      } else {
+        res.status(201).json(survey);
+      }
+    });
+  }
+});
+
+router.put('/new', function(req, res, next) {
+  if(req.body.surveyId){
+    Survey.findById(req.body.surveyId, function(err, existSurvey){
+      if (err) {
+        return next(err);
+      }
+      existSurvey.title = req.body.surveyTitle;
+      existSurvey.deadline = req.body.surveyDeadline;
+      existSurvey.comment = req.body.surveyComment;
+      existSurvey.contents = req.body.contents;
+      existSurvey.complete = false;
+      existSurvey.user = req.user.id;
+
+      existSurvey.save(function(err, doc) {
+        if (err) {
+          next(err);
+        } else {
+          res.status(201).json(doc);
+        }
+      });
+    });
+  }
+  else {
+    var newSurvey = new Survey({
+      title: req.body.surveyTitle,
+      deadline: req.body.surveyDeadline,
+      comment: req.body.surveyComment,
+      contents: req.body.contents,
+      complete: false,
+      user: req.user.id
+    });
+
+    newSurvey.save(function(err, survey) {
+      if (err) {
+        next(err);
+      } else {
+        res.status(201).json(survey);
+      }
+    });
+  }
+});
+
+router.get('/edit/:id', needAuth, function(req, res, next) {
+  Survey.find({
+    uesr: req.user.id,
+    complete: false
+  },function(err, surveys){
+
+  });
+});
+
+
+router.get('/edit/:id', needAuth, function(req, res, next) {    //설문 수정
+  Survey.findById({_id: req.params.id}, function(err, survey) {
+    if (err) {
+      return next(err);
+    }
+    res.render('survey/new', {
+      surveyId: survey._id,
+      surveyTitle: survey.title,
+      surveyDeadline: survey.deadline,
+      surveyComment: survey.comment,
+      contents: JSON.parse(survey.contents),
+    });
+  });
+});
+
+router.get('/question/:id', function(req, res, next) {            //설문 진행
   Survey.findById({_id: req.params.id}, function(err, survey) {
     if (err) {
       return next(err);
     }
     var test = JSON.parse(survey.contents);
     res.render('survey/question', {
+      surveyId: survey._id,
       surveyTitle: survey.title,
       surveyDeadline: survey.deadline,
       surveyComment: survey.comment,
-      contents: JSON.parse(survey.contents)
+      contents: JSON.parse(survey.contents),
+      sureveyComplete: true
     });
   });
 });
 
 
 
-router.post('/new', function(req, res, next) {
-  //console.log(req.body.contents.length);
-  //console.log(req.body.contents.length);
-  var newSurvey = new Survey({
-    title: req.body.surveyTitle,
-    deadline: req.body.surveyDeadline,
-    comment: req.body.surveyComment,
-    contents: req.body.contents,
-    user: req.user.id
-  });
-  newSurvey.save(function(err, doc) {
-    if (err) {
-      next(err);
-    } else {
-      res.status(201).json(doc);
-    }
-  });
-});
 
 
 module.exports = router;
