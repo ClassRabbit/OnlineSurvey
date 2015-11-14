@@ -3,72 +3,73 @@ $(function() {
   var contents;
 //contentScript
   $(document).on("click",".surveyFin", function(){
-
-    formValues = $('form').serializeArray();
+    //console.log($('form:eq(0)').serializeArray().toString());
 
     $('#main').addClass('loading');
 
-    for(i in formValues) {
-      console.log(formValues[i]);
-    }
     var surveyTitle;
     var surveyDeadline;
     var surveyComment;
     var contents = [];
     var content;
-    // if(content)  {
-    //   console.log("true");
-    // } else {
-    //   console.log("false");
-    // }
 
-    for(i in formValues) {
-      switch(formValues[i].name) {
+
+    var baseValue = $('form:eq(0)').serializeArray();
+    for(i in baseValue) {
+      switch(baseValue[i].name) {
         case 'surveyTitle':
-          surveyTitle = formValues[i].value;
+          surveyTitle = baseValue[i].value;
           break;
         case 'surveyDeadline':
-          surveyDeadline = formValues[i].value;
+          surveyDeadline = baseValue[i].value;
           break;
         case 'surveyComment':
-          surveyComment = formValues[i].value;
+          surveyComment = baseValue[i].value;
           break;
-        case 'contentTitle':
-          if(content) {
-            contents.push(content);
-          }
-          content = new Object();
-          content.title = formValues[i].value;
-          break;
-        case 'contentNecessary':
-          content.necessary = true;
-          break;
-        case 'contentComment':
-          content.comment = formValues[i].value;
-          break;
-        case 'contentType':
-          content.type = formValues[i].value;
-          if(formValues[i].value == 0) {
-            content.optValues = [];
-          }
-          break;
-        case 'objMultiValue':
-          content.objMultiValue = true;
-          break;
-        case 'objOptValue':
-          content.optValues.push(formValues[i].value);
-          break;
-        case 'objEtcValue':
-          content.etcValue = true;
       }
     }
-    if(content) {
+
+    // thisContentValue.find('.objOpt:gt(0)').each(function (index, item){
+    $('form:gt(0)').each(function (index, item){
+      var contentValue = $(item).serializeArray();
+      for(i in contentValue) {
+        switch(contentValue[i].name) {
+          case 'contentTitle':
+            if(content) {
+              contents.push(content);
+            }
+            content = new Object();
+            content.title = contentValue[i].value;
+            break;
+          case 'contentNecessary':
+            content.necessary = true;
+            break;
+          case 'contentComment':
+            content.comment = contentValue[i].value;
+            break;
+          case 'contentType':
+            content.type = contentValue[i].value;
+            if(contentValue[i].value == 0) {
+              content.optValues = [];
+            }
+            break;
+          case 'objMultiValue':
+            content.objMultiValue = true;
+            break;
+          case 'objOptValue':
+            content.optValues.push(contentValue[i].value);
+            break;
+          case 'objEtcValue':
+            content.etcValue = true;
+        }
+      }
       contents.push(content);
-    }
-    console.log(JSON.stringify(contents));
-    console.log(surveyTitle);
-    console.log(surveyDeadline);
-    console.log(surveyComment);
+    });
+
+    // console.log(JSON.stringify(contents));
+    // console.log(surveyTitle);
+    // console.log(surveyDeadline);
+    // console.log(surveyComment);
     //jQuery.ajaxSettings.traditional = true;
     //sContent = JSON.stringify(contents);
     //oContent = JSON.parse(sContent);
