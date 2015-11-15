@@ -40,12 +40,13 @@ $(function() {
   $(document).on('click','.questFin', function(){
     $('form').each(function(){
       var isNotEmpty = false;
-      if($(this).find('.necessary') != 0) {
+      //console.log($(this).find('[name="longSubjective"]').val());
+      if($(this).find('.necessary').length != 0) {
         if($(this).find('[name="opt"]').length != 0) {
           $(this).find('[name="opt"]').each(function() {
             if($(this).prop('checked')){
               if(!isNotEmpty) {
-                isNotEmpty = $(this).prop('checked');
+                isNotEmpty = true;
               }
             }
           });
@@ -54,13 +55,54 @@ $(function() {
           $(this).find('[name="optMulti"]').each(function() {
             if($(this).prop('checked')){
               if(!isNotEmpty) {
-                isNotEmpty = $(this).prop('checked');
+                isNotEmpty = true;
               }
             }
           });
         }
+        else if ($(this).find('[name="subjective"]').length != 0) {
+          if($(this).find('[name="subjective"]').val() != "") {
+            if(!isNotEmpty) {
+              isNotEmpty = true;
+            }
+          }
+        }
+        else if ($(this).find('[name="longSubjective"]').length != 0) {
+          if($(this).find('[name="longSubjective"]').val() != "") {
+            if(!isNotEmpty) {
+              isNotEmpty = true;
+            }
+          }
+        }
+        else if ($(this).find('[name="date"]').length != 0) {
+          if($(this).find('[name="date"]').val() != "") {
+            if(!isNotEmpty) {
+              isNotEmpty = true;
+            }
+          }
+        }
+        else if ($(this).find('[name="dateTime"]').length != 0) {
+          if($(this).find('[name="dateTime"]').val() != "") {
+            if(!isNotEmpty) {
+              isNotEmpty = true;
+            }
+          }
+        }
+        else if ($(this).find('[name="scoreValue"]').length != 0) {
+          $(this).find('[name="scoreValue"]').each(function() {
+            if($(this).prop('checked')){
+              if(!isNotEmpty) {
+                isNotEmpty = true;
+              }
+            }
+          });
+        }
+        if(!isNotEmpty) {
+          alert("필수를 다 입력해주세요.")
+          return;
+        }
       }
-      console.log(isNotEmpty);
+
     });
 
 
