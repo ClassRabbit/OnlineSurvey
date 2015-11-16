@@ -73,7 +73,6 @@ $(function() {
         contents: JSON.stringify(contents)
       },
       success: function(data) {
-        console.log(data._id);
         $('#main').removeClass('loading');
         window.location.replace('/main');
 

@@ -102,8 +102,15 @@ router.put('/new', function(req, res, next) {
   }
 });
 
-router.get('/edit', needAuth, function(req, res, next) {
+router.get('/edit/list', needAuth, function(req, res, next) {
   Survey.find({user: req.user.id, complete: false},function(err, surveys){
+    console.log('test');
+    res.render('list',{surveys: surveys, edit: true});
+  });
+});
+
+router.get('/complete/list', needAuth, function(req, res, next) {
+  Survey.find({user: req.user.id, complete: true},function(err, surveys){
     console.log('test');
     res.render('list',{surveys: surveys});
   });
@@ -121,23 +128,6 @@ router.get('/edit/:id', needAuth, function(req, res, next) {    //설문 수정
       surveyDeadline: survey.deadline,
       surveyComment: survey.comment,
       contents: JSON.parse(survey.contents),
-    });
-  });
-});
-
-router.get('/quest/:id', function(req, res, next) {            //설문 진행
-  Survey.findById({_id: req.params.id}, function(err, survey) {
-    if (err) {
-      return next(err);
-    }
-    var test = JSON.parse(survey.contents);
-    res.render('survey/quest', {
-      surveyId: survey._id,
-      surveyTitle: survey.title,
-      surveyDeadline: survey.deadline,
-      surveyComment: survey.comment,
-      contents: JSON.parse(survey.contents),
-      sureveyComplete: true
     });
   });
 });

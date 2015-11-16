@@ -10,6 +10,7 @@ block content
           i.fa.fa-circle-o-notch.fa-spin.fa-4x
         p Loading...
     h1 설문 조사
+    input#surveyId(type='hidden' name='surveyId' value='#{surveyId}')
     label  #{surveyTitle}
     p
     label 설문 기간  
@@ -18,6 +19,9 @@ block content
     | #{deadline}
     p
     label #{surveyComment}
+    p
+    label 설문자 E-Mail :
+    input.form-control.email(type='email' name='email' id='email')
     each content in contents
       form.content
         p

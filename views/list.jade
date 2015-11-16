@@ -4,4 +4,7 @@ block content
   .container
     .list-group
       each survey in surveys
-        a.list-group-item(href='/survey/edit/#{survey._id}') #{survey.title}
+        if edit
+          a.list-group-item(href='/survey/edit/#{survey._id}') #{survey.title}
+        else
+          a.list-group-item(href='/quest/#{survey._id}') #{survey.title}

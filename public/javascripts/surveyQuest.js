@@ -99,11 +99,84 @@ $(function() {
         }
         if(!isNotEmpty) {
           alert("필수를 다 입력해주세요.")
-          return;
+          return false;
         }
       }
 
     });
+
+
+    // - db설계
+    // 이메일
+    // survey명
+    // 몇번문제, 답  or 몇번문제, 기타, 텍스트
+
+    var email = $('input[name="email"]').val();
+    var surveyId = $('input[name="surveyId"]').val();
+    var quests = [];
+
+    $('form').each(function(index, item){
+      var type;
+      if ($(item).find('.opt') || $(item).find('.optMulti')) {
+        type = 0;
+      }
+      else if($(item).find('.subjective')) {
+        type = 1;
+      }
+      else if($(item).find('.longSubjective')) {
+        type = 2;
+      }
+      else if($(item).find('.date')) {
+        type = 3;
+      }
+      else if($(item).find('.dateTime')) {
+        type = 4;
+      }
+      else if($(item).find('.scoreValue')) {
+        type = 5;
+      }
+
+      // var test = $(item).serializeArray();
+      // for(t in test) {
+      //   console.log(index);
+      //   console.log(test[t]);
+      // }
+
+      quests.push({
+        index: index,
+        type: type,
+        answer: $(item).serializeArray()
+      });
+    }); //form.each
+
+    $.ajax({
+      type: 'POST',
+      url: '/quest/new',
+      dataType: 'json',
+      data: {
+        surveyId: surveyId,
+        email: email,
+        quests: JSON.stringify(quests)
+      },
+      success: function(result) {
+        if(result){
+          console.log('complete');
+        }
+        else {
+          console.log('err');
+        }
+        //$('#main').removeClass('loading');
+        //window.location.replace('/main');
+
+      },
+      complete: function() {
+
+      }
+    });
+
+  });
+});
+
 
 
 //     $('form').find('input').each(function(){
@@ -118,7 +191,3 @@ $(function() {
     // for (i in test) {
     //   console.log(test[i]);
     // }
-
-  });
-
-});
