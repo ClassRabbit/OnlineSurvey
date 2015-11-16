@@ -38,6 +38,10 @@ $(function() {
   });
 
   $(document).on('click','.questFin', function(){
+    if($('[name="email"]').val() == "") {
+      alert("이메일을 입력하세요!");
+      return;
+    }
     $('form').each(function(){
       var isNotEmpty = false;
       //console.log($(this).find('[name="longSubjective"]').val());
@@ -105,7 +109,7 @@ $(function() {
 
     });
 
-
+    $('#main').addClass('loading');
     // - db설계
     // 이메일
     // survey명
@@ -113,7 +117,7 @@ $(function() {
 
     var email = $('input[name="email"]').val();
     var surveyId = $('input[name="surveyId"]').val();
-    var quests = [];
+    var results = [];
 
     $('form').each(function(index, item){
       var type;
@@ -142,7 +146,7 @@ $(function() {
       //   console.log(test[t]);
       // }
 
-      quests.push({
+      results.push({
         index: index,
         type: type,
         answer: $(item).serializeArray()
@@ -156,21 +160,25 @@ $(function() {
       data: {
         surveyId: surveyId,
         email: email,
-        quests: JSON.stringify(quests)
+        results: JSON.stringify(results)
       },
       success: function(result) {
+        //$('#main').removeClass('loading');
         if(result){
           console.log('complete');
+          $('#spinnerImg').remove();
+          $('#spinnerText').text('설문이 완료되었습니다. 감사합니다.');
         }
         else {
           console.log('err');
+          $('#spinnerImg').remove();
+          $('#spinnerText').text('이메일이 중복되었습니다. 설문을 더이상 하실 수 없습니다.');
         }
-        //$('#main').removeClass('loading');
-        //window.location.replace('/main');
+
 
       },
       complete: function() {
-
+        $('#main').addClass('end');
       }
     });
 
