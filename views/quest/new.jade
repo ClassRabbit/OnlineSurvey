@@ -1,5 +1,4 @@
 extends ../layout
-// jade는 비로직적으로 짜야하지만 jade API 연습겸 로직으로 구현해봄
 
 block content
   #main.container
@@ -56,20 +55,20 @@ block content
         else if content.type == 4
           input.dateTime.form-control(type='datetime-local' name='dateTime')
         else if content.type == 5
-          input.scoreValue(type='radio' name='scoreValue' value='상')
-          | 상
+          input.scoreValue(type='radio' name='scoreValue' value='100점')
+          | 100점
           br
-          input.scoreValue(type='radio' name='scoreValue' value='중상')
-          | 중상
+          input.scoreValue(type='radio' name='scoreValue' value='75점')
+          | 75점
           br
-          input.scoreValue(type='radio' name='scoreValue' value='중')
-          | 중
+          input.scoreValue(type='radio' name='scoreValue' value='50점')
+          | 50점
           br
-          input.scoreValue(type='radio' name='scoreValue' value='중하')
-          | 중하
+          input.scoreValue(type='radio' name='scoreValue' value='25점')
+          | 25점
           br
-          input.scoreValue(type='radio' name='scoreValue' value='하')
-          | 하
+          input.scoreValue(type='radio' name='scoreValue' value='0점')
+          | 0점
     p
     button.btn.btn-primary.questFin 설문 완료   
   script(type='text/javascript', src='/javascripts/surveyQuest.js')

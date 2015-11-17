@@ -118,38 +118,32 @@ $(function() {
     var email = $('input[name="email"]').val();
     var surveyId = $('input[name="surveyId"]').val();
     var results = [];
-
-    $('form').each(function(index, item){
+    $('form').each(function(index){
       var type;
-      if ($(item).find('.opt') || $(item).find('.optMulti')) {
+      console.log($(this).html());
+      if ($(this).find('.opt').length != 0 || $(this).find('.optMulti').length != 0) {
         type = 0;
       }
-      else if($(item).find('.subjective')) {
+      else if($(this).find('.subjective').length != 0) {
         type = 1;
       }
-      else if($(item).find('.longSubjective')) {
+      else if($(this).find('.longSubjective').length != 0) {
         type = 2;
       }
-      else if($(item).find('.date')) {
+      else if($(this).find('.date').length != 0) {
         type = 3;
       }
-      else if($(item).find('.dateTime')) {
+      else if($(this).find('.dateTime').length != 0) {
         type = 4;
       }
-      else if($(item).find('.scoreValue')) {
+      else if($(this).find('.scoreValue').length != 0) {
         type = 5;
       }
-
-      // var test = $(item).serializeArray();
-      // for(t in test) {
-      //   console.log(index);
-      //   console.log(test[t]);
-      // }
 
       results.push({
         index: index,
         type: type,
-        answer: $(item).serializeArray()
+        answer: $(this).serializeArray()
       });
     }); //form.each
 
@@ -184,18 +178,3 @@ $(function() {
 
   });
 });
-
-
-
-//     $('form').find('input').each(function(){
-//     if(!$(this).prop('required')){
-//         console.log("NR");
-//     } else {
-//         console.log("IR");
-//     }
-// });
-
-    // var test = $('form:eq(0)').serializeArray();
-    // for (i in test) {
-    //   console.log(test[i]);
-    // }

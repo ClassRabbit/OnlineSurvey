@@ -140,20 +140,21 @@ router.get('/complete/:id', needAuth, function(req, res, next) {
       }
       var scores = [];
       for(var idx in contents) {
-        var score;
+        var score = {};
         score.name = contents[idx].title;
         score.necessary = contents[idx].necessary;
         score.type = contents[idx].type;
         score.values = [];
         if (contents[idx].type == '0') {
-          for(var i in content.optValues) {
+          for(var i in contents[idx].optValues) {
             score.values.push({
-              text: content.optValues[i],
+              text: contents[idx].optValues[i],
               cnt: 0
             });
           }
-          if(content.etcValue) {
+          if(contents[idx].etcValue) {
             score.etcValues = [];
+            score.etcCnt = 0;
           }
         }
         else if(contents[idx].type == '5') {
@@ -162,50 +163,74 @@ router.get('/complete/:id', needAuth, function(req, res, next) {
         scores.push(score);
       }
 
+      console.log(scores.length);
+      for (var t in scores) {
+        console.log(scores[t]);
+      }
+
 
       for(var a in quests) {
         var results = JSON.parse(quests[a].results);
+        for(var rt in results) {
+          console.log(results[rt]);
+        }
         for(var b in results) {
-          //scores[results.index].values.pusy()
+          console.log('-------------------------------------------------------');
+          console.log(scores.length);
+          for(var tt in scores) {
+            console.log(scores[tt]);
+          }
+          console.log('switch index = ' + results[b].type + '!@#?$@!$@?$#@?$!#?');
           switch(results[b].type) {
-            case '0':
+            case 0:
+              //console.log('case in@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@');
               for(var c in results[b].answer) {
-                if(results[b].answer[c].name == 'optEtcText' || results[b].answer[c].name == 'optMultiEtcText') {
-                  scores[results.index].etcValues.push(results[b].answer[c].value);
+                // console.log('value is ' + results[b].answer[c].value);
+                // console.log('results.index = ' + results[b].index);
+                // console.log('results[b].answer[c].value = ' + results[b].answer[c].value);
+                if(results[b].answer[c].value == 'optEtc' || results[b].answer[c].value == 'optMultiEtc') {
+                  continue;
                 }
                 else if(results[b].answer[c].name == 'opt' || results[b].answer[c].name == 'optMulti'){
-                  scores[results.index].values[results[b].answer[c].value].cnt++;
+                  //console.log("what is this??? = " + scores[results[b].index].values[results[b].answer[c].value]);
+                  scores[results[b].index].values[results[b].answer[c].value].cnt++;
+                }
+                if(results[b].answer[c].name == 'optEtcText' || results[b].answer[c].name == 'optMultiEtcText') {
+                  scores[results[b].index].etcValues.push(results[b].answer[c].value);
+                  scores[results[b].index].etcCnt++;
                 }
               }
               break;
-            case '1':
-              scores[results.index].values.push(results[b].answer.value);
+            case 1:
+              console.log('case 1 results[b].index = ' + results[b].index);
+              console.log('case 1 results[b].answer[0].value = ' + results[b].answer[0].value);
+              scores[results[b].index].values.push(results[b].answer[0].value);
               break;
-            case '2':
-              scores[results.index].values.push(results[b].answer.value);
+            case 2:
+              scores[results[b].index].values.push(results[b].answer[0].value);
               break;
-            case '3':
-              scores[results.index].values.push(results[b].answer.value);
+            case 3:
+              scores[results[b].index].values.push(results[b].answer[0].value);
               break;
-            case '4':
-              scores[results.index].values.push(results[b].answer.value);
+            case 4:
+              scores[results[b].index].values.push(results[b].answer[0].value);
               break;
-            case '5':
-              switch (results[b].answer.value) {
-                case '상':
-                  scores[results.index].values[0]++;
+            case 5:
+              switch (results[b].answer[0].value) {
+                case '100점':
+                  scores[results[b].index].values[0]++;
                   break;
-                case '중상':
-                  scores[results.index].values[1]++;
+                case '75점':
+                  scores[results[b].index].values[1]++;
                   break;
-                case '중':
-                  scores[results.index].values[2]++;
+                case '50점':
+                  scores[results[b].index].values[2]++;
                   break;
-                case '중하':
-                  scores[results.index].values[3]++;
+                case '25점':
+                  scores[results[b].index].values[3]++;
                   break;
-                case '하':
-                  scores[results.index].values[4]++;
+                case '0점':
+                  scores[results[b].index].values[4]++;
                   break;
               }
               break;
@@ -213,7 +238,11 @@ router.get('/complete/:id', needAuth, function(req, res, next) {
         }
       }
 
-
+      console.log('-----------------최종결과--------------------');
+      console.log(scores.length);
+      for(var tz in scores) {
+        console.log(scores[tz]);
+      }
       // res.render('survey/new', {
       //   surveyId: survey._id,
       //   surveyTitle: survey.title,
@@ -221,6 +250,7 @@ router.get('/complete/:id', needAuth, function(req, res, next) {
       //   surveyComment: survey.comment,
       //   contents: JSON.parse(survey.contents)
       // });
+      res.render('survey/result',{scores: scores})
     });
   });
 });

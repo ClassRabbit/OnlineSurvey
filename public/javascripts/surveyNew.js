@@ -128,6 +128,7 @@ $(function() {
             break;
           case 'contentType':
             content.type = contentValue[i].value;
+            console.log('is contentValue? = ' + contentValue[i].value);
             if(contentValue[i].value == 0) {
               content.optValues = [];
             }

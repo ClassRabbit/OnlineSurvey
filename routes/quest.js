@@ -32,7 +32,7 @@ router.post('/new', function(req, res, next) {
       var quest = new Quest({
         survey: req.body.surveyId,
         email: req.body.email,
-        results: requ.body.results
+        results: req.body.results
       });
       quest.save(function (err) {
         if (err) {
