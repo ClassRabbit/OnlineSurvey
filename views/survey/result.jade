@@ -4,35 +4,35 @@ block content
   #main.container
     h1 설문 결과
     each score, idx in scores
-      h4 #{idx}. #{score.name}
+      h4 #{idx+1}. #{score.name}
       if score.necessary
         b 필수
       case score.type
-        when 0
+        when '0'
           each value in score.values
             p #{value.text} : #{value.cnt}
           if score.etcValues
             .etcValues
               b 기타 내용
-              each etcValue in etcValues
+              each etcValue in score.etcValues
                 p #{etcValue}
-        when 1
+        when '1'
           b 단일 입력 내용
           each value in score.values
             p #{value}
-        when 2
+        when '2'
           b 의견 내용
           each value in score.values
             p #{value}
-        when 3
+        when '3'
           b 날짜 내용
           each value in score.values
             p #{value}
-        when 4
+        when '4'
           b 날짜 시간 내용
           each value in score.values
             p #{value}
-        when 5
+        when '5'
           p 0점 : #{score.values[0]}
           p 25점 : #{score.values[1]}
           p 50점 : #{score.values[2]}
