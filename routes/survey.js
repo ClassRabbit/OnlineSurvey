@@ -122,7 +122,6 @@ router.get('/complete/list', needAuth, function(req, res, next) {
     if(err) {
       return next(err);
     }
-    console.log('test');
     res.render('list',{surveys: surveys});
   });
 });
@@ -133,7 +132,6 @@ router.get('/complete/:id', needAuth, function(req, res, next) {
       return next(err);
     }
     var contents = JSON.parse(survey.contents);
-    console.log('json passsssssssssssssssssssssssssssssssssssssssssssssssssssss');
     Quest.find({survey: req.params.id}, function(err, quests) {
       if (err) {
         return next(err);
@@ -163,36 +161,18 @@ router.get('/complete/:id', needAuth, function(req, res, next) {
         scores.push(score);
       }
 
-      console.log(scores.length);
-      for (var t in scores) {
-        console.log(scores[t]);
-      }
 
 
       for(var a in quests) {
         var results = JSON.parse(quests[a].results);
-        for(var rt in results) {
-          console.log(results[rt]);
-        }
         for(var b in results) {
-          console.log('-------------------------------------------------------');
-          console.log(scores.length);
-          for(var tt in scores) {
-            console.log(scores[tt]);
-          }
-          console.log('switch index = ' + results[b].type + '!@#?$@!$@?$#@?$!#?');
           switch(results[b].type) {
             case 0:
-              //console.log('case in@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@');
               for(var c in results[b].answer) {
-                // console.log('value is ' + results[b].answer[c].value);
-                // console.log('results.index = ' + results[b].index);
-                // console.log('results[b].answer[c].value = ' + results[b].answer[c].value);
                 if(results[b].answer[c].value == 'optEtc' || results[b].answer[c].value == 'optMultiEtc') {
                   continue;
                 }
                 else if(results[b].answer[c].name == 'opt' || results[b].answer[c].name == 'optMulti'){
-                  //console.log("what is this??? = " + scores[results[b].index].values[results[b].answer[c].value]);
                   scores[results[b].index].values[results[b].answer[c].value].cnt++;
                 }
                 if(results[b].answer[c].name == 'optEtcText' || results[b].answer[c].name == 'optMultiEtcText') {
@@ -202,8 +182,6 @@ router.get('/complete/:id', needAuth, function(req, res, next) {
               }
               break;
             case 1:
-              console.log('case 1 results[b].index = ' + results[b].index);
-              console.log('case 1 results[b].answer[0].value = ' + results[b].answer[0].value);
               scores[results[b].index].values.push(results[b].answer[0].value);
               break;
             case 2:
@@ -237,48 +215,13 @@ router.get('/complete/:id', needAuth, function(req, res, next) {
           }
         }
       }
-
-      console.log('-----------------최종결과--------------------');
-      console.log(scores.length);
-      for(var tz in scores) {
-        console.log(scores[tz]);
-      }
-      // res.render('survey/new', {
-      //   surveyId: survey._id,
-      //   surveyTitle: survey.title,
-      //   surveyDeadline: survey.deadline,
-      //   surveyComment: survey.comment,
-      //   contents: JSON.parse(survey.contents)
-      // });
-      res.render('survey/result',{scores: scores})
+      res.render('survey/result',{scores: scores});
     });
   });
 });
 
 
 
-
-
-    // if(err) {
-    //   return next(err);
-    // }
-    // Quest.find({survey: req.params.id}, function(err, quests) {
-    //   if(err) {
-    //     return next(err);
-    //   }
-    //   res.render('survey/new', {
-    //     surveyId: survey._id,
-    //     surveyTitle: survey.title,
-    //     surveyDeadline: survey.deadline,
-    //     surveyComment: survey.comment,
-    //     contents: JSON.parse(survey.contents)
-    //   });
-      //var contents = JSON.parse(survey.contents);
-
-
-    // });
-//   });
-// });
 
 
 router.get('/edit/:id', needAuth, function(req, res, next) {    //설문 수정

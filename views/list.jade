@@ -2,6 +2,10 @@ extends layout
 
 block content
   .container
+    if edit
+      h2 설문지 이어 만들기
+    else
+      h2 설문 결과
     .list-group
       each survey in surveys
         if edit

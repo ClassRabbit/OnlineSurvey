@@ -8,16 +8,19 @@
       a.navbar-brand(href="/") OnlineSurvey
     #myNavbar.collapse.navbar-collapse
       ul.nav.navbar-nav.navbar-left
-        li.dropdown
-          a.dropdown-toggle(href="#" data-toggle="dropdown" data-hover="dropdown" data-delay="0" data-close-others="false") test!
-            b.icon-angle-down
-          ul.dropdown-menu
-            li
-              a(href="#") test1
-            li
-              a(href="#") test1
-            li
-              a(href="#") test1
+        if (currentUser) 
+          li.dropdown
+            a.dropdown-toggle(href="#" data-toggle="dropdown" data-hover="dropdown" data-delay="0" data-close-others="false") 목록
+              b.icon-angle-down
+            ul.dropdown-menu
+              li
+                a(href="#") 새 설문지 만들기
+              li
+                a(href="#") 설문지 이어 만들기
+              li
+                a(href="#") 완성된 설문지 보기
+              li
+                a(href="#") 설문지 결과보기
       ul.nav.navbar-nav.navbar-right
         if (!currentUser) 
           li

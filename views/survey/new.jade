@@ -16,12 +16,12 @@ block content
     form
       label 설문 제목
       .row
-        .col-md-6
+        .col-sm-9
           if surveyTitle
             input.form-control(type='text' name='surveyTitle' id='surveyTitle' value='#{surveyTitle}')
           else
             input.form-control(type='text' name='surveyTitle' id='surveyTitle')
-        .col-md-6
+        .col-sm-3
           | 마감시간
           if surveyDeadline
             - var deadline = moment(surveyDeadline).format('YYYY-MM-DD')
@@ -38,36 +38,36 @@ block content
         p
         form.content(action='/new', method='POST')
           .row
-            .col-md-2.contentNum
+            .col-sm-2.contentNum
               | #{idx+1}
-            .col-md-2
-              button.btn.btn-danger.contentDel(type='button') 문항 제거
-          .row
-            .col-md-2
-              label 문항 이름
-            .col-md-8
-              if content.title
-                input.form-control.contentTitle(type='text' name='contentTitle' id='contentTitle' value='#{content.title}')
-              else 
-                input.form-control.contentTitle(type='text' name='contentTitle' id='contentTitle')
-            .col-md-2
+            .col-sm-2
               if content.necessary
                 input.contentNecessary(type='checkbox' id='contentNecessary' name='contentNecessary' checked)
               else
                 input.contentNecessary(type='checkbox' id='contentNecessary' name='contentNecessary')
               | 필수 항목
+            .col-sm-2
+              button.btn.btn-danger.contentDel(type='button') 문항 제거
           .row
-            .col-md-2
+            .col-sm-2
+              label 문항 이름
+            .col-sm-10
+              if content.title
+                input.form-control.contentTitle(type='text' name='contentTitle' id='contentTitle' value='#{content.title}')
+              else 
+                input.form-control.contentTitle(type='text' name='contentTitle' id='contentTitle')
+          .row
+            .col-sm-2
               label 문항 설명
-            .col-md-8
+            .col-sm-10
               if content.comment
                 input.form-control.contentComment(type='text' name='contentComment' id='contentComment' value="#{content.comment}")
               else
                 input.form-control.contentComment(type='text' name='contentComment' id='contentComment')
           .row
-            .col-md-2
+            .col-sm-2
               label 문항 유형
-            .col-md-8
+            .col-sm-10
               select.form-control.contentType(name='contentType' id='contentType')
                 if content.type == 0
                   option(selected value='0') 객관식
@@ -102,7 +102,7 @@ block content
                     input.objMultiValue(type='checkbox' id='objMultiValue' name='objMultiValue' checked)
                   else
                     input.objMultiValue(type='checkbox' id='objMultiValue' name='objMultiValue')
-                  | 다50점 선택 가능
+                  | 다중 선택 가능
                 each optValue, i in content.optValues
                   if i == 0
                     .objOpt
@@ -161,26 +161,26 @@ block content
     p
     form.content(action='/new', method='POST')
       .row
-        .col-md-2.contentNum
-        .col-md-2
-          button.btn.btn-danger.contentDel(type='button') 문항 제거
-      .row
-        .col-md-2
-          label 문항 이름
-        .col-md-8
-          input.form-control.contentTitle(type='text' name='contentTitle' id='contentTitle')
-        .col-md-2
+        .col-sm-2.contentNum
+        .col-sm-2
           input.contentNecessary(type='checkbox' id='contentNecessary' name='contentNecessary')
           | 필수 항목
+        .col-sm-2
+          button.btn.btn-danger.contentDel(type='button') 문항 제거
       .row
-        .col-md-2
+        .col-sm-2
+          label 문항 이름
+        .col-sm-10
+          input.form-control.contentTitle(type='text' name='contentTitle' id='contentTitle')  
+      .row
+        .col-sm-2
           label 문항 설명
-        .col-md-8
+        .col-sm-10
           input.form-control.contentComment(type='text' name='contentComment' id='contentComment')
       .row
-        .col-md-2
+        .col-sm-2
           label 문항 유형
-        .col-md-8
+        .col-sm-10
           select.form-control.contentType(name='contentType' id='contentType')
             option(selected value='0') 객관식
             option(value='1') 단일 입력
@@ -192,7 +192,7 @@ block content
       .contentValue
         .objMulti
           input.objMultiValue(type='checkbox' id='objMultiValue' name='objMultiValue')
-          | 다50점 선택 가능
+          | 다중 선택 가능
         .objOpt
           input.objOptValue(type='text' id='objOptValue' name='objOptValue')
         .objBtnArea
@@ -225,7 +225,7 @@ block content
   script(type='text/template', id='objectiveTemplate')
     .objMulti
       input.objMultiValue(type='checkbox' id='objMultiValue' name='objMultiValue')
-      | 다50점 선택 가능
+      | 다중 선택 가능
     .objOpt
       input.objOptValue(type='text' id='objOptValue' name='objOptValue')
     .objBtnArea
