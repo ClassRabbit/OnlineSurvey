@@ -108,7 +108,10 @@ router.put('/new', function(req, res, next) {
   }
 });
 
-router.get('/edit/list', needAuth, function(req, res, next) {
+router.get('/quest', needAuth, function(req, res, next) {
+});
+
+router.get('/edit', needAuth, function(req, res, next) {
   Survey.find({user: req.user.id, complete: false},function(err, surveys){
     if(err) {
       return next(err);
@@ -117,7 +120,7 @@ router.get('/edit/list', needAuth, function(req, res, next) {
   });
 });
 
-router.get('/complete/list', needAuth, function(req, res, next) {
+router.get('/complete', needAuth, function(req, res, next) {
   Survey.find({user: req.user.id, complete: true},function(err, surveys){
     if(err) {
       return next(err);

@@ -40,6 +40,7 @@ block content
           .row
             .col-sm-2.contentNum
               | #{idx+1}
+            .col-sm-6
             .col-sm-2
               if content.necessary
                 input.contentNecessary(type='checkbox' id='contentNecessary' name='contentNecessary' checked)
@@ -153,30 +154,38 @@ block content
                   | 0점
           p
     p
-    button.btn.btn-primary.contentAdd 문항 추가
-    button.btn.btn-success.surveySave 설문지 저장
-    button.btn.btn-primary.surveyFin 설문지 완성
+    .row
+      .col-sm-4
+        button.btn.btn-info.btn-block.contentAdd 문항 추가
+      .col-sm-4
+        button.btn.btn-success.btn-block.surveySave 설문지 저장
+      .col-sm-4
+        button.btn.btn-primary.btn-block.surveyFin 설문지 완성
+    
+    
     
   script(type='text/template', id='contentTemplate')
     p
     form.content(action='/new', method='POST')
-      .row
-        .col-sm-2.contentNum
-        .col-sm-2
-          input.contentNecessary(type='checkbox' id='contentNecessary' name='contentNecessary')
-          | 필수 항목
-        .col-sm-2
-          button.btn.btn-danger.contentDel(type='button') 문항 제거
+      .rightFloat
+        input.contentNecessary(type='checkbox' id='contentNecessary' name='contentNecessary')
+        | 필수 항목
+        button.btn.btn-danger.contentDel(type='button') 문항 제거
+        p
+      .contentNum
+      p
       .row
         .col-sm-2
           label 문항 이름
         .col-sm-10
           input.form-control.contentTitle(type='text' name='contentTitle' id='contentTitle')  
+      p
       .row
         .col-sm-2
           label 문항 설명
         .col-sm-10
           input.form-control.contentComment(type='text' name='contentComment' id='contentComment')
+      p
       .row
         .col-sm-2
           label 문항 유형
@@ -190,7 +199,7 @@ block content
             option(value='5') 점수 선택
       p
       .contentValue
-        .objMulti
+        .objMulti.rightFloat
           input.objMultiValue(type='checkbox' id='objMultiValue' name='objMultiValue')
           | 다중 선택 가능
         .objOpt

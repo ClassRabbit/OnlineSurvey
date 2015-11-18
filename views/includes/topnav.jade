@@ -5,7 +5,10 @@
         span.icon-bar
         span.icon-bar
         span.icon-bar
-      a.navbar-brand(href="/") OnlineSurvey
+      if (!currentUser)
+        a.navbar-brand(href="/") OnlineSurvey
+      else
+        a.navbar-brand(href="/main") OnlineSurvey
     #myNavbar.collapse.navbar-collapse
       ul.nav.navbar-nav.navbar-left
         if (currentUser) 
@@ -14,13 +17,13 @@
               b.icon-angle-down
             ul.dropdown-menu
               li
-                a(href="#") 새 설문지 만들기
+                a(href="/survey/new") 새 설문지 만들기
               li
-                a(href="#") 설문지 이어 만들기
+                a(href="/survey/edit") 설문지 이어 만들기
               li
-                a(href="#") 완성된 설문지 보기
+                a(href="/survey/quest") 완성된 설문지 보기
               li
-                a(href="#") 설문지 결과보기
+                a(href="/survey/complete") 설문지 결과보기
       ul.nav.navbar-nav.navbar-right
         if (!currentUser) 
           li

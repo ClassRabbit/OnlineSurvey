@@ -81,8 +81,6 @@ $(function() {
 
       }
     });
-
-
   });
 
 
@@ -177,7 +175,7 @@ $(function() {
     $('form.content.active').removeClass('active');
 		$('.contentArea').append($('#contentTemplate').html());
     $('.content:eq(' + contentCnt + ')').addClass('active');
-    $('.content:eq(' + contentCnt + ')').find('.contentNum').append(contentCnt+1);
+    $('.content:eq(' + contentCnt + ')').find('.contentNum').append('<h3>' + (contentCnt+1) + '</h3>');
     contentCnt++;
 	});
 
@@ -242,7 +240,7 @@ $(function() {
   $(document).on("click", ".objEtcCreate" , function() {
 		$(this).parents('.content').find('.contentValue').append($('#objEtcTemplate').html());
 		$(this).parents('.content').find('.contentValue').append($('#objBtnAreaTemplate_2').html());
-		$(this).parent().remove();
+		$(this).parents('.objBtnArea').remove();
 	});
 
   $(document).on("click", ".objEtcDel" , function() {
