@@ -175,7 +175,9 @@ $(function() {
     $('form.content.active').removeClass('active');
 		$('.contentArea').append($('#contentTemplate').html());
     $('.content:eq(' + contentCnt + ')').addClass('active');
-    $('.content:eq(' + contentCnt + ')').find('.contentNum').append('<h3>' + (contentCnt+1) + '</h3>');
+    $('.content:eq(' + contentCnt + ')').find('.contentNum').append((contentCnt+1));
+    //$('.content:eq(' + contentCnt + ')').find('.contentNum').append('<h4>' + (contentCnt+1) + '</h4>');
+    $('.content:eq(' + contentCnt + ')').find('.contentNum').append('<a class="contentDel"><span class="glyphicon glyphicon-remove"></span></a>');
     contentCnt++;
 	});
 
@@ -186,6 +188,7 @@ $(function() {
       if(index > thisNum) {
         $(item).find('.contentNum').empty();
         $(item).find('.contentNum').append(index);
+        $(item).find('.contentNum').append('<a class="contentDel"><span class="glyphicon glyphicon-remove"></span></a>');
       }
     });
     $(this).parents('.content').remove();

@@ -7,16 +7,14 @@ a {
   color: #00B7FF;
 }
 
-div .rightFloat {
-  float: right;
-}
-
-div .marginLeft {
-  margin-left: 20%;
+div .contentTop {
+  position: relative;
 }
 
 div .contentNum {
-  width: 20%;
+}
+
+div .contentOpt {
 }
 
 #main .spinner {

@@ -35,20 +35,24 @@ block content
         textarea.form-control(rows='5' name='surveyComment' id='surveyComment')
     .contentArea
       each content, idx in contents
-        p
         form.content(action='/new', method='POST')
+          p
+          hr
+          p
+          .contentNum
+            | #{idx+1}
+            a.contentDel
+              span.glyphicon.glyphicon-remove
+          p
           .row
-            .col-sm-2.contentNum
-              | #{idx+1}
-            .col-sm-6
             .col-sm-2
+              label 필수 문항
+            .col-sm-10
               if content.necessary
                 input.contentNecessary(type='checkbox' id='contentNecessary' name='contentNecessary' checked)
               else
                 input.contentNecessary(type='checkbox' id='contentNecessary' name='contentNecessary')
-              | 필수 항목
-            .col-sm-2
-              button.btn.btn-danger.contentDel(type='button') 문항 제거
+          p
           .row
             .col-sm-2
               label 문항 이름
@@ -57,6 +61,7 @@ block content
                 input.form-control.contentTitle(type='text' name='contentTitle' id='contentTitle' value='#{content.title}')
               else 
                 input.form-control.contentTitle(type='text' name='contentTitle' id='contentTitle')
+          p
           .row
             .col-sm-2
               label 문항 설명
@@ -65,6 +70,7 @@ block content
                 input.form-control.contentComment(type='text' name='contentComment' id='contentComment' value="#{content.comment}")
               else
                 input.form-control.contentComment(type='text' name='contentComment' id='contentComment')
+          p
           .row
             .col-sm-2
               label 문항 유형
@@ -98,24 +104,38 @@ block content
           .contentValue
             case content.type
               when '0'
-                .objMulti
-                  if content.objMultiValue
-                    input.objMultiValue(type='checkbox' id='objMultiValue' name='objMultiValue' checked)
-                  else
-                    input.objMultiValue(type='checkbox' id='objMultiValue' name='objMultiValue')
-                  | 다중 선택 가능
+                .row.objMulti
+                  .col-sm-2
+                    label 다중 선택 가능
+                  .col-sm-10
+                    if content.objMultiValue
+                      input.objMultiValue(type='checkbox' id='objMultiValue' name='objMultiValue' checked)
+                    else
+                      input.objMultiValue(type='checkbox' id='objMultiValue' name='objMultiValue')
                 each optValue, i in content.optValues
                   if i == 0
-                    .objOpt
-                      input.objOptValue(type='text' id='objOptValue' name='objOptValue' value='#{optValue}')
+                    .row.objOpt
+                      .col-sm-2
+                        label 문항 설정
+                      .col-sm-10
+                        input(type='radio' disabled)
+                        input.objOptValue(type='text' id='objOptValue' name='objOptValue' value='#{optValue}')
                   else
-                    .objOpt
-                      input.objOptValue(type='text' id='objOptValue' name='objOptValue' value='#{optValue}')
-                      a.objOptDel Remove
+                    .row.objOpt
+                      .col-sm-2
+                      .col-sm-10
+                        input(type='radio' disabled)
+                        input.objOptValue(type='text' id='objOptValue' name='objOptValue' value='#{optValue}')
+                        a.objOptDel
+                          span.glyphicon.glyphicon-remove
                 if content.etcValue
-                  .objEtc
-                    input.objEtcValue(type='text' id='objEtcValue' name='objEtcValue' value='기타' readonly)
-                    a.objEtcDel Remove
+                  .row.objEtc
+                    .col-sm-2
+                    .col-sm-10
+                      input(type='radio' disabled)
+                      input.objEtcValue(type='text' id='objEtcValue' name='objEtcValue' value='기타' readonly)
+                      a.objEtcDel
+                        span.glyphicon.glyphicon-remove
                   .objBtnArea
                     p
                     .button.btn.btn-primary.objOptCreate(type='button') 옵션 추가
@@ -138,21 +158,34 @@ block content
                   input.dateTimeValue(type='datetime-local' name='dateTimeValue' disabled)
               when '5'
                 .score
-                  input.scoreValue(type='radio' name='scoreValue' value='100' disabled)
-                  | 100점
-                  br
-                  input.scoreValue(type='radio' name='scoreValue' value='75점' disabled)
-                  | 75점
-                  br
-                  input.scoreValue(type='radio' name='scoreValue' value='50점' disabled)
-                  | 50점
-                  br
-                  input.scoreValue(type='radio' name='scoreValue' value='25점' disabled)
-                  | 25점
-                  br
-                  input.scoreValue(type='radio' name='scoreValue' value='0점' disabled)
-                  | 0점
+                  .row
+                    .col-sm-2
+                    .col-sm-10
+                      input.scoreValue(type='radio' name='scoreValue' value='100점' disabled)
+                      | 100점
+                  .row
+                    .col-sm-2
+                    .col-sm-10
+                      input.scoreValue(type='radio' name='scoreValue' value='75점' disabled)
+                      | 75점
+                  .row
+                    .col-sm-2
+                    .col-sm-10
+                      input.scoreValue(type='radio' name='scoreValue' value='50점' disabled)
+                      | 50점
+                  .row
+                    .col-sm-2
+                    .col-sm-10
+                      input.scoreValue(type='radio' name='scoreValue' value='25점' disabled)
+                      | 25점
+                  .row
+                    .col-sm-2
+                    .col-sm-10
+                      input.scoreValue(type='radio' name='scoreValue' value='0점' disabled)
+                      | 0점
           p
+    p
+    hr
     p
     .row
       .col-sm-4
@@ -165,14 +198,17 @@ block content
     
     
   script(type='text/template', id='contentTemplate')
-    p
     form.content(action='/new', method='POST')
-      .rightFloat
-        input.contentNecessary(type='checkbox' id='contentNecessary' name='contentNecessary')
-        | 필수 항목
-        button.btn.btn-danger.contentDel(type='button') 문항 제거
-        p
+      p
+      hr
+      p
       .contentNum
+      p
+      .row
+        .col-sm-2
+          label 필수 문항
+        .col-sm-10
+          input.contentNecessary(type='checkbox' id='contentNecessary' name='contentNecessary')
       p
       .row
         .col-sm-2
@@ -199,11 +235,17 @@ block content
             option(value='5') 점수 선택
       p
       .contentValue
-        .objMulti.rightFloat
-          input.objMultiValue(type='checkbox' id='objMultiValue' name='objMultiValue')
-          | 다중 선택 가능
-        .objOpt
-          input.objOptValue(type='text' id='objOptValue' name='objOptValue')
+        .row.objMulti
+          .col-sm-2
+            label 다중 선택 가능
+          .col-sm-10
+            input.objMultiValue(type='checkbox' id='objMultiValue' name='objMultiValue') 
+        .row.objOpt
+          .col-sm-2
+            label 문항 설정
+          .col-sm-10
+            input(type='radio' disabled)
+            input.objOptValue(type='text' id='objOptValue' name='objOptValue')
         .objBtnArea
           p
           .button.btn.btn-primary.objOptCreate(type='button') 옵션 추가
@@ -222,25 +264,48 @@ block content
       .button.btn.btn-primary.objOptCreate(type='button') 옵션 추가
   
   script(type='text/template', id='objEtcTemplate')
-    .objEtc
-      input.objEtcValue(type='text' id='objEtcValue' name='objEtcValue' value='기타' readonly)
-      a.objEtcDel Remove
+    .row.objEtc
+      .col-sm-2
+      .col-sm-10
+        input(type='radio' disabled)
+        input.objEtcValue(type='text' id='objEtcValue' name='objEtcValue' value='기타' readonly)
+        a.objEtcDel
+          span.glyphicon.glyphicon-remove
       
   script(type='text/template', id='objOptTemplate')    
-    .objOpt
-      input.objOptValue(type='text' id='objOptValue' name='objOptValue')
-      a.objOptDel Remove
+    .row.objOpt
+      .col-sm-2
+      .col-sm-10
+        input(type='radio' disabled)
+        input.objOptValue(type='text' id='objOptValue' name='objOptValue')
+        a.objOptDel
+          span.glyphicon.glyphicon-remove
   
   script(type='text/template', id='objectiveTemplate')
-    .objMulti
-      input.objMultiValue(type='checkbox' id='objMultiValue' name='objMultiValue')
-      | 다중 선택 가능
-    .objOpt
-      input.objOptValue(type='text' id='objOptValue' name='objOptValue')
+    .row.objMulti
+      .col-sm-2
+        label 다중 선택 가능
+      .col-sm-10
+        input.objMultiValue(type='checkbox' id='objMultiValue' name='objMultiValue') 
+    .row.objOpt
+      .col-sm-2
+        label 문항 설정
+      .col-sm-10
+        input(type='radio' disabled)
+        input.objOptValue(type='text' id='objOptValue' name='objOptValue')
     .objBtnArea
       p
       .button.btn.btn-primary.objOptCreate(type='button') 옵션 추가
       .button.btn.btn-primary.objEtcCreate(type='button') 기타 추가
+    //- .objMulti
+    //-   input.objMultiValue(type='checkbox' id='objMultiValue' name='objMultiValue')
+    //-   | 다중 선택 가능
+    //- .objOpt
+    //-   input.objOptValue(type='text' id='objOptValue' name='objOptValue')
+    //- .objBtnArea
+    //-   p
+    //-   .button.btn.btn-primary.objOptCreate(type='button') 옵션 추가
+    //-   .button.btn.btn-primary.objEtcCreate(type='button') 기타 추가
   
   script(type='text/template', id='subjectiveTemplate')
     .subjective
@@ -260,19 +325,30 @@ block content
       
   script(type='text/template', id='scoreTemplate')
     .score
-      input.scoreValue(type='radio' name='scoreValue' value='100점' disabled)
-      | 100점
-      br
-      input.scoreValue(type='radio' name='scoreValue' value='75점' disabled)
-      | 75점
-      br
-      input.scoreValue(type='radio' name='scoreValue' value='50점' disabled)
-      | 50점
-      br
-      input.scoreValue(type='radio' name='scoreValue' value='25점' disabled)
-      | 25점
-      br
-      input.scoreValue(type='radio' name='scoreValue' value='0점' disabled)
-      | 0점
+      .row
+        .col-sm-2
+        .col-sm-10
+          input.scoreValue(type='radio' name='scoreValue' value='100점' disabled)
+          | 100점
+      .row
+        .col-sm-2
+        .col-sm-10
+          input.scoreValue(type='radio' name='scoreValue' value='75점' disabled)
+          | 75점
+      .row
+        .col-sm-2
+        .col-sm-10
+          input.scoreValue(type='radio' name='scoreValue' value='50점' disabled)
+          | 50점
+      .row
+        .col-sm-2
+        .col-sm-10
+          input.scoreValue(type='radio' name='scoreValue' value='25점' disabled)
+          | 25점
+      .row
+        .col-sm-2
+        .col-sm-10
+          input.scoreValue(type='radio' name='scoreValue' value='0점' disabled)
+          | 0점
   
   script(type='text/javascript', src='/javascripts/surveyNew.js')
