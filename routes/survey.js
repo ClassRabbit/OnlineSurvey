@@ -113,7 +113,7 @@ router.get('/quest', needAuth, function(req, res, next) {
     if(err) {
       return next(err);
     }
-    res.render('list',{surveys: surveys, edit: true});
+    res.render('list',{surveys: surveys, source: 'quest'});
   });
 });
 
@@ -122,7 +122,7 @@ router.get('/edit', needAuth, function(req, res, next) {
     if(err) {
       return next(err);
     }
-    res.render('list',{surveys: surveys, edit: true});
+    res.render('list',{surveys: surveys, source: 'edit'});
   });
 });
 
@@ -131,7 +131,7 @@ router.get('/complete', needAuth, function(req, res, next) {
     if(err) {
       return next(err);
     }
-    res.render('list',{surveys: surveys});
+    res.render('list',{surveys: surveys, source: 'complete'});
   });
 });
 
@@ -169,8 +169,6 @@ router.get('/complete/:id', needAuth, function(req, res, next) {
         }
         scores.push(score);
       }
-
-
 
       for(var a in quests) {
         var results = JSON.parse(quests[a].results);

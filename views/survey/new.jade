@@ -246,10 +246,16 @@ block content
           .col-sm-10
             input(type='radio' disabled)
             input.objOptValue(type='text' id='objOptValue' name='objOptValue')
-        .objBtnArea
-          p
-          .button.btn.btn-primary.objOptCreate(type='button') 옵션 추가
-          .button.btn.btn-primary.objEtcCreate(type='button') 기타 추가
+        .row.objBtnArea
+          .col-sm-2
+          .col-sm-10
+            input(type='radio' disabled)
+            input.objOptCreate(type='text' value='옵션 추가' readonly)
+            a.objEtcCreate 기타 추가
+          //-   
+          //- p
+          //- .button.btn.btn-primary.objOptCreate(type='button') 옵션 추가
+          //- .button.btn.btn-primary.objEtcCreate(type='button') 기타 추가
       p
           
   script(type='text/template', id='objBtnAreaTemplate_1')
