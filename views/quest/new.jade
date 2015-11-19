@@ -55,20 +55,20 @@ block content
         else if content.type == 4
           input.dateTime.form-control(type='datetime-local' name='dateTime')
         else if content.type == 5
-          input.scoreValue(type='radio' name='scoreValue' value='100점')
-          | 100점
+          input.scoreValue(type='radio' name='scoreValue' value='1')
+          | 1점
           br
-          input.scoreValue(type='radio' name='scoreValue' value='75점')
-          | 75점
+          input.scoreValue(type='radio' name='scoreValue' value='2')
+          | 2점
           br
-          input.scoreValue(type='radio' name='scoreValue' value='50점')
-          | 50점
+          input.scoreValue(type='radio' name='scoreValue' value='3')
+          | 3점
           br
-          input.scoreValue(type='radio' name='scoreValue' value='25점')
-          | 25점
+          input.scoreValue(type='radio' name='scoreValue' value='4')
+          | 4점
           br
-          input.scoreValue(type='radio' name='scoreValue' value='0점')
-          | 0점
+          input.scoreValue(type='radio' name='scoreValue' value='5')
+          | 5점
     p
     button.btn.btn-primary.questFin 설문 완료   
   script(type='text/javascript', src='/javascripts/surveyQuest.js')

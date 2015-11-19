@@ -202,19 +202,19 @@ router.get('/complete/:id', needAuth, function(req, res, next) {
               break;
             case 5:
               switch (results[b].answer[0].value) {
-                case '100점':
+                case '1':
                   scores[results[b].index].values[0]++;
                   break;
-                case '75점':
+                case '2':
                   scores[results[b].index].values[1]++;
                   break;
-                case '50점':
+                case '3':
                   scores[results[b].index].values[2]++;
                   break;
-                case '25점':
+                case '4':
                   scores[results[b].index].values[3]++;
                   break;
-                case '0점':
+                case '5':
                   scores[results[b].index].values[4]++;
                   break;
               }
