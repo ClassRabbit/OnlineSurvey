@@ -189,34 +189,44 @@ router.get('/complete/:id', needAuth, function(req, res, next) {
               }
               break;
             case 1:
-              scores[results[b].index].values.push(results[b].answer[0].value);
+              if(results[b].answer.length !== 0) {
+                scores[results[b].index].values.push(results[b].answer[0].value);
+              }
               break;
             case 2:
-              scores[results[b].index].values.push(results[b].answer[0].value);
+              if(results[b].answer.length !== 0) {
+                scores[results[b].index].values.push(results[b].answer[0].value);
+              }
               break;
             case 3:
-              scores[results[b].index].values.push(results[b].answer[0].value);
+              if(results[b].answer.length !== 0) {
+                scores[results[b].index].values.push(results[b].answer[0].value);
+              }
               break;
             case 4:
-              scores[results[b].index].values.push(results[b].answer[0].value);
+              if(results[b].answer.length !== 0) {
+                scores[results[b].index].values.push(results[b].answer[0].value);
+              }
               break;
             case 5:
-              switch (results[b].answer[0].value) {
-                case '1':
-                  scores[results[b].index].values[0]++;
-                  break;
-                case '2':
-                  scores[results[b].index].values[1]++;
-                  break;
-                case '3':
-                  scores[results[b].index].values[2]++;
-                  break;
-                case '4':
-                  scores[results[b].index].values[3]++;
-                  break;
-                case '5':
-                  scores[results[b].index].values[4]++;
-                  break;
+              if(results[b].answer.length !== 0) {
+                switch (results[b].answer[0].value) {
+                  case '1':
+                    scores[results[b].index].values[0]++;
+                    break;
+                  case '2':
+                    scores[results[b].index].values[1]++;
+                    break;
+                  case '3':
+                    scores[results[b].index].values[2]++;
+                    break;
+                  case '4':
+                    scores[results[b].index].values[3]++;
+                    break;
+                  case '5':
+                    scores[results[b].index].values[4]++;
+                    break;
+                }
               }
               break;
           }

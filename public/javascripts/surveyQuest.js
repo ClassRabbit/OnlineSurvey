@@ -1,4 +1,17 @@
 $(function() {
+
+  var deadline = $('#deadline').text();
+
+  if(deadline !== '미지정') {
+    if(new Date(deadline) < $.now()) {
+      $('#main').addClass('loading');
+      $('#spinnerImg').remove();
+      $('#spinnerText').text('죄송합니다. 만기된 설문으로 더 이상 설문에 응하실 수 없습니다.');
+    }
+  }
+
+
+
   $('form').each(function(index, item) {
     if($(item).find('.necessary').length) {
       $(item).find('input').prop('required', true);
@@ -42,8 +55,8 @@ $(function() {
       alert("이메일을 입력하세요!");
       return;
     }
+    var isNotEmpty = false;
     $('form').each(function(){
-      var isNotEmpty = false;
       //console.log($(this).find('[name="longSubjective"]').val());
       if($(this).find('.necessary').length != 0) {
         if($(this).find('[name="opt"]').length != 0) {
@@ -102,12 +115,14 @@ $(function() {
           });
         }
         if(!isNotEmpty) {
-          alert("필수를 다 입력해주세요.")
+          alert("필수를 다 입력해주세요.");
           return false;
         }
       }
-
     });
+    if(!isNotEmpty) {
+      return;
+    }
 
     $('#main').addClass('loading');
     // - db설계

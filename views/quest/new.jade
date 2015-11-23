@@ -8,67 +8,74 @@ block content
         p
           i#spinnerImg.fa.fa-circle-o-notch.fa-spin.fa-4x
         #spinnerText Loading...
-    h1 설문 조사
     input#surveyId(type='hidden' name='surveyId' value='#{surveyId}')
-    label  #{surveyTitle}
-    p
-    label 설문 기간  
-    |  
-    - var deadline = moment(surveyDeadline).format('YYYY-MM-DD')
-    | #{deadline}
-    p
-    label #{surveyComment}
-    p
-    label 설문자 E-Mail :
-    input.form-control.email(type='email' name='email' id='email')
-    each content in contents
+    div.jumbotron
+      label 설문 기간 : 
+      - var deadline = moment(surveyDeadline).format('YYYY-MM-DD')
+      | 
+      if deadline
+        span#deadline #{deadline}
+      else
+        span#deadline 미지정
+      p
+      h1.questTitle  #{surveyTitle}
+      p
+      label #{surveyComment}
+      p
+      label 설문자 E-Mail :
+      input.form-control.email(type='email' name='email' id='email')
+    each content, idx in contents
       form.content
         p
-        label #{content.title}
-        p
-        | #{content.comment}
-        p
-        if content.necessary
-          b.necessary 이 문항은 필수 항목 입니다!
-          p
-        if content.type == 0
-          if content.objMultiValue
-            each optValues, i in content.optValues
-              input.optMulti(type='checkbox' name='optMulti' id='optMulti' value='#{i}')
-              | #{optValues}
-            if content.etcValue
-              input.optMultiEtc(type='checkbox' name='optMulti' id='optMulti' value='optMultiEtc')
-              | 기타
-          else
-            each optValues, i in content.optValues
-              input.opt(type='radio' name='opt' id='opt' value='#{i}')
-              | #{optValues}
-            if content.etcValue
-              input.optEtc(type='radio' name='opt' id='opt' value='optEtc')
-              | 기타
-        else if content.type == 1
-          input.subjective.form-control(type='text' name='subjective')
-        else if content.type == 2
-          textarea.form-control.longSubjective(rows='5' name='longSubjective')
-        else if content.type == 3
-          input.date.form-control(type='date' name='date')
-        else if content.type == 4
-          input.dateTime.form-control(type='datetime-local' name='dateTime')
-        else if content.type == 5
-          input.scoreValue(type='radio' name='scoreValue' value='1')
-          | 1점
-          br
-          input.scoreValue(type='radio' name='scoreValue' value='2')
-          | 2점
-          br
-          input.scoreValue(type='radio' name='scoreValue' value='3')
-          | 3점
-          br
-          input.scoreValue(type='radio' name='scoreValue' value='4')
-          | 4점
-          br
-          input.scoreValue(type='radio' name='scoreValue' value='5')
-          | 5점
+        .panel.panel-default
+          .panel-heading
+            span.contentTitle #{idx+1}. #{content.title}
+            if content.necessary
+              | 
+              b.necessary (필수)
+          .panel-body
+            .container
+              p
+              | #{content.comment}
+              p
+              if content.type == 0
+                if content.objMultiValue
+                  each optValues, i in content.optValues
+                    input.optMulti(type='checkbox' name='optMulti' id='optMulti' value='#{i}')
+                    | #{optValues}
+                  if content.etcValue
+                    input.optMultiEtc(type='checkbox' name='optMulti' id='optMulti' value='optMultiEtc')
+                    | 기타
+                else
+                  each optValues, i in content.optValues
+                    input.opt(type='radio' name='opt' id='opt' value='#{i}')
+                    | #{optValues}
+                  if content.etcValue
+                    input.optEtc(type='radio' name='opt' id='opt' value='optEtc')
+                    | 기타
+              else if content.type == 1
+                input.subjective.form-control(type='text' name='subjective')
+              else if content.type == 2
+                textarea.form-control.longSubjective(rows='5' name='longSubjective')
+              else if content.type == 3
+                input.date.form-control(type='date' name='date')
+              else if content.type == 4
+                input.dateTime.form-control(type='datetime-local' name='dateTime')
+              else if content.type == 5
+                input.scoreValue(type='radio' name='scoreValue' value='1')
+                | 1점
+                br
+                input.scoreValue(type='radio' name='scoreValue' value='2')
+                | 2점
+                br
+                input.scoreValue(type='radio' name='scoreValue' value='3')
+                | 3점
+                br
+                input.scoreValue(type='radio' name='scoreValue' value='4')
+                | 4점
+                br
+                input.scoreValue(type='radio' name='scoreValue' value='5')
+                | 5점
     p
     button.btn.btn-primary.questFin 설문 완료   
   script(type='text/javascript', src='/javascripts/surveyQuest.js')

@@ -7,14 +7,20 @@ a {
   color: #00B7FF;
 }
 
-div .contentTop {
-  position: relative;
+h1.questTitle {
+  text-align: center;
 }
 
-div .contentNum {
+div .deadlineArea {
+  float: right;
 }
 
-div .contentOpt {
+b.necessary {
+  color: red;
+}
+
+span.contentTitle {
+  font-size: 20px;
 }
 
 #main .spinner {
