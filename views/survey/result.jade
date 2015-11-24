@@ -3,35 +3,17 @@ extends ../layout
 block content
   #main.container
     h1.pageTitle 설문 결과
-    each score, idx in scores
-      h4 #{idx+1}. #{score.name}
-      if score.necessary
-        b 필수
-      case score.type
-        when '0'
-          each value in score.values
-            p #{value.text} : #{value.cnt}
-          if score.etcValues
-            .etcValues
-              b 기타 내용
-              each etcValue in score.etcValues
-                p #{etcValue}
-        when '1'
-          b 단일 입력 내용
-          each value in score.values
-            p #{value}
-        when '2'
-          b 의견 내용
-          each value in score.values
-            p #{value}
-        when '3'
-          b 날짜 내용
-          each value in score.values
-            p #{value}
-        when '4'
-          p 1점 : #{score.values[0]}
-          p 2점 : #{score.values[1]}
-          p 3점 : #{score.values[2]}
-          p 4점 : #{score.values[3]}
-          p 5점 : #{score.values[4]}
-      
+    p
+    hr
+    p
+    table.table.table-bordered
+      thead
+        tr
+          th 응답시간
+          each content in contents
+            th #{content.title}
+      tbody
+        each tds in tdsArr
+          tr
+            each td in tds
+              th #{td}
