@@ -22,7 +22,7 @@ $(function() {
   $(document).on('click','input:checkbox[name="optMulti"]', function(){
     if($(this).hasClass('optMultiEtc')) {                           //클릭한게 기타일때
       if($(this).parents('form').find('.optMultiEtcText').length == 0) {   //기타 텍스트가 없으면
-        $(this).parents('form').append('<input type="text" name="optMultiEtcText" id="optMultiEtcText" class="optMultiEtcText">');
+        $(this).parents('form').find('.panel-body').append('<input type="text" name="optMultiEtcText" id="optMultiEtcText" class="optMultiEtcText">');
         $(this).parents('form').find('.optMulti').attr('checked', false);
       }
       else {
@@ -40,7 +40,7 @@ $(function() {
   $(document).on('click','input:radio[name="opt"]', function(){
     if($(this).hasClass('optEtc')) {                           //클릭한게 기타일때
       if($(this).parents('form').find('.optEtcText').length == 0) {   //기타 텍스트가 없으면
-        $(this).parents('form').append('<input type="text" name="optEtcText" id="optEtcText" class="optEtcText">');
+        $(this).parents('form').find('.panel-body').append('<input type="text" name="optEtcText" id="optEtcText" class="optEtcText">');
       }
     }
     else {
