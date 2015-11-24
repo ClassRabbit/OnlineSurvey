@@ -9,7 +9,7 @@ block content
           i#spinnerImg.fa.fa-circle-o-notch.fa-spin.fa-4x
         #spinnerText Loading...
     input#surveyId(type='hidden' name='surveyId' value='#{surveyId}')
-    div.jumbotron
+    .jumbotron
       label 설문 기간 : 
       - var deadline = moment(surveyDeadline).format('YYYY-MM-DD')
       | 
@@ -18,7 +18,7 @@ block content
       else
         span#deadline 미지정
       p
-      h1.questTitle  #{surveyTitle}
+      h1.pageTitle  #{surveyTitle}
       p
       label #{surveyComment}
       p
@@ -57,10 +57,11 @@ block content
             else if content.type == 2
               textarea.form-control.longSubjective(rows='5' name='longSubjective')
             else if content.type == 3
-              input.date.form-control(type='date' name='date')
+              if content.dateTimeValue
+                input.dateTime.form-control(type='datetime-local' name='dateTime')
+              else
+                input.date.form-control(type='date' name='date')
             else if content.type == 4
-              input.dateTime.form-control(type='datetime-local' name='dateTime')
-            else if content.type == 5
               input.scoreValue(type='radio' name='scoreValue' value='1')
               | 1점
               br

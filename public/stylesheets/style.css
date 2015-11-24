@@ -7,11 +7,11 @@ a {
   color: #00B7FF;
 }
 
-h1.questTitle {
+h1.pageTitle {
   text-align: center;
 }
 
-div .deadlineArea {
+div .contentDelArea {
   float: right;
 }
 
@@ -20,6 +20,10 @@ b.necessary {
 }
 
 span.contentTitle {
+  font-size: 20px;
+}
+
+div.contentNum {
   font-size: 20px;
 }
 

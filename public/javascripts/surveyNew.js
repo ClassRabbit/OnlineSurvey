@@ -1,7 +1,96 @@
 $(function() {
   var contentCnt = 0;           //현재 설문 항목 수
   var contents;
-//contentScript
+
+
+  var surveyId = $('#surveyId').val();
+  console.log(surveyId);
+  if(surveyId) {
+    $('#main').addClass('loading');
+    console.log("inhere");
+    $.ajax({
+      type: 'POST',
+      url: '/survey/editing',
+      dataType: 'json',
+      data: {
+        surveyId: surveyId,
+      },
+      success: function(survey) {
+        console.log("complete");
+        $('#surveyTitle').val(survey.title);
+        if(survey.deadline){
+          $('#surveyDeadline').val(moment(survey.deadline).format('YYYY-MM-DD'));
+        }
+        $('#surveyComment').val(survey.comment);
+        var contents = JSON.parse(survey.contents);
+        for(i in contents) {
+          $('.contentArea').append($('#contentTemplate').html());
+          $('.content:eq(' + contentCnt + ')').addClass('active');
+          $('.content:eq(' + contentCnt + ')').find('.contentNum').append((contentCnt+1));
+          $('.content:eq(' + contentCnt + ')').find('.contentNum').append($('#contentDelAreaTemplate').html());
+          if(contents[i].necessary){
+            $('.content:eq(' + contentCnt + ')').find('.contentNecessary').prop('checked',true);
+          }
+          $('.content:eq(' + contentCnt + ')').find('.contentTitle').val(contents[i].title);
+          $('.content:eq(' + contentCnt + ')').find('.contentComment').val(contents[i].comment);
+          $('.content:eq(' + contentCnt + ')').find('.contentType').val(contents[i].type);
+          switch(contents[i].type) {
+            case '0':
+              $('.content:eq(' + contentCnt + ')').find('.contentValue').append($('#objectiveTemplate').html());
+              if(contents[i].objMultiValue) {
+                $('.content:eq(' + contentCnt + ')').find('.objMultiValue').prop('checked',true);
+              }
+              for(j in contents[i].optValues) {
+                if(j==0) {
+                  $('.content:eq(' + contentCnt + ')').find('.objBtnArea').remove();
+                  $('.content:eq(' + contentCnt + ')').find('.objOptValue').val(contents[i].optValues[j]);
+                }
+                else {
+                  $('.content:eq(' + contentCnt + ')').find('.objBtnArea').remove();
+                  $('.content:eq(' + contentCnt + ')').find('.contentValue').append($('#objOptTemplate').html());
+                  $('.content:eq(' + contentCnt + ')').find('.objOptValue:last').val(contents[i].optValues[j]);
+                }
+              }
+              if(contents[i].etcValue) {
+                $('.content:eq(' + contentCnt + ')').find('.contentValue').append($('#objEtcTemplate').html());
+                $('.content:eq(' + contentCnt + ')').find('.contentValue').append($('#objBtnAreaTemplate_2').html());
+              }
+              else {
+                $('.content:eq(' + contentCnt + ')').find('.contentValue').append($('#objBtnAreaTemplate_1').html());
+              }
+              break;
+            case '1':
+              $('.content:eq(' + contentCnt + ')').find('.contentValue').append($('#subjectiveTemplate').html());
+              break;
+            case '2':
+              $('.content:eq(' + contentCnt + ')').find('.contentValue').append($('#longSubjectiveTemplate').html());
+              break;
+            case '3':
+              $('.content:eq(' + contentCnt + ')').find('.contentValue').append($('#dateTemplate').html());
+              if(contents[i].dateTimeValue) {
+                  $('.content:eq(' + contentCnt + ')').find('.date').empty();
+                  $('.content:eq(' + contentCnt + ')').find('.date').append('<input type="datetime-local" name="dateTimeValue" class="dateTimeValue form-control" disabled>');
+                  $('.content:eq(' + contentCnt + ')').find('.dateTimeValue').prop('checked',true);
+              }
+              break;
+            case '4':
+              $('.content:eq(' + contentCnt + ')').find('.contentValue').append($('#scoreTemplate').html());
+              break;
+          }
+          contentCnt++;
+        }
+        //console.log(contents.length);
+        $('#main').removeClass('loading');
+        console.log(survey);
+      },
+      complete: function() {
+
+      }
+    });
+  }
+
+
+
   $(document).on("click",".surveyFin", function(){
 
     $('#main').addClass('loading');
@@ -56,6 +145,8 @@ $(function() {
             break;
           case 'objEtcValue':
             content.etcValue = true;
+          case 'dateTimeValue':
+            content.dateTimeValue = true;
         }
       }
       contents.push(content);
@@ -139,6 +230,8 @@ $(function() {
             break;
           case 'objEtcValue':
             content.etcValue = true;
+          case 'dateTimeValue':
+            content.dateTimeValue = true;
         }
       }
       contents.push(content);
@@ -170,14 +263,16 @@ $(function() {
 
   $(document).on("click",".contentAdd", function(){
 
-    contents = $('form.content.active').serializeArray();
+    //contents = $('form.content.active').serializeArray();
 
-    $('form.content.active').removeClass('active');
+    //$('form.content.active').removeClass('active');
 		$('.contentArea').append($('#contentTemplate').html());
     $('.content:eq(' + contentCnt + ')').addClass('active');
     $('.content:eq(' + contentCnt + ')').find('.contentNum').append((contentCnt+1));
     //$('.content:eq(' + contentCnt + ')').find('.contentNum').append('<h4>' + (contentCnt+1) + '</h4>');
-    $('.content:eq(' + contentCnt + ')').find('.contentNum').append('<a class="contentDel"><span class="glyphicon glyphicon-remove"></span></a>');
+    //$('.content:eq(' + contentCnt + ')').find('.contentNum').append('<div class="contentDelArea"><a class="contentDel "><span class="glyphicon glyphicon-remove"></span></a></div>');
+    $('.content:eq(' + contentCnt + ')').find('.contentNum').append($('#contentDelAreaTemplate').html());
+    $('.content:eq(' + contentCnt + ')').find('.contentValue').append($('#objectiveTemplate').html());
     contentCnt++;
 	});
 
@@ -188,7 +283,8 @@ $(function() {
       if(index > thisNum) {
         $(item).find('.contentNum').empty();
         $(item).find('.contentNum').append(index);
-        $(item).find('.contentNum').append('<a class="contentDel"><span class="glyphicon glyphicon-remove"></span></a>');
+        //$(item).find('.contentNum').append('<div class="contentDelArea"><a class="contentDel "><span class="glyphicon glyphicon-remove"></span></a></div>');
+        $('.content:eq(' + contentCnt + ')').find('.contentNum').append($('#contentDelAreaTemplate').html());
       }
     });
     $(this).parents('.content').remove();
@@ -252,6 +348,17 @@ $(function() {
 		$(this).parents('.objEtc').remove();
 	});
 
+  $(document).on('click','input:checkbox[name="dateTimeValue"]', function(){
+    if(this.checked) {
+      $(this).parents('.contentValue').find('.date').empty();
+      $(this).parents('.contentValue').find('.date').append('<input type="datetime-local" name="dateTimeValue" class="dateTimeValue form-control" disabled>');
+    }
+    else {
+      $(this).parents('.contentValue').find('.date').empty();
+      $(this).parents('.contentValue').find('.date').append('<input type="date" name="dateValue" class="dateValue form-control" disabled>');
+    }
+  });
+
   $(document).on("change", ".contentType" , function() {
 		$(this).parents('.content').find('.contentValue').empty();
     console.log($(this).val());
@@ -269,10 +376,10 @@ $(function() {
       case '3':
     		$(this).parents('.content').find('.contentValue').append($('#dateTemplate').html());
     		break;
+      // case '4':
+      // 	$(this).parents('.content').find('.contentValue').append($('#dateTimeTemplate').html());
+      // 	break;
       case '4':
-      	$(this).parents('.content').find('.contentValue').append($('#dateTimeTemplate').html());
-      	break;
-      case '5':
         $(this).parents('.content').find('.contentValue').append($('#scoreTemplate').html());
         console.log($(this).parents('.content').find('.scoreValue').length);
         break;

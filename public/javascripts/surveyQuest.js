@@ -50,6 +50,8 @@ $(function() {
     }
   });
 
+
+  console.log($(this).find('[name="scoreValue"]').length);
   $(document).on('click','.questFin', function(){
     if($('[name="email"]').val() == "") {
       alert("이메일을 입력하세요!");
@@ -107,7 +109,7 @@ $(function() {
         }
         else if ($(this).find('[name="scoreValue"]').length != 0) {
           $(this).find('[name="scoreValue"]').each(function() {
-            if($(this).prop('checked')){
+            if($(this).checked){
               if(!isNotEmpty) {
                 isNotEmpty = true;
               }
@@ -118,6 +120,9 @@ $(function() {
           alert("필수를 다 입력해주세요.");
           return false;
         }
+      }
+      else {
+        isNotEmpty = true;
       }
     });
     if(!isNotEmpty) {
@@ -145,14 +150,14 @@ $(function() {
       else if($(this).find('.longSubjective').length != 0) {
         type = 2;
       }
-      else if($(this).find('.date').length != 0) {
+      else if($(this).find('.date').length != 0 || $(this).find('.dateTime').length != 0) {
         type = 3;
       }
-      else if($(this).find('.dateTime').length != 0) {
-        type = 4;
-      }
+      // else if($(this).find('.dateTime').length != 0) {
+      //   type = 4;
+      // }
       else if($(this).find('.scoreValue').length != 0) {
-        type = 5;
+        type = 4;
       }
 
       results.push({

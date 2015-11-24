@@ -8,7 +8,7 @@ block content
         p
           i.fa.fa-circle-o-notch.fa-spin.fa-4x
         p Loading...
-    h1 설문 만들기
+    h1.pageTitle 설문 만들기
     if surveyId
       input#surveyId(type='hidden' name='surveyId' value='#{surveyId}')
     else
@@ -17,173 +17,176 @@ block content
       label 설문 제목
       .row
         .col-sm-9
-          if surveyTitle
-            input.form-control(type='text' name='surveyTitle' id='surveyTitle' value='#{surveyTitle}')
-          else
-            input.form-control(type='text' name='surveyTitle' id='surveyTitle')
+          //여기 넣기
+          //- if surveyTitle
+          //-   input.form-control(type='text' name='surveyTitle' id='surveyTitle' value='#{surveyTitle}')
+          input.form-control(type='text' name='surveyTitle' id='surveyTitle')
         .col-sm-3
           | 마감시간
-          if surveyDeadline
-            - var deadline = moment(surveyDeadline).format('YYYY-MM-DD')
-            input.surveyDeadline(type='date' name='surveyDeadline' id='surveyDeadline' value='#{deadline}')
-          else
-            input.surveyDeadline(type='date' name='surveyDeadline' id='surveyDeadline')
+          //여기 넣기
+          //- if surveyDeadline
+          //-   - var deadline = moment(surveyDeadline).format('YYYY-MM-DD')
+          //-   input.surveyDeadline(type='date' name='surveyDeadline' id='surveyDeadline' value='#{deadline}')
+          //- else
+          input.surveyDeadline(type='date' name='surveyDeadline' id='surveyDeadline')
       label 설문 설명
-      if surveyComment
-        textarea.form-control(rows='5' name='surveyComment' id='surveyComment') #{surveyComment}
-      else
-        textarea.form-control(rows='5' name='surveyComment' id='surveyComment')
+      //여기 넣기
+      //- if surveyComment
+      //-   textarea.form-control(rows='5' name='surveyComment' id='surveyComment') #{surveyComment}
+      //- else
+      textarea.form-control(rows='5' name='surveyComment' id='surveyComment')
     .contentArea
-      each content, idx in contents
-        form.content(action='/new', method='POST')
-          p
-          hr
-          p
-          .contentNum
-            | #{idx+1}
-            a.contentDel
-              span.glyphicon.glyphicon-remove
-          p
-          .row
-            .col-sm-2
-              label 필수 문항
-            .col-sm-10
-              if content.necessary
-                input.contentNecessary(type='checkbox' id='contentNecessary' name='contentNecessary' checked)
-              else
-                input.contentNecessary(type='checkbox' id='contentNecessary' name='contentNecessary')
-          p
-          .row
-            .col-sm-2
-              label 문항 이름
-            .col-sm-10
-              if content.title
-                input.form-control.contentTitle(type='text' name='contentTitle' id='contentTitle' value='#{content.title}')
-              else 
-                input.form-control.contentTitle(type='text' name='contentTitle' id='contentTitle')
-          p
-          .row
-            .col-sm-2
-              label 문항 설명
-            .col-sm-10
-              if content.comment
-                input.form-control.contentComment(type='text' name='contentComment' id='contentComment' value="#{content.comment}")
-              else
-                input.form-control.contentComment(type='text' name='contentComment' id='contentComment')
-          p
-          .row
-            .col-sm-2
-              label 문항 유형
-            .col-sm-10
-              select.form-control.contentType(name='contentType' id='contentType')
-                if content.type == 0
-                  option(selected value='0') 객관식
-                else
-                  option(value='0') 객관식
-                if content.type == 1
-                  option(selected value='1') 단일 입력
-                else
-                  option(value='1') 단일 입력
-                if content.type == 2
-                  option(selected value='2') 의견
-                else
-                  option(value='2') 의견
-                if content.type == 3
-                  option(selected value='3') 날짜 입력
-                else
-                  option(value='3') 날짜 입력
-                if content.type == 4
-                  option(selected value='4') 날짜,시간 입력
-                else
-                  option(value='4') 점수 선택
-                if content.type == 5
-                  option(selected value='5') 점수 선택
-                else
-                  option(value='5') 날짜,시간 입력
-          p
-          .contentValue
-            case content.type
-              when '0'
-                .row.objMulti
-                  .col-sm-2
-                    label 다중 선택 가능
-                  .col-sm-10
-                    if content.objMultiValue
-                      input.objMultiValue(type='checkbox' id='objMultiValue' name='objMultiValue' checked)
-                    else
-                      input.objMultiValue(type='checkbox' id='objMultiValue' name='objMultiValue')
-                each optValue, i in content.optValues
-                  if i == 0
-                    .row.objOpt
-                      .col-sm-2
-                        label 문항 설정
-                      .col-sm-10
-                        input(type='radio' disabled)
-                        input.objOptValue(type='text' id='objOptValue' name='objOptValue' value='#{optValue}')
-                  else
-                    .row.objOpt
-                      .col-sm-2
-                      .col-sm-10
-                        input(type='radio' disabled)
-                        input.objOptValue(type='text' id='objOptValue' name='objOptValue' value='#{optValue}')
-                        a.objOptDel
-                          span.glyphicon.glyphicon-remove
-                if content.etcValue
-                  .row.objEtc
-                    .col-sm-2
-                    .col-sm-10
-                      input(type='radio' disabled)
-                      input.objEtcValue(type='text' id='objEtcValue' name='objEtcValue' value='기타' readonly)
-                      a.objEtcDel
-                        span.glyphicon.glyphicon-remove
-                  .objBtnArea
-                    p
-                    .button.btn.btn-primary.objOptCreate(type='button') 옵션 추가
-                else
-                  .objBtnArea
-                    p
-                    .button.btn.btn-primary.objOptCreate(type='button') 옵션 추가
-                    .button.btn.btn-primary.objEtcCreate(type='button') 기타 추가
-              when '1'
-                .subjective
-                  input.form-control.subjectiveValue(type='text' name='subjectiveValue' disabled)
-              when '2'
-                .longSubjective
-                  textarea.form-control.longSubjectiveValue(rows='5' name='longSubjectiveValue' disabled)
-              when '3'
-                .date
-                  input.dateValue(type='date' name='dateValue' disabled)
-              when '4'
-                .dateTime
-                  input.dateTimeValue(type='datetime-local' name='dateTimeValue' disabled)
-              when '5'
-                .score
-                  .row
-                    .col-sm-2
-                    .col-sm-10
-                      input.scoreValue(type='radio' name='scoreValue' value='1' disabled)
-                      | 1점
-                  .row
-                    .col-sm-2
-                    .col-sm-10
-                      input.scoreValue(type='radio' name='scoreValue' value='2' disabled)
-                      | 2점
-                  .row
-                    .col-sm-2
-                    .col-sm-10
-                      input.scoreValue(type='radio' name='scoreValue' value='3' disabled)
-                      | 3점
-                  .row
-                    .col-sm-2
-                    .col-sm-10
-                      input.scoreValue(type='radio' name='scoreValue' value='4' disabled)
-                      | 4점
-                  .row
-                    .col-sm-2
-                    .col-sm-10
-                      input.scoreValue(type='radio' name='scoreValue' value='5' disabled)
-                      | 5점
-          p
+      //- each content, idx in contents
+      //-   form.content(action='/new', method='POST')
+      //-     p
+      //-     hr
+      //-     p
+      //-     .contentNum
+      //-       | #{idx+1}
+      //-       .contentDelArea
+      //-         a.contentDel
+      //-           span.glyphicon.glyphicon-remove
+      //-     p
+      //-     .row
+      //-       .col-sm-2
+      //-         label 필수 문항
+      //-       .col-sm-10
+      //-         if content.necessary
+      //-           input.contentNecessary(type='checkbox' id='contentNecessary' name='contentNecessary' checked)
+      //-         else
+      //-           input.contentNecessary(type='checkbox' id='contentNecessary' name='contentNecessary')
+      //-     p
+      //-     .row
+      //-       .col-sm-2
+      //-         label 문항 이름
+      //-       .col-sm-10
+      //-         if content.title
+      //-           input.form-control.contentTitle(type='text' name='contentTitle' id='contentTitle' value='#{content.title}')
+      //-         else 
+      //-           input.form-control.contentTitle(type='text' name='contentTitle' id='contentTitle')
+      //-     p
+      //-     .row
+      //-       .col-sm-2
+      //-         label 문항 설명
+      //-       .col-sm-10
+      //-         if content.comment
+      //-           input.form-control.contentComment(type='text' name='contentComment' id='contentComment' value="#{content.comment}")
+      //-         else
+      //-           input.form-control.contentComment(type='text' name='contentComment' id='contentComment')
+      //-     p
+      //-     .row
+      //-       .col-sm-2
+      //-         label 문항 유형
+      //-       .col-sm-10
+      //-         select.form-control.contentType(name='contentType' id='contentType')
+      //-           if content.type == 0
+      //-             option(selected value='0') 객관식
+      //-           else
+      //-             option(value='0') 객관식
+      //-           if content.type == 1
+      //-             option(selected value='1') 단일 입력
+      //-           else
+      //-             option(value='1') 단일 입력
+      //-           if content.type == 2
+      //-             option(selected value='2') 의견
+      //-           else
+      //-             option(value='2') 의견
+      //-           if content.type == 3
+      //-             option(selected value='3') 날짜 입력
+      //-           else
+      //-             option(value='3') 날짜 입력
+      //-           if content.type == 4
+      //-             option(selected value='4') 날짜,시간 입력
+      //-           else
+      //-             option(value='4') 점수 선택
+      //-           if content.type == 5
+      //-             option(selected value='5') 점수 선택
+      //-           else
+      //-             option(value='5') 날짜,시간 입력
+      //-     p
+      //-     .contentValue
+      //-       case content.type
+      //-         when '0'
+      //-           .row.objMulti
+      //-             .col-sm-2
+      //-               label 다중 선택 가능
+      //-             .col-sm-10
+      //-               if content.objMultiValue
+      //-                 input.objMultiValue(type='checkbox' id='objMultiValue' name='objMultiValue' checked)
+      //-               else
+      //-                 input.objMultiValue(type='checkbox' id='objMultiValue' name='objMultiValue')
+      //-           each optValue, i in content.optValues
+      //-             if i == 0
+      //-               .row.objOpt
+      //-                 .col-sm-2
+      //-                   label 문항 설정
+      //-                 .col-sm-10
+      //-                   input(type='radio' disabled)
+      //-                   input.objOptValue(type='text' id='objOptValue' name='objOptValue' value='#{optValue}')
+      //-             else
+      //-               .row.objOpt
+      //-                 .col-sm-2
+      //-                 .col-sm-10
+      //-                   input(type='radio' disabled)
+      //-                   input.objOptValue(type='text' id='objOptValue' name='objOptValue' value='#{optValue}')
+      //-                   a.objOptDel
+      //-                     span.glyphicon.glyphicon-remove
+      //-           if content.etcValue
+      //-             .row.objEtc
+      //-               .col-sm-2
+      //-               .col-sm-10
+      //-                 input(type='radio' disabled)
+      //-                 input.objEtcValue(type='text' id='objEtcValue' name='objEtcValue' value='기타' readonly)
+      //-                 a.objEtcDel
+      //-                   span.glyphicon.glyphicon-remove
+      //-             .objBtnArea
+      //-               p
+      //-               .button.btn.btn-primary.objOptCreate(type='button') 옵션 추가
+      //-           else
+      //-             .objBtnArea
+      //-               p
+      //-               .button.btn.btn-primary.objOptCreate(type='button') 옵션 추가
+      //-               .button.btn.btn-primary.objEtcCreate(type='button') 기타 추가
+      //-         when '1'
+      //-           .subjective
+      //-             input.form-control.subjectiveValue(type='text' name='subjectiveValue' disabled)
+      //-         when '2'
+      //-           .longSubjective
+      //-             textarea.form-control.longSubjectiveValue(rows='5' name='longSubjectiveValue' disabled)
+      //-         when '3'
+      //-           .date
+      //-             input.dateValue(type='date' name='dateValue' disabled)
+      //-         when '4'
+      //-           .dateTime
+      //-             input.dateTimeValue(type='datetime-local' name='dateTimeValue' disabled)
+      //-         when '5'
+      //-           .score
+      //-             .row
+      //-               .col-sm-2
+      //-               .col-sm-10
+      //-                 input.scoreValue(type='radio' name='scoreValue' value='1' disabled)
+      //-                 | 1점
+      //-             .row
+      //-               .col-sm-2
+      //-               .col-sm-10
+      //-                 input.scoreValue(type='radio' name='scoreValue' value='2' disabled)
+      //-                 | 2점
+      //-             .row
+      //-               .col-sm-2
+      //-               .col-sm-10
+      //-                 input.scoreValue(type='radio' name='scoreValue' value='3' disabled)
+      //-                 | 3점
+      //-             .row
+      //-               .col-sm-2
+      //-               .col-sm-10
+      //-                 input.scoreValue(type='radio' name='scoreValue' value='4' disabled)
+      //-                 | 4점
+      //-             .row
+      //-               .col-sm-2
+      //-               .col-sm-10
+      //-                 input.scoreValue(type='radio' name='scoreValue' value='5' disabled)
+      //-                 | 5점
+      //-     p
     p
     hr
     p
@@ -208,50 +211,50 @@ block content
         .col-sm-2
           label 필수 문항
         .col-sm-10
-          input.contentNecessary(type='checkbox' id='contentNecessary' name='contentNecessary')
+          input.contentNecessary(type='checkbox' name='contentNecessary')
       p
       .row
         .col-sm-2
           label 문항 이름
         .col-sm-10
-          input.form-control.contentTitle(type='text' name='contentTitle' id='contentTitle')  
+          input.form-control.contentTitle(type='text' name='contentTitle')  
       p
       .row
         .col-sm-2
           label 문항 설명
         .col-sm-10
-          input.form-control.contentComment(type='text' name='contentComment' id='contentComment')
+          input.form-control.contentComment(type='text' name='contentComment')
       p
       .row
         .col-sm-2
           label 문항 유형
         .col-sm-10
-          select.form-control.contentType(name='contentType' id='contentType')
+          select.form-control.contentType(name='contentType')
             option(selected value='0') 객관식
             option(value='1') 단일 입력
             option(value='2') 의견
             option(value='3') 날짜 입력
-            option(value='4') 날짜,시간 입력
-            option(value='5') 점수 선택
+            option(value='4') 점수 선택
       p
       .contentValue
-        .row.objMulti
-          .col-sm-2
-            label 다중 선택 가능
-          .col-sm-10
-            input.objMultiValue(type='checkbox' id='objMultiValue' name='objMultiValue') 
-        .row.objOpt
-          .col-sm-2
-            label 문항 설정
-          .col-sm-10
-            input(type='radio' disabled)
-            input.objOptValue(type='text' id='objOptValue' name='objOptValue')
-        .row.objBtnArea
-          .col-sm-2
-          .col-sm-10
-            input(type='radio' disabled)
-            input.objOptCreate(type='text' value='옵션 추가' readonly)
-            a.objEtcCreate 기타 추가
+      //-   .row.objMulti
+      //-     .col-sm-2
+      //-       label 다중 선택 가능
+      //-     .col-sm-10
+      //-       input.objMultiValue(type='checkbox' name='objMultiValue') 
+      //-   p
+      //-   .row.objOpt
+      //-     .col-sm-2
+      //-       label 문항 설정
+      //-     .col-sm-10
+      //-       input(type='radio' disabled)
+      //-       input.objOptValue(type='text' name='objOptValue')
+      //-   .row.objBtnArea
+      //-     .col-sm-2
+      //-     .col-sm-10
+      //-       input(type='radio' disabled)
+      //-       input.objOptCreate(type='text' value='옵션 추가' readonly)
+      //-       a.objEtcCreate 기타 추가
           //-   
           //- p
           //- .button.btn.btn-primary.objOptCreate(type='button') 옵션 추가
@@ -278,7 +281,7 @@ block content
       .col-sm-2
       .col-sm-10
         input(type='radio' disabled)
-        input.objEtcValue(type='text' id='objEtcValue' name='objEtcValue' value='기타' readonly)
+        input.objEtcValue(type='text' name='objEtcValue' value='기타' readonly)
         a.objEtcDel
           span.glyphicon.glyphicon-remove
       
@@ -287,7 +290,7 @@ block content
       .col-sm-2
       .col-sm-10
         input(type='radio' disabled)
-        input.objOptValue(type='text' id='objOptValue' name='objOptValue')
+        input.objOptValue(type='text' name='objOptValue')
         a.objOptDel
           span.glyphicon.glyphicon-remove
   
@@ -296,14 +299,14 @@ block content
       .col-sm-2
         label 다중 선택 가능
       .col-sm-10
-        input.objMultiValue(type='checkbox' id='objMultiValue' name='objMultiValue') 
+        input.objMultiValue(type='checkbox' name='objMultiValue') 
+    p
     .row.objOpt
       .col-sm-2
         label 문항 설정
       .col-sm-10
         input(type='radio' disabled)
-        input.objOptValue(type='text' id='objOptValue' name='objOptValue')
-    .objBtnArea
+        input.objOptValue(type='text' name='objOptValue')
     .row.objBtnArea
       .col-sm-2
       .col-sm-10
@@ -329,13 +332,19 @@ block content
       textarea.form-control.longSubjectiveValue(rows='5' name='longSubjectiveValue' disabled)
       
   script(type='text/template', id='dateTemplate')
+    .row.dateTime
+      .col-sm-2
+        label 시간 선택 가능
+      .col-sm-10
+        input.dateTimeValue(type='checkbox' name='dateTimeValue')
+    p 
     .date
       input.dateValue.form-control(type='date' name='dateValue' disabled)
   
-  script(type='text/template', id='dateTimeTemplate')
-    .dateTime
-      input.dateTimeValue.form-control(type='datetime-local' name='dateTimeValue' disabled)
-      
+  //- script(type='text/template', id='dateTimeTemplate')
+  //-   .dateTime
+  //-     input.dateTimeValue.form-control(type='datetime-local' name='dateTimeValue' disabled)
+  
   script(type='text/template', id='scoreTemplate')
     .score
       .row
@@ -363,5 +372,10 @@ block content
         .col-sm-10
           input.scoreValue(type='radio' name='scoreValue' value='5' disabled)
           | 5점
+          
+  script(type='text/template', id='contentDelAreaTemplate')
+    .contentDelArea
+      a.contentDel
+        span.glyphicon.glyphicon-remove
   
   script(type='text/javascript', src='/javascripts/surveyNew.js')

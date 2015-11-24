@@ -2,7 +2,7 @@ extends ../layout
 
 block content
   #main.container
-    h1 설문 결과
+    h1.pageTitle 설문 결과
     each score, idx in scores
       h4 #{idx+1}. #{score.name}
       if score.necessary
@@ -29,10 +29,6 @@ block content
           each value in score.values
             p #{value}
         when '4'
-          b 날짜 시간 내용
-          each value in score.values
-            p #{value}
-        when '5'
           p 1점 : #{score.values[0]}
           p 2점 : #{score.values[1]}
           p 3점 : #{score.values[2]}

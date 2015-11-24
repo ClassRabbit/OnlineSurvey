@@ -126,6 +126,19 @@ router.get('/edit', needAuth, function(req, res, next) {
   });
 });
 
+router.post('/editing', needAuth, function(req, res, next) {
+  console.log("!!!!!init!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+  console.log(req.body.surveyId);
+  Survey.findById(req.body.surveyId,function(err, survey){
+    if (err) {
+      return next(err);
+    }
+    else {
+      res.status(201).json(survey);
+    }
+  });
+});
+
 router.get('/complete', needAuth, function(req, res, next) {
   Survey.find({user: req.user.id, complete: true},function(err, surveys){
     if(err) {
@@ -135,7 +148,7 @@ router.get('/complete', needAuth, function(req, res, next) {
   });
 });
 
-router.get('/complete/:id', needAuth, function(req, res, next) {
+router.get('/complete/:id',  function(req, res, next) {
   Survey.findById({_id: req.params.id}, function(err, survey) {
     if (err) {
       return next(err);
@@ -146,10 +159,13 @@ router.get('/complete/:id', needAuth, function(req, res, next) {
         return next(err);
       }
       var scores = [];
+      console.log('길이' + contents.length);
       for(var idx in contents) {
         var score = {};
         score.name = contents[idx].title;
         score.necessary = contents[idx].necessary;
+        console.log(scores[idx]);
+        console.log('what type' + contents[idx].type);
         score.type = contents[idx].type;
         score.values = [];
         if (contents[idx].type == '0') {
@@ -164,7 +180,8 @@ router.get('/complete/:id', needAuth, function(req, res, next) {
             score.etcCnt = 0;
           }
         }
-        else if(contents[idx].type == '5') {
+        else if(contents[idx].type == '4') {
+          console.log('array make clear');
           score.values = [0, 0, 0, 0, 0];
         }
         scores.push(score);
@@ -172,6 +189,8 @@ router.get('/complete/:id', needAuth, function(req, res, next) {
 
       for(var a in quests) {
         var results = JSON.parse(quests[a].results);
+        console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
+        console.log(results);
         for(var b in results) {
           switch(results[b].type) {
             case 0:
@@ -203,12 +222,12 @@ router.get('/complete/:id', needAuth, function(req, res, next) {
                 scores[results[b].index].values.push(results[b].answer[0].value);
               }
               break;
+            // case 4:
+            //   if(results[b].answer.length !== 0) {
+            //     scores[results[b].index].values.push(results[b].answer[0].value);
+            //   }
+            //   break;
             case 4:
-              if(results[b].answer.length !== 0) {
-                scores[results[b].index].values.push(results[b].answer[0].value);
-              }
-              break;
-            case 5:
               if(results[b].answer.length !== 0) {
                 switch (results[b].answer[0].value) {
                   case '1':
@@ -232,6 +251,7 @@ router.get('/complete/:id', needAuth, function(req, res, next) {
           }
         }
       }
+      console.log(scores);
       res.render('survey/result',{scores: scores});
     });
   });
@@ -247,11 +267,11 @@ router.get('/edit/:id', needAuth, function(req, res, next) {    //설문 수정
       return next(err);
     }
     res.render('survey/new', {
-      surveyId: survey._id,
-      surveyTitle: survey.title,
-      surveyDeadline: survey.deadline,
-      surveyComment: survey.comment,
-      contents: JSON.parse(survey.contents)
+      surveyId: survey._id
+      // surveyTitle: survey.title,
+      // surveyDeadline: survey.deadline,
+      // surveyComment: survey.comment,
+      // contents: JSON.parse(survey.contents)
     });
   });
 });
