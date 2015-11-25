@@ -21,19 +21,14 @@ router.get('/:id', function(req, res, next) {            //설문 진행
 });
 
 router.post('/new', function(req, res, next) {
-  console.log('in hereeee');
-  //survey: req.body.surveyId,
-  Quest.find({email: req.body.email}, function(err, existQuest) {
+  Quest.find({survey: req.body.surveyId, email: req.body.email}, function(err, existQuest) {
     if (err) {
-      console.log('??');
       return next(err);
     }
     if(existQuest.length !== 0) {
-      console.log('???');
       return res.status(201).json(false);
     }
     else {
-      console.log('????');
       var quest = new Quest({
         survey: req.body.surveyId,
         email: req.body.email,

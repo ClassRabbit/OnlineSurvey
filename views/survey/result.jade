@@ -25,27 +25,32 @@ block content
                           b 필수
                         case scores[i].type
                           when '0'
-                            each value in scores[i].values
-                              p #{value.text} : #{value.cnt}
-                            if scores[i].etcValues
-                              p 기타 : #{scores[i].etcCnt}
-                              .etcValues
-                                b 기타 내용
-                                textarea.form-control(rows='5')
-                                  each etcValue in scores[i].etcValues
-                                    | #{etcValue}    
+                            .scoreType1
+                              each value in scores[i].values
+                                p #{value.text} : 
+                                  span.opt #{value.cnt}
+                              if scores[i].etcValues
+                                p 기타 : 
+                                  span.opt #{scores[i].etcCnt}
+                                .etcValues
+                                  b 기타 내용
+                                  textarea.form-control(rows='5')
+                                    each etcValue in scores[i].etcValues
+                                      | #{etcValue}    
                           when '4'
                             .scoreType4
+                              p 응답자 수 : 
+                                span.respondent 
                               p 1점 : 
-                                span.1point #{scores[i].values[0]}
+                                span.1point #{scores[i].values[0]}명
                               p 2점 : 
-                                span.2point #{scores[i].values[1]}
+                                span.2point #{scores[i].values[1]}명
                               p 3점 : 
-                                span.3point #{scores[i].values[2]}
+                                span.3point #{scores[i].values[2]}명
                               p 4점 : 
-                                span.4point #{scores[i].values[3]}
+                                span.4point #{scores[i].values[3]}명
                               p 5점 : 
-                                span.5point #{scores[i].values[4]}
+                                span.5point #{scores[i].values[4]}명
                               p 평균 : 
                                 span.average  
                       .modal-footer
@@ -56,7 +61,7 @@ block content
         each tds in tdsArr
           tr
             each td in tds
-              th #{td}
+              td #{td}
               
               
   script(type='text/javascript', src='/javascripts/surveyResult.js')

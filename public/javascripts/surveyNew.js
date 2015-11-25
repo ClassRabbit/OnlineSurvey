@@ -165,7 +165,7 @@ $(function() {
       },
       success: function(data) {
         $('#main').removeClass('loading');
-        window.location.replace('/main');
+        window.location.replace('/');
 
       },
       complete: function() {
