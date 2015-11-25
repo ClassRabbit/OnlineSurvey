@@ -10,10 +10,53 @@ block content
       thead
         tr
           th 응답시간
-          each content in contents
-            th #{content.title}
+          each content, i in contents
+            if scores[i].type == 0 || scores[i].type == 4
+              th
+                a(data-toggle='modal' data-target='#modal_#{i}') #{content.title}
+                .modal.fade(role='dialog' id='modal_#{i}')
+                  .modal-dialog
+                    .modal-content
+                      .modal-header
+                        button.close(type='button' data-dismiss='modal') &times;
+                        h4.modal-title #{content.title}
+                      .modal-body
+                        if scores[i].necessary
+                          b 필수
+                        case scores[i].type
+                          when '0'
+                            each value in scores[i].values
+                              p #{value.text} : #{value.cnt}
+                            if scores[i].etcValues
+                              p 기타 : #{scores[i].etcCnt}
+                              .etcValues
+                                b 기타 내용
+                                textarea.form-control(rows='5')
+                                  each etcValue in scores[i].etcValues
+                                    | #{etcValue}    
+                          when '4'
+                            .scoreType4
+                              p 1점 : 
+                                span.1point #{scores[i].values[0]}
+                              p 2점 : 
+                                span.2point #{scores[i].values[1]}
+                              p 3점 : 
+                                span.3point #{scores[i].values[2]}
+                              p 4점 : 
+                                span.4point #{scores[i].values[3]}
+                              p 5점 : 
+                                span.5point #{scores[i].values[4]}
+                              p 평균 : 
+                                span.average  
+                      .modal-footer
+                        button.btn.btn-default(data-dismiss='modal' type='button') Close
+            else
+              th #{content.title}
       tbody
         each tds in tdsArr
           tr
             each td in tds
               th #{td}
+              
+              
+  script(type='text/javascript', src='/javascripts/surveyResult.js')
