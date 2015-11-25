@@ -159,25 +159,42 @@ router.get('/complete/:id', function(req, res, next) {
         return next(err);
       }
       var tdsArr = [];            //tds 는 로우의 td들, tdsArr은 tds의 배열
-      for(var idx in quests) {
-        var results = JSON.parse(quests[idx].results);
+      for(var idx in quests) {                          //응답수만큼
+        var results = JSON.parse(quests[idx].results);    //응답의 결과들
         var tds = [];
         tds.push(quests[idx].createdAt);
         for(var i in results) {
           if(results[i].answer.length != 1) {
             var str = '';
             for(var y in results[i].answer) {
-              str += results[i].answer[y].value + ' ';
-              console.log('마지막 트라이' + str);
+              //다중입력, 기타 입력시
+              //console.log('마지막 트라이' + str);
+              //console.log(contents[i].optValues[results[i].answer[y].value]);
+              if(results[i].answer[y].value == 'optEtc' || results[i].answer[y].value == 'optMultiEtc') {
+                continue;  //기타입력
+              }
+              else {
+                if(results[i].answer[y].name == 'optEtcText' || results[i].answer[y].name == 'optMultiEtcText') {
+                  str += results[i].answer[y].value;
+                }
+                else {
+                    str += contents[i].optValues[results[i].answer[y].value] + ' '; //다중입력
+                }
+
+              }
 
             }
             tds.push(str);
           }
           else {
             for(var j in results[i].answer) {
+              if(results[i].answer[j].name == 'opt' ||results[i].answer[j].name == 'optMulti') {
+                tds.push(contents[i].optValues[results[i].answer[j].value]);
+              }
+              else {
                 console.log(results[i].answer[j].value);
                 tds.push(results[i].answer[j].value);
-
+              }
             }
           }
 
