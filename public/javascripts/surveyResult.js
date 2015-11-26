@@ -19,6 +19,11 @@ $(function() {
     cnt += parseInt($(this).find('.4point').text());
     sum += ($(this).find('.5point').text()*5);
     cnt += parseInt($(this).find('.5point').text());
+    $(this).find('.1point').text($(this).find('.1point').text() + '명');
+    $(this).find('.2point').text($(this).find('.2point').text() + '명');
+    $(this).find('.3point').text($(this).find('.3point').text() + '명');
+    $(this).find('.4point').text($(this).find('.4point').text() + '명');
+    $(this).find('.5point').text($(this).find('.5point').text() + '명');
     $(this).find('.respondent').text(cnt + '명');
     if(sum/cnt) {
       $(this).find('.average').text((sum/cnt) + '점');

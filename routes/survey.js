@@ -198,9 +198,12 @@ router.get('/complete/:id', function(req, res, next) {
         var results = quests[a].results;    //응답의 결과들
         var tds = [];
         tds.push(quests[a].createdAt);
-        for(var b in results) {
+        for(var b in results) {           //한문제당 응답
+          console.log('b is ' + b);
+          console.log('results.length is ' + results.length);
+          if(b == '_schema') break;
           switch(results[b].type) {
-            case 0:
+            case '0':
               for(var c in results[b].answer) {
                 if(results[b].answer[c].value == 'optEtc' || results[b].answer[c].value == 'optMultiEtc') {
                   continue;
@@ -211,25 +214,26 @@ router.get('/complete/:id', function(req, res, next) {
                 if(results[b].answer[c].name == 'optEtcText' || results[b].answer[c].name == 'optMultiEtcText') {
                   scores[results[b].index].etcValues.push(results[b].answer[c].value);
                   scores[results[b].index].etcCnt++;
+                  console.log('etcCnt ++ : ' + scores[results[b].index].etcCnt);
                 }
               }
               break;
-            case 1:
+            case '1':
               if(results[b].answer.length !== 0) {
                 scores[results[b].index].values.push(results[b].answer[0].value);
               }
               break;
-            case 2:
+            case '2':
               if(results[b].answer.length !== 0) {
                 scores[results[b].index].values.push(results[b].answer[0].value);
               }
               break;
-            case 3:
+            case '3':
               if(results[b].answer.length !== 0) {
                 scores[results[b].index].values.push(results[b].answer[0].value);
               }
               break;
-            case 4:
+            case '4':
               if(results[b].answer.length !== 0) {
                 switch (results[b].answer[0].value) {
                   case '1':
@@ -251,7 +255,7 @@ router.get('/complete/:id', function(req, res, next) {
               }
               break;
           }
-
+          console.log('results is ' + results[b]);
           if(results[b].answer.length != 1) {
             var str = '';
             for(var e in results[b].answer) {
@@ -285,6 +289,10 @@ router.get('/complete/:id', function(req, res, next) {
       }
 
       console.log(scores);
+      for(var tex in scores) {
+        console.log(scores[tex].values);
+
+      }
       //res.render('survey/result',{scores: scores});
       res.render('survey/result',{
         contents: contents,
