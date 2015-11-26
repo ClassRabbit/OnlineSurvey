@@ -26,12 +26,15 @@ block content
                         case scores[i].type
                           when '0'
                             .scoreType1
+                              .chartArea
                               each value in scores[i].values
-                                p #{value.text} : 
-                                  span.opt #{value.cnt}
+                                p.opt 
+                                  span.optName #{value.text}
+                                  span.optValue #{value.cnt}
                               if scores[i].etcValues
-                                p 기타 : 
-                                  span.opt #{scores[i].etcCnt}
+                                p.opt
+                                  span.optName 기타
+                                  span.optValue #{scores[i].etcCnt}
                                 .etcValues
                                   b 기타 내용
                                   textarea.form-control(rows='5')

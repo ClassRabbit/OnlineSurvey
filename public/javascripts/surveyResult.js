@@ -6,6 +6,41 @@ $(function() {
   //   });
   // });
 
+  $('.scoreType1').each(function(){
+    var chart = [];
+    var cnt = 0;
+    $(this).find('.opt').each(function(){
+      chart.push({
+        name: $(this).find('.optName').text(),
+        value: $(this).find('.optValue').text()
+      });
+      cnt += parseInt($(this).find('.optValue').text());
+    });
+    //$(this).append('<table> ');
+    //var chartHtml = '<table>';
+    $(this).find('.opt').empty();
+    for(var i in chart) {
+      var percent = Math.round(chart[i].value/cnt*100);
+      var width = Math.round((percent/100));
+      var name = chart[i].name
+      $(this).find('.chartArea').append('<div class="row">');
+      $(this).find('.chartArea').append('<div class="col-sm-2">'+ chart[i].name +' : </div>');
+      $(this).find('.chartArea').append('<div class="col-sm-10">'+ '<img src="/image/chart.jpg" width="'+percent+'%" height="15px"> '+ chart[i].value +'표(' +  percent +'%)</div>');
+      // $(this).append('<tr><td>' + name + '</td><td><img src="/image/chart.jpg" width="'+percent+'%" height="15px">' +  percent + '%</td></tr>');
+      $(this).find('.chartArea').append('</div>');
+      $(this).find('.chartArea').append('<br>');
+    }
+    //$(this).append('</table>');
+
+
+
+    for(var i in chart) {
+      console.log(chart[i]);
+    }
+  });
+
+
+
   $('.scoreType4').each(function(){
     var sum = 0;
     var cnt = 0;
