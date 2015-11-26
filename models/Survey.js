@@ -5,7 +5,7 @@ var mongoose = require('mongoose'),
 var schema = new Schema({
   title: {type: String},
   comment: {type: String},
-  contents: {type: String},
+  contents: {type: Array},
   deadline: {type: Date},
   complete: {type: Boolean},
   user: {type: Schema.Types.ObjectId, index: true, required: true},

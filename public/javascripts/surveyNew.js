@@ -22,7 +22,8 @@ $(function() {
           $('#surveyDeadline').val(moment(survey.deadline).format('YYYY-MM-DD'));
         }
         $('#surveyComment').val(survey.comment);
-        var contents = JSON.parse(survey.contents);
+        //var contents = JSON.parse(survey.contents);
+        var contents = survey.contents;
         for(i in contents) {
           $('.contentArea').append($('#contentTemplate').html());
           $('.content:eq(' + contentCnt + ')').addClass('active');
@@ -151,22 +152,20 @@ $(function() {
       }
       contents.push(content);
     });
-
     $.ajax({
       type: 'POST',
       url: '/survey/new',
-      dataType: 'json',
       data: {
         surveyId: surveyId,
         surveyTitle: surveyTitle,
         surveyDeadline: surveyDeadline,
         surveyComment: surveyComment,
-        contents: JSON.stringify(contents)
+        //contents: JSON.stringify(contents)
+        contents: contents
       },
       success: function(data) {
         $('#main').removeClass('loading');
         window.location.replace('/');
-
       },
       complete: function() {
 
@@ -246,7 +245,7 @@ $(function() {
         surveyTitle: surveyTitle,
         surveyDeadline: surveyDeadline,
         surveyComment: surveyComment,
-        contents: JSON.stringify(contents)
+        contents: contents
       },
       success: function(data) {
         console.log(data);

@@ -174,7 +174,7 @@ $(function() {
       data: {
         surveyId: surveyId,
         email: email,
-        results: JSON.stringify(results)
+        results: results
       },
       success: function(result) {
         //$('#main').removeClass('loading');

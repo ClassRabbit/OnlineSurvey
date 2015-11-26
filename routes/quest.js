@@ -8,13 +8,13 @@ router.get('/:id', function(req, res, next) {            //설문 진행
     if (err) {
       return next(err);
     }
-    var test = JSON.parse(survey.contents);
+    //var test = JSON.parse(survey.contents);
     res.render('quest/new', {
       surveyId: survey._id,
       surveyTitle: survey.title,
       surveyDeadline: survey.deadline,
       surveyComment: survey.comment,
-      contents: JSON.parse(survey.contents),
+      contents: survey.contents,
       sureveyComplete: true
     });
   });
@@ -34,9 +34,9 @@ router.post('/new', function(req, res, next) {
         email: req.body.email,
         results: req.body.results
       });
-      console.log(req.body.surveyId);
-      console.log(req.body.email);
-      console.log(req.body.results);
+      // console.log(req.body.surveyId);
+      // console.log(req.body.email);
+      // console.log(req.body.results);
       quest.save(function (err) {
         if (err) {
           return next(err);

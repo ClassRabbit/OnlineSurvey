@@ -21,6 +21,8 @@ router.get('/new', needAuth, function(req, res, next) {         //설문 새로 
 });
 
 router.post('/new', function(req, res, next) {
+  console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
+  console.log(req.body);
   if(req.body.surveyId){
     Survey.findById(req.body.surveyId, function(err, existSurvey){
       if (err) {
@@ -153,7 +155,7 @@ router.get('/complete/:id', function(req, res, next) {
     if (err) {
       return next(err);
     }
-    var contents = JSON.parse(survey.contents);
+    var contents = survey.contents;
     Quest.find({survey: req.params.id}, function(err, quests) {
       if (err) {
         return next(err);
@@ -193,7 +195,7 @@ router.get('/complete/:id', function(req, res, next) {
 
       var tdsArr = [];            //tds 는 로우의 td들, tdsArr은 tds의 배열
       for(var a in quests) {                          //응답수만큼
-        var results = JSON.parse(quests[a].results);    //응답의 결과들
+        var results = quests[a].results;    //응답의 결과들
         var tds = [];
         tds.push(quests[a].createdAt);
         for(var b in results) {
