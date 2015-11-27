@@ -22,10 +22,11 @@ $(function() {
       var width = Math.round((percent/100));
       var name = chart[i].name
       $(this).find('.chartArea').append('<div class="row">');
-      $(this).find('.chartArea').append('<div class="col-sm-2">'+ chart[i].name +' : </div>');
-      $(this).find('.chartArea').append('<div class="col-sm-10">'+ '<img src="/image/chart.jpg" width="'+percent+'%" height="15px"> '+ chart[i].value +'표(' +  percent +'%)</div>');
+      $(this).find('.chartArea').append('<div class="col-sm-2">'+ chart[i].name +'</div>');
+      //$(this).find('.chartArea').append('<div class="col-sm-7">'+ '<img src="/image/chart.jpg" width="'+percent+'%" height="15px"> '+ chart[i].value +'표(' +  percent +'%)</div>');
+      $(this).find('.chartArea').append('<div class="col-sm-7">'+ '<img src="/image/chart.jpg" width="'+percent+'%" height="15px"></div>');
+      $(this).find('.chartArea').append('<div class="col-sm-3">'+ chart[i].value +'표(' +  percent +'%)' +'</div>');
       $(this).find('.chartArea').append('</div>');
-      $(this).find('.chartArea').append('<br>');
     }
   });
 
@@ -72,10 +73,10 @@ $(function() {
       var width = Math.round((percent/100));
       var name = chart[i].name
       $(this).find('.chartArea').append('<div class="row">');
-      $(this).find('.chartArea').append('<div class="col-sm-2">'+ chart[i].name +' : </div>');
-      $(this).find('.chartArea').append('<div class="col-sm-10">'+ '<img src="/image/chart.jpg" width="'+percent+'%" height="15px"> '+ chart[i].value +'표(' +  percent +'%)</div>');
+      $(this).find('.chartArea').append('<div class="col-sm-2">'+ chart[i].name +'</div>');
+      $(this).find('.chartArea').append('<div class="col-sm-7">'+ '<img src="/image/chart.jpg" width="'+percent+'%" height="15px"></div>');
+      $(this).find('.chartArea').append('<div class="col-sm-3">'+ chart[i].value +'표(' +  percent +'%)' +'</div>');
       $(this).find('.chartArea').append('</div>');
-      $(this).find('.chartArea').append('<br>');
     }
 
     $(this).find('.respondent').text(cnt + '명');
@@ -89,9 +90,32 @@ $(function() {
 
   $('table').find('tr:gt(0)').each(function() {
     console.log($(this).find('td:first').text());
-    var test = $(this).find('td:first');
-    console.log(moment(test).format('MMMM Do YYYY, h:mm:ss a'));
+    var date = new Date($(this).find('td:first').text());
+    $(this).find('td:first').text(moment(date).format('YYYY-MM-DD h:mm:ss a'));
+    console.log(moment(date).format('YYYY-MM-DD h:mm:ss a'));
   });
   //$('#surveyDeadline').val(moment(survey.deadline).format('YYYY-MM-DD'));
+
+  $("#btnExcel").live("click", function () {
+        var a = document.createElement('a');
+        var data_type = 'data:application/vnd.ms-excel';
+        var table_html = encodeURIComponent($("#tableName").html());
+        a.href = data_type + ', ' + table_html;
+        a.download = '파일명.xls';
+
+        a.click();
+        e.preventDefault();
+  });
+
+  $(document).on('click','#makeExcel', function() {
+    var excel = document.createElement('a');
+    var data_type = 'data:application/vnd.ms-excel';
+    var table_html = encodeURIComponent($("#resultTable").html());
+    excel.href = data_type + ', ' + table_html;
+    a.download = '파일명.xls';
+
+    a.click();
+    e.preventDefault();
+  });
 
 });

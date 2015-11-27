@@ -6,7 +6,11 @@ block content
     p
     hr
     p
-    table.table.table-bordered
+    .questCntArea
+      span.questCnt 설문 응답 현황 수 : #{tdsArr.length} 
+      p
+    
+    table.table.table-bordered#resultTable
       thead
         tr
           th 응답시간
@@ -14,51 +18,6 @@ block content
             if scores[i].type == 0 || scores[i].type == 4
               th
                 a(data-toggle='modal' data-target='#modal_#{i}') #{content.title}
-                .modal.fade(role='dialog' id='modal_#{i}')
-                  .modal-dialog
-                    .modal-content
-                      .modal-header
-                        button.close(type='button' data-dismiss='modal') &times;
-                        h4.modal-title #{content.title}
-                      .modal-body
-                        if scores[i].necessary
-                          b 필수
-                        case scores[i].type
-                          when '0'
-                            .scoreType1
-                              .chartArea
-                              each value in scores[i].values
-                                p.opt 
-                                  span.optName #{value.text}
-                                  span.optValue #{value.cnt}
-                              if scores[i].etcValues
-                                p.opt
-                                  span.optName 기타
-                                  span.optValue #{scores[i].etcCnt}
-                                .etcValues
-                                  b 기타 내용
-                                  textarea.form-control(rows='5')
-                                    each etcValue in scores[i].etcValues
-                                      | #{etcValue}    
-                          when '4'
-                            .scoreType4
-                              p 응답자 수 : 
-                                span.respondent 
-                              .chartArea
-                              p.point
-                                span.1point #{scores[i].values[0]}
-                              p.point
-                                span.2point #{scores[i].values[1]}
-                              p.point
-                                span.3point #{scores[i].values[2]}
-                              p.point
-                                span.4point #{scores[i].values[3]}
-                              p.point
-                                span.5point #{scores[i].values[4]}
-                              p 평균 : 
-                                span.average  
-                      .modal-footer
-                        button.btn.btn-default(data-dismiss='modal' type='button') Close
             else
               th #{content.title}
       tbody
@@ -66,6 +25,53 @@ block content
           tr
             each td in tds
               td #{td}
-              
+    each content, i in contents
+      if scores[i].type == 0 || scores[i].type == 4
+        .modal.fade(role='dialog' id='modal_#{i}')
+          .modal-dialog
+            .modal-content
+              .modal-header
+                button.close(type='button' data-dismiss='modal') &times;
+                h4.modal-title #{content.title}
+              .modal-body
+                if scores[i].necessary
+                  b 필수
+                case scores[i].type
+                  when '0'
+                    .scoreType1
+                      .chartArea
+                      each value in scores[i].values
+                        p.opt 
+                          span.optName #{value.text}
+                          span.optValue #{value.cnt}
+                      if scores[i].etcValues
+                        p.opt
+                          span.optName 기타
+                          span.optValue #{scores[i].etcCnt}
+                        .etcValues
+                          b 기타 내용
+                          textarea.form-control(rows='5')
+                            each etcValue in scores[i].etcValues
+                              | #{etcValue}    
+                  when '4'
+                    .scoreType4
+                      p 응답자 수 : 
+                        span.respondent 
+                      .chartArea
+                      p.point
+                        span.1point #{scores[i].values[0]}
+                      p.point
+                        span.2point #{scores[i].values[1]}
+                      p.point
+                        span.3point #{scores[i].values[2]}
+                      p.point
+                        span.4point #{scores[i].values[3]}
+                      p.point
+                        span.5point #{scores[i].values[4]}
+                      p 평균 : 
+                        span.average  
+              .modal-footer
+                button.btn.btn-default(data-dismiss='modal' type='button') Close
+    button#makeExcel 엑셀로 저장하기              
               
   script(type='text/javascript', src='/javascripts/surveyResult.js')
