@@ -21,6 +21,13 @@
                 a(href="/survey/quest") 완성된 설문지 보기
               li
                 a(href="/survey/complete") 설문지 결과 보기
+          if (currentUser.root)
+            li.dropdown
+              a.dropdown-toggle(href="#" data-toggle="dropdown" data-hover="dropdown" data-delay="0" data-close-others="false") 관리
+                b.icon-angle-down
+              ul.dropdown-menu
+                li
+                  a(href="/users/") 회원 목록 관리
       ul.nav.navbar-nav.navbar-right
         if (!currentUser) 
           li

@@ -22,8 +22,6 @@ router.get('/new', needAuth, function(req, res, next) {         //설문 새로 
 
 
 router.post('/new', function(req, res, next) {
-  console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
-  console.log(req.body);
   if(req.body.surveyId){
     Survey.findById(req.body.surveyId, function(err, existSurvey){
       if (err) {
@@ -130,8 +128,6 @@ router.get('/edit', needAuth, function(req, res, next) {
 });
 
 router.post('/editing', needAuth, function(req, res, next) {
-  //console.log("!!!!!init!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-  //console.log(req.body.surveyId);
   Survey.findById(req.body.surveyId,function(err, survey){
     if (err) {
       return next(err);
@@ -163,13 +159,10 @@ router.get('/complete/:id', function(req, res, next) {
       }
 
       var scores = [];
-      //console.log('길이' + contents.length);
       for(var idx in contents) {
         var score = {};
         score.name = contents[idx].title;
         score.necessary = contents[idx].necessary;
-        //console.log(scores[idx]);
-        //console.log('what type' + contents[idx].type);
         score.type = contents[idx].type;
         score.values = [];
         if (contents[idx].type == '0') {
@@ -185,7 +178,6 @@ router.get('/complete/:id', function(req, res, next) {
           }
         }
         else if(contents[idx].type == '4') {
-          //console.log('array make clear');
           score.values = [0, 0, 0, 0, 0];
         }
         scores.push(score);

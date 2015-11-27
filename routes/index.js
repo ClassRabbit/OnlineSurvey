@@ -11,10 +11,5 @@ router.get('/signin', function(req, res, next) {
   res.render('sighin');
 });
 
-router.get('/main', function(req, res, next) {
-  res.render('main');
-});
-
-
 
 module.exports = router;

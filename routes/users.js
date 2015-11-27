@@ -141,7 +141,8 @@ router.post('/', function(req, res, next) {
     newUser.save(function(err) {
       if (err) {
         next(err);
-      } else {
+      }
+      else {
         req.flash('success', '가입이 완료되었습니다. 로그인 해주세요.');
         res.redirect('/');
       }

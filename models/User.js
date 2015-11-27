@@ -7,7 +7,8 @@ var schema = new Schema({
   email: {type: String, required: true, index: true, unique: true, trim: true},
   password: {type: String},
   createdAt: {type: Date, default: Date.now},
-  facebook: {id: String, token: String, photo: String}
+  facebook: {id: String, token: String, photo: String},
+  root: {type: Boolean, default: false}
 }, {
   toJSON: { virtuals: true},
   toObject: {virtuals: true}

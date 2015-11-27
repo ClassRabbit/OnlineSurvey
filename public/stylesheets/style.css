@@ -7,6 +7,11 @@ a {
   color: #00B7FF;
 }
 
+.mainBtn {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
 h1.pageTitle {
   text-align: center;
 }
