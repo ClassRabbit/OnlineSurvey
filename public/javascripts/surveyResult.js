@@ -16,9 +16,7 @@ $(function() {
       });
       cnt += parseInt($(this).find('.optValue').text());
     });
-    //$(this).append('<table> ');
-    //var chartHtml = '<table>';
-    $(this).find('.opt').empty();
+    $(this).find('.opt').remove();
     for(var i in chart) {
       var percent = Math.round(chart[i].value/cnt*100);
       var width = Math.round((percent/100));
@@ -26,39 +24,60 @@ $(function() {
       $(this).find('.chartArea').append('<div class="row">');
       $(this).find('.chartArea').append('<div class="col-sm-2">'+ chart[i].name +' : </div>');
       $(this).find('.chartArea').append('<div class="col-sm-10">'+ '<img src="/image/chart.jpg" width="'+percent+'%" height="15px"> '+ chart[i].value +'표(' +  percent +'%)</div>');
-      // $(this).append('<tr><td>' + name + '</td><td><img src="/image/chart.jpg" width="'+percent+'%" height="15px">' +  percent + '%</td></tr>');
       $(this).find('.chartArea').append('</div>');
       $(this).find('.chartArea').append('<br>');
-    }
-    //$(this).append('</table>');
-
-
-
-    for(var i in chart) {
-      console.log(chart[i]);
     }
   });
 
 
 
   $('.scoreType4').each(function(){
+    var chart = [];
     var sum = 0;
     var cnt = 0;
     sum += ($(this).find('.1point').text()*1);
     cnt += parseInt($(this).find('.1point').text());
+    chart.push({
+      name: '1점',
+      value: parseInt($(this).find('.1point').text())
+    });
     sum += ($(this).find('.2point').text()*2);
     cnt += parseInt($(this).find('.2point').text());
+    chart.push({
+      name: '2점',
+      value: parseInt($(this).find('.2point').text())
+    });
     sum += ($(this).find('.3point').text()*3);
     cnt += parseInt($(this).find('.3point').text());
+    chart.push({
+      name: '3점',
+      value: parseInt($(this).find('.3point').text())
+    });
     sum += ($(this).find('.4point').text()*4);
     cnt += parseInt($(this).find('.4point').text());
+    chart.push({
+      name: '4점',
+      value: parseInt($(this).find('.4point').text())
+    });
     sum += ($(this).find('.5point').text()*5);
     cnt += parseInt($(this).find('.5point').text());
-    $(this).find('.1point').text($(this).find('.1point').text() + '명');
-    $(this).find('.2point').text($(this).find('.2point').text() + '명');
-    $(this).find('.3point').text($(this).find('.3point').text() + '명');
-    $(this).find('.4point').text($(this).find('.4point').text() + '명');
-    $(this).find('.5point').text($(this).find('.5point').text() + '명');
+    chart.push({
+      name: '5점',
+      value: parseInt($(this).find('.5point').text())
+    });
+    $(this).find('.point').remove();
+
+    for(var i in chart) {
+      var percent = Math.round(chart[i].value/cnt*100);
+      var width = Math.round((percent/100));
+      var name = chart[i].name
+      $(this).find('.chartArea').append('<div class="row">');
+      $(this).find('.chartArea').append('<div class="col-sm-2">'+ chart[i].name +' : </div>');
+      $(this).find('.chartArea').append('<div class="col-sm-10">'+ '<img src="/image/chart.jpg" width="'+percent+'%" height="15px"> '+ chart[i].value +'표(' +  percent +'%)</div>');
+      $(this).find('.chartArea').append('</div>');
+      $(this).find('.chartArea').append('<br>');
+    }
+
     $(this).find('.respondent').text(cnt + '명');
     if(sum/cnt) {
       $(this).find('.average').text((sum/cnt) + '점');
