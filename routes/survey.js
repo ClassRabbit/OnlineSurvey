@@ -20,6 +20,7 @@ router.get('/new', needAuth, function(req, res, next) {         //설문 새로 
   });
 });
 
+
 router.post('/new', function(req, res, next) {
   console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
   console.log(req.body);
