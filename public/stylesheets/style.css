@@ -20,6 +20,10 @@ div .contentDelArea{
   float: right;
 }
 
+div.rightTest {
+  float: right;
+}
+
 div .questCntArea {
   float: right;
 }
@@ -68,3 +72,20 @@ th {
 
 #main.loading .spinner {
   display: block; }
+
+
+.deadlineArea {
+  color: blue;
+}
+
+b.isDead {
+  color: red;
+}
+
+span.spanRight {
+  float: right;
+}
+
+button.sendMail {
+  float: left;
+}

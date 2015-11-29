@@ -1,7 +1,13 @@
 extends layout
 
 block content
-  .container
+  #main.container
+    .spinner
+      .background
+      .foreground
+        p
+          i.fa.fa-circle-o-notch.fa-spin.fa-4x
+        p Loading...
     case source
       when 'edit'
         h2 설문지 이어 만들기
@@ -10,11 +16,37 @@ block content
       when 'quest'
         h2 완성된 설문지 보기    
     .list-group
-      each survey in surveys
+      each survey, i in surveys
         case source
           when 'edit'
-            a.list-group-item(href='/survey/edit/#{survey._id}') #{survey.title}
+            a.list-group-item(href='/survey/edit/#{survey._id}') #{survey.title} 
           when 'complete'
-            a.list-group-item(href='/survey/complete/#{survey._id}') #{survey.title}
+            a.list-group-item(href='/survey/complete/#{survey._id}') #{survey.title} 
+              if survey.deadline
+                span.deadlineArea #{survey.deadline}
           when 'quest'
-            a.list-group-item(href='/quest/#{survey._id}') #{survey.title}  
+            li.list-group-item
+              a(href='/quest/#{survey._id}') #{survey.title}  
+              if survey.deadline
+                span.deadlineArea #{survey.deadline}
+              span.spanRight
+                a(data-toggle='modal' data-target='#modal_#{i}')
+                  span.glyphicon.glyphicon-envelope
+        
+              .modal.fade(role='dialog' id='modal_#{i}')
+                .modal-dialog
+                  .modal-content
+                    .modal-header
+                      button.close(type='button' data-dismiss='modal') &times;
+                      h4.modal-title ??
+                    .modal-body
+                    .modal-footer
+                      button.btn.btn-default.sendMail 메일보내기
+                      button.btn.btn-default(data-dismiss='modal' type='button') Close
+              
+              
+              
+              
+    
+
+  script(type='text/javascript', src='/javascripts/surveyList.js')
