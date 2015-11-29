@@ -14,6 +14,34 @@ $(function (){
   });
 
   $(".sendMail").on('click', function (event) {
+    if(!($.trim($(this).parents('.modal-content').find('.email').val()))) {
+      return alert('메일 주소를 입력하셔야 합니다.');
+    }
     $('#main').addClass('loading');
+    var surveyTitle = $(this).parents('.modal-content').find('.modal-title').text();
+    var email = $(this).parents('.modal-content').find('.email').val();
+    var surveyId = $(this).parents('.modal-content').find('.surveyId').val();
+    var button = $(this);
+    $.ajax({
+      type: 'POST',
+      url: '/mail',
+      dataType: 'json',
+      data: {
+        email: email,
+        surveyTitle: surveyTitle,
+        surveyId: surveyId
+      },
+      success: function(result) {
+        console.log('result is ' + result);
+        if(result) {
+          console.log('in if');
+          button.parents('.modal-footer').find('.mailResultArea').append('<div class="mailResult"><b>메일이 성공적으로 보내졌습니다!</b></div>');
+          button.remove();
+        }
+      },
+      complete: function() {
+        $('#main').removeClass('loading');
+      }
+    });
   });
 });

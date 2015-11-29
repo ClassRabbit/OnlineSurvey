@@ -7,7 +7,7 @@ $(function() {
   console.log(surveyId);
   if(surveyId) {
     $('#main').addClass('loading');
-    console.log("inhere");
+    //console.log("inhere");
     $.ajax({
       type: 'POST',
       url: '/survey/editing',
@@ -16,7 +16,7 @@ $(function() {
         surveyId: surveyId,
       },
       success: function(survey) {
-        console.log("complete");
+        //console.log("complete");
         $('#surveyTitle').val(survey.title);
         if(survey.deadline){
           $('#surveyDeadline').val(moment(survey.deadline).format('YYYY-MM-DD'));
@@ -94,6 +94,9 @@ $(function() {
 
   $(document).on("click",".surveyFin", function(){
 
+    if(!($.trim($('#surveyTitle').val()))) {
+      return alert('제목은 꼭 입력하셔야 합니다.');
+    }
     $('#main').addClass('loading');
 
     var surveyId = $('#surveyId').val();

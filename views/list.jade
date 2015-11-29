@@ -38,10 +38,17 @@ block content
                   .modal-content
                     .modal-header
                       button.close(type='button' data-dismiss='modal') &times;
-                      h4.modal-title ??
+                      h4.modal-title #{survey.title}
                     .modal-body
+                      input.surveyId(type='hidden' value='#{survey._id}')
+                      b 설문에 초대하실 분의 Email을 입력하세요.
+                      p
+                      .form-group
+                        label(for='email') Email address
+                        input.form-control.email(type='email', name='email', placeholder='Email')
                     .modal-footer
                       button.btn.btn-default.sendMail 메일보내기
+                      .mailResultArea
                       button.btn.btn-default(data-dismiss='modal' type='button') Close
               
               

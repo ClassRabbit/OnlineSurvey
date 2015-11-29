@@ -89,3 +89,8 @@ span.spanRight {
 button.sendMail {
   float: left;
 }
+
+div.mailResult {
+  color: blue;
+  float: left;
+}
