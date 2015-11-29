@@ -35,8 +35,10 @@ function validateForm(form, options) {
     }
   }
   else {
-    if (form.password !== form.password_confirmation) {
-      return '비밀번호가 일치하지 않습니다.';
+    if(options.needPassword) {
+      if (form.password !== form.password_confirmation) {
+        return '비밀번호가 일치하지 않습니다.';
+      }
     }
   }
 
