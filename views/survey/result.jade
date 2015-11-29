@@ -34,8 +34,6 @@ block content
                 button.close(type='button' data-dismiss='modal') &times;
                 h4.modal-title #{content.title}
               .modal-body
-                if scores[i].necessary
-                  b 필수
                 case scores[i].type
                   when '0'
                     .scoreType1

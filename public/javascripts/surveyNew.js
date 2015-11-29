@@ -167,8 +167,12 @@ $(function() {
         contents: contents
       },
       success: function(data) {
-        $('#main').removeClass('loading');
-        window.location.replace('/');
+        //$('#main').removeClass('loading');
+        $('#spinnerImg').remove();
+        $('#spinnerText').empty();
+        $('#spinnerText').append('<h3>설문이 완성되었습니다.</h3> <p>');
+        $('#spinnerText').append('<button id="goMainBtn" class="btn btn-primary">메인으로 가기</button>');
+        //window.location.replace('/');
       },
       complete: function() {
 
@@ -176,6 +180,9 @@ $(function() {
     });
   });
 
+    $(document).on("click","#goMainBtn", function(){
+      window.location.replace('/');
+    });
 
   $(document).on("click",".surveySave", function(){
 

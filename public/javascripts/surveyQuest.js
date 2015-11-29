@@ -6,11 +6,15 @@ $(function() {
     if(new Date(deadline) < $.now()) {
       $('#main').addClass('loading');
       $('#spinnerImg').remove();
-      $('#spinnerText').text('죄송합니다. 만기된 설문으로 더 이상 설문에 응하실 수 없습니다.');
+      $('#spinnerText').empty();
+      $('#spinnerText').append('<h3>죄송합니다. 만기된 설문으로 더 이상 설문에 응하실 수 없습니다.</h3> <p>');
+      $('#spinnerText').append('<button id="windowCloseBtn" class="btn btn-danger">뒤로 가기</button>');
     }
   }
 
-
+  $(document).on('click','#windowCloseBtn', function(){
+    history.go(-1)();
+  });
 
   $('form').each(function(index, item) {
     if($(item).find('.necessary').length) {
@@ -181,12 +185,16 @@ $(function() {
         if(result){
           console.log('complete');
           $('#spinnerImg').remove();
-          $('#spinnerText').text('설문이 완료되었습니다. 감사합니다.');
+          $('#spinnerText').empty();
+          $('#spinnerText').append('<h3>설문이 완료되었습니다. 감사합니다.</h3> <p>');
+          $('#spinnerText').append('<button id="windowCloseBtn" class="btn btn-success">뒤로 가기</button>');
         }
         else {
           console.log('err');
           $('#spinnerImg').remove();
-          $('#spinnerText').text('이메일이 중복되었습니다. 설문을 더이상 하실 수 없습니다.');
+          $('#spinnerText').empty();
+          $('#spinnerText').append('<h3>이메일이 중복되었습니다. 설문을 더이상 하실 수 없습니다.</h3> <p>');
+          $('#spinnerText').append('<button id="windowCloseBtn" class="btn btn-danger">뒤로 가기</button>');
         }
 
 

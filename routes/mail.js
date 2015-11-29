@@ -5,7 +5,7 @@ var router = express.Router();
 
 router.post('/', function(req, res, next) {
   var mailSubject = '설문조사 : ' + req.body.surveyTitle + '에 참여해주세요!';
-  var mailText = '설문 조사 경로 : localhost:3000/quest/' + req.body.surveyId;
+  var mailText = '설문 조사 경로 : https://glacial-scrubland-6910.herokuapp.com/' + req.body.surveyId;
   //해로쿠 올리고 여기 경로 수정!
   var sendgrid  = require('sendgrid')('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');
   var email     = new sendgrid.Email({

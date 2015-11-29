@@ -6,8 +6,9 @@ block content
       .background
       .foreground
         p
-          i.fa.fa-circle-o-notch.fa-spin.fa-4x
-        p Loading...
+          i#spinnerImg.fa.fa-circle-o-notch.fa-spin.fa-4x
+        p
+        #spinnerText Loading...
     h1.pageTitle 설문 만들기
     if surveyId
       input#surveyId(type='hidden' name='surveyId' value='#{surveyId}')
