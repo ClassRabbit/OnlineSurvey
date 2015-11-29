@@ -12,13 +12,32 @@ block content
         input.form-control(type='email', id='email', name='email', placeholder='Email', value=user.email)
       .form-group
         label(for='current_password') 현재 Password
-        input.form-control(type='password', id='current_password', name='current_password', placeholder='현재 Password')
+        input.form-control(type='password', id='password', name='password', placeholder='현재 Password')
       .form-group
         label(for='password') 변경할 Password
-        input.form-control(type='password', id='password', name='password', placeholder='변경할 Password')
+        input.form-control(type='password', id='new_password', name='new_password', placeholder='변경할 Password')
       .form-group
         label(for='password_confirmation') Password 확인
         input.form-control(type='password', id='password_confirmation', name='password_confirmation', placeholder='변경할 Password 확인')
+      if !user.facebook.name
+        .form-group
+          label(for='password_quest') Password 찾기 문제 설정
+          select.form-control(id='password_quest', name='password_quest')
+            if user.pwQuest == 0
+              option(selected value='0') 당신이 나온 고등학교는?
+            else
+              option(value='0') 당신이 나온 고등학교는?
+            if user.pwQuest == 1
+              option(selected value='1') 당신의 보물 1호는?
+            else
+              option(value='1') 당신의 보물 1호는?
+            if user.pwQuest == 2
+              option(selected value='2') 당신의 아버지 성함은?
+            else
+              option( value='2') 당신의 아버지 성함은?
+        .form-group
+          label(for='password_quest_answer') Password 찾기 답
+          input.form-control(type='text', id='password_quest_answer', name='password_quest_answer', placeholder='Your Answer', value=user.pwAnswer)
       div.form-actions
         a.btn.btn-default(href='javascript:window.history.back();') 뒤로 
         | 

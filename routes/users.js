@@ -29,7 +29,7 @@ function validateForm(form, options) {
     return '비밀번호를 입력해주세요.';
   }
 
-  if (form.password !== form.password_confirmation) {
+  if (form.new_password !== form.password_confirmation) {
     return '비밀번호가 일치하지 않습니다.';
   }
 
@@ -37,11 +37,19 @@ function validateForm(form, options) {
     return '비밀번호는 6글자 이상이어야 합니다.';
   }
 
+  if (!form.password_quest_answer) {
+    return '비밀번호 찾기의 답을 입력해주세요.';
+  }
+
   return null;
 }
 
 /* GET users listing. */
 router.get('/', needAuth, function(req, res, next) {
+  if(!req.user.root) {
+    req.flash('danger', '권한이 없습니다!');
+    return res.redirect('back');
+  }
   User.find({}, function(err, users) {
     if (err) {
       return next(err);
@@ -59,12 +67,14 @@ router.get('/:id/edit', function(req, res, next) {
     if (err) {
       return next(err);
     }
+    console.log(user.facebook);
     res.render('users/edit', {user: user});
   });
 });
 
 router.put('/:id', function(req, res, next) {
-  if (validateForm(req.body)) {
+  var err = validateForm(req.body, {needPassword: false});
+  if (err) {
     req.flash('danger', err);
     return res.redirect('back');
   }
@@ -78,23 +88,25 @@ router.put('/:id', function(req, res, next) {
       return res.redirect('back');
     }
 
-    if (user.password != req.body.current_password) {
+    if (!user.validatePassword(req.body.password)) {
       req.flash('danger', '현재 비밀번호가 일치하지 않습니다.');
       return res.redirect('back');
     }
 
     user.name = req.body.name;
     user.email = req.body.email;
-    if (req.body.password) {
-      user.password = user.generateHash(req.body.password);
+    if (req.body.new_password) {
+      user.password = user.generateHash(req.body.new_password);
     }
+    user.pwQuest = req.body.password_quest;
+    user.pwAnswer = req.body.password_quest_answer;
 
     user.save(function(err) {
       if (err) {
         return next(err);
       }
       req.flash('success', '사용자 정보가 변경되었습니다.');
-      res.redirect('/users');
+      res.redirect('/users/' + req.user._id);
     });
   });
 });
@@ -135,6 +147,8 @@ router.post('/', function(req, res, next) {
     var newUser = new User({
       name: req.body.name,
       email: req.body.email,
+      pwQuest: req.body.password_quest,
+      pwAnswer: req.body.password_quest_answer
     });
     newUser.password = newUser.generateHash(req.body.password);
 
@@ -149,6 +163,7 @@ router.post('/', function(req, res, next) {
     });
   });
 });
+
 
 
 module.exports = router;

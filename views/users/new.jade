@@ -16,6 +16,15 @@ block content
       .form-group
         label(for='password_confirmation') Password 확인
         input.form-control(type='password', id='password_confirmation', name='password_confirmation', placeholder='Password')
+      .form-group
+        label(for='password_quest') Password 찾기 문제 설정
+        select.form-control(id='password_quest', name='password_quest')
+          option(selected value='0') 당신이 나온 고등학교는?
+          option(value='1') 당신의 보물 1호는?
+          option(value='2') 당신의 아버지 성함은?
+      .form-group
+        label(for='password_quest_answer') Password 찾기 답
+        input.form-control(type='text', id='password_quest_answer', name='password_quest_answer', placeholder='Your Answer')
       div.form-actions
         a.btn.btn-default(href='javascript:window.history.back();') 뒤로 
         | 

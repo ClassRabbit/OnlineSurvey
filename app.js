@@ -21,6 +21,7 @@ var survey = require('./routes/survey');
 var quest = require('./routes/quest');
 var root = require('./routes/root');
 var mail = require('./routes/mail');
+var password = require('./routes/password');
 
 var passport = require('passport');
 var configAuth = require('./config/auth');
@@ -83,6 +84,7 @@ app.use('/survey', survey);
 app.use('/quest', quest);
 app.use('/root', root);
 app.use('/mail', mail);
+app.use('/password', password);
 
 //?????
 routeAuth(app, passport);
