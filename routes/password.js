@@ -27,7 +27,6 @@ router.post('/', function(req, res, next) {
 });
 
 router.post('/quest', function(req, res, next) {
-  console.log(req.body.id);
   User.findById(req.body.id, function(err, user) {
     if(err) {
       return next(err);
@@ -42,7 +41,6 @@ router.post('/quest', function(req, res, next) {
 	    }
       user.password = user.generateHash(randomString);
       user.save(function(err) {
-        console.log(user.email);
         var sendgrid  = require('sendgrid')('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');
         var email     = new sendgrid.Email({
           to:       user.email,
@@ -54,7 +52,7 @@ router.post('/quest', function(req, res, next) {
           if (err) {
             return next(err);
           }
-          req.flash('danger', '임시비밀번호가 이메일로 전송되었습니다.');
+          req.flash('success', '임시비밀번호가 이메일로 전송되었습니다.');
           return res.redirect('/');
         });
       });

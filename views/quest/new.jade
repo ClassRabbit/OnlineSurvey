@@ -14,7 +14,7 @@ block content
       label 설문 기간 : 
       - var deadline = moment(surveyDeadline).format('YYYY-MM-DD')
       | 
-      if deadline
+      if deadline != 'Invalid date'
         span#deadline #{deadline}
       else
         span#deadline 미지정
@@ -78,7 +78,7 @@ block content
               input.scoreValue(type='radio' name='scoreValue' value='5')
               | 5점
     p
-    button.btn.btn-primary.questFin 설문 완료   
+    button.btn.btn-lg.btn-primary.btn-block.questFin 설문 완료   
   script(type='text/javascript', src='/javascripts/surveyQuest.js')
   
 

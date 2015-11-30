@@ -7,17 +7,13 @@ router.get('/', function(req, res, next) {
 });
 
 router.post('/', function(req, res, next) {
-  console.log(req.body.email);
   User.findOne({email: req.body.email}, function(err, user) {
     if (err) {
       req.flash('danger', err);
       return res.redirect('back');
     }
-    console.log(user);
     if(user.length !== 0) {
       user.root = true;
-      console.log('change!!!!!!!!!!!!!!!!!! ');
-      console.log(user);
       user.save(function(err) {
         if (err) {
           next(err);

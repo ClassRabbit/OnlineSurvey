@@ -7,6 +7,10 @@ a {
   color: #00B7FF;
 }
 
+button#newIdBtn {
+  float: right;
+}
+
 .form-signin {
   width: 320px;
   height: 300px;

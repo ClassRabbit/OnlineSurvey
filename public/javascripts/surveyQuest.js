@@ -61,15 +61,16 @@ $(function() {
       alert("이메일을 입력하세요!");
       return;
     }
-    var isNotEmpty = false;
+    var isEmpty = true;
     $('form').each(function(){
       //console.log($(this).find('[name="longSubjective"]').val());
       if($(this).find('.necessary').length != 0) {
+        isEmpty = true;
         if($(this).find('[name="opt"]').length != 0) {
           $(this).find('[name="opt"]').each(function() {
             if($(this).prop('checked')){
-              if(!isNotEmpty) {
-                isNotEmpty = true;
+              if(isEmpty) {
+                isEmpty = false;
               }
             }
           });
@@ -77,59 +78,56 @@ $(function() {
         else if ($(this).find('[name="optMulti"]').length != 0) {
           $(this).find('[name="optMulti"]').each(function() {
             if($(this).prop('checked')){
-              if(!isNotEmpty) {
-                isNotEmpty = true;
+              if(isEmpty) {
+                isEmpty = false;
               }
             }
           });
         }
         else if ($(this).find('[name="subjective"]').length != 0) {
           if($(this).find('[name="subjective"]').val() != "") {
-            if(!isNotEmpty) {
-              isNotEmpty = true;
+            if(isEmpty) {
+              isEmpty = false;
             }
           }
         }
         else if ($(this).find('[name="longSubjective"]').length != 0) {
           if($(this).find('[name="longSubjective"]').val() != "") {
-            if(!isNotEmpty) {
-              isNotEmpty = true;
+            if(isEmpty) {
+              isEmpty = false;
             }
           }
         }
         else if ($(this).find('[name="date"]').length != 0) {
           if($(this).find('[name="date"]').val() != "") {
-            if(!isNotEmpty) {
-              isNotEmpty = true;
+            if(isEmpty) {
+              isEmpty = false;
             }
           }
         }
         else if ($(this).find('[name="dateTime"]').length != 0) {
           if($(this).find('[name="dateTime"]').val() != "") {
-            if(!isNotEmpty) {
-              isNotEmpty = true;
+            if(isEmpty) {
+              isEmpty = false;
             }
           }
         }
         else if ($(this).find('[name="scoreValue"]').length != 0) {
           $(this).find('[name="scoreValue"]').each(function() {
             if($(this).checked){
-              if(!isNotEmpty) {
-                isNotEmpty = true;
+              if(isEmpty) {
+                isEmpty = false;
               }
             }
           });
         }
-        if(!isNotEmpty) {
+        if(isEmpty) {
           alert("필수를 다 입력해주세요.");
           return false;
         }
       }
-      else {
-        isNotEmpty = true;
-      }
     });
-    if(!isNotEmpty) {
+    if(isEmpty) {
       return;
     }
 
