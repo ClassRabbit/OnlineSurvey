@@ -65,6 +65,21 @@ router.post('/new', function(req, res, next) {
   }
 });
 
+router.delete('/new', function(req, res, next) {
+  var query = Quest.find({survey: req.body.surveyId}).remove();
+  query.exec(function(err){
+    if(err) {
+      return next(err);
+    }
+    Survey.findOneAndRemove({_id: req.body.surveyId}, function(err){
+      if(err) {
+        return next(err);
+      }
+      return res.status(201).json(true);
+    });
+  });
+});
+
 router.put('/new', function(req, res, next) {
   if(req.body.surveyId){
     Survey.findById(req.body.surveyId, function(err, existSurvey){
@@ -110,7 +125,9 @@ router.put('/new', function(req, res, next) {
 });
 
 router.get('/quest', needAuth, function(req, res, next) {
-  Survey.find({user: req.user.id, complete: true},function(err, surveys){
+  var query = Survey.find({user: req.user.id, complete: true}).sort({createdAt: -1});
+  //Survey.find({user: req.user.id, complete: true},function(err, surveys){
+  query.exec(function(err, surveys){
     if(err) {
       return next(err);
     }
@@ -119,7 +136,9 @@ router.get('/quest', needAuth, function(req, res, next) {
 });
 
 router.get('/edit', needAuth, function(req, res, next) {
-  Survey.find({user: req.user.id, complete: false},function(err, surveys){
+  var query = Survey.find({user: req.user.id, complete: false}).sort({createdAt: -1});
+  //Survey.find({user: req.user.id, complete: false},function(err, surveys){
+  query.exec(function(err, surveys){
     if(err) {
       return next(err);
     }
@@ -139,7 +158,9 @@ router.post('/editing', needAuth, function(req, res, next) {
 });
 
 router.get('/complete', function(req, res, next) {
-  Survey.find({user: req.user.id, complete: true},function(err, surveys){
+  var query = Survey.find({user: req.user.id, complete: true}).sort({createdAt: -1});
+  //Survey.find({user: req.user.id, complete: true}, function(err, surveys){
+  query.exec(function(err, surveys){
     if(err) {
       return next(err);
     }
@@ -183,17 +204,14 @@ router.get('/complete/:id', function(req, res, next) {
         scores.push(score);
       }
 
-
-
-
       var tdsArr = [];            //tds 는 로우의 td들, tdsArr은 tds의 배열
       for(var a in quests) {                          //응답수만큼
         var results = quests[a].results;    //응답의 결과들
         var tds = [];
         tds.push(quests[a].createdAt);
         for(var b in results) {           //한문제당 응답
-          console.log('b is ' + b);
-          console.log('results.length is ' + results.length);
+          // console.log('b is ' + b);
+          // console.log('results.length is ' + results.length);
           if(b == '_schema') break;
           switch(results[b].type) {
             case '0':
@@ -207,7 +225,7 @@ router.get('/complete/:id', function(req, res, next) {
                 if(results[b].answer[c].name == 'optEtcText' || results[b].answer[c].name == 'optMultiEtcText') {
                   scores[results[b].index].etcValues.push(results[b].answer[c].value);
                   scores[results[b].index].etcCnt++;
-                  console.log('etcCnt ++ : ' + scores[results[b].index].etcCnt);
+      //            console.log('etcCnt ++ : ' + scores[results[b].index].etcCnt);
                 }
               }
               break;
@@ -248,7 +266,7 @@ router.get('/complete/:id', function(req, res, next) {
               }
               break;
           }
-          console.log('results is ' + results[b]);
+        //  console.log('results is ' + results[b]);
           if(results[b].answer.length != 1) {
             var str = '';
             for(var e in results[b].answer) {
@@ -281,11 +299,11 @@ router.get('/complete/:id', function(req, res, next) {
         tdsArr.push(tds);
       }
 
-      console.log(scores);
-      for(var tex in scores) {
-        console.log(scores[tex].values);
-
-      }
+      //console.log(scores);
+      // for(var tex in scores) {
+      //   console.log(scores[tex].values);
+      //
+      // }
       //res.render('survey/result',{scores: scores});
       res.render('survey/result',{
         contents: contents,

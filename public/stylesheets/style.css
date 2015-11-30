@@ -48,7 +48,7 @@ h1.pageTitle {
   text-align: center;
 }
 
-div .contentDelArea{
+div.contentDelArea{
   float: right;
 }
 
@@ -120,6 +120,10 @@ b.isDead {
 }
 
 span.spanRight {
+  float: right;
+}
+
+span.spanRight2 {
   float: right;
 }
 

@@ -21,9 +21,14 @@ block content
           when 'edit'
             a.list-group-item(href='/survey/edit/#{survey._id}') #{survey.title} 
           when 'complete'
-            a.list-group-item(href='/survey/complete/#{survey._id}') #{survey.title} 
+            li.list-group-item
+              a(href='/survey/complete/#{survey._id}') #{survey.title} 
+              input.surveyIdArea(type='hidden' value='#{survey._id}')
               if survey.deadline
                 span.deadlineArea #{survey.deadline}
+              span.spanRight2
+                a.surveyDeleteArea
+                  span.glyphicon.glyphicon-remove
           when 'quest'
             li.list-group-item
               a(href='/quest/#{survey._id}') #{survey.title}  

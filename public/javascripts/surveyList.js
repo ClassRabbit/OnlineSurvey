@@ -6,11 +6,33 @@ $(function (){
     if(nowDate > deadline) {
       $(this).empty();
       $(this).append('<b class="isDead"> (마감)</b>')
+      $(this).parents('.list-group-item').find('.spanRight').remove();
     }
     else {
       $(this).text(' ( ~ ' + moment(deadline).format('YYYY-MM-DD') + ')');
     }
 
+  });
+
+  $(".surveyDeleteArea").on('click', function (event) {
+    $('#main').addClass('loading');
+    var surveyId = $(this).parents('.list-group-item').find('.surveyIdArea').val();
+    $.ajax({
+      type: 'DELETE',
+      url: '/survey/new',
+      dataType: 'json',
+      data: {
+        surveyId: surveyId
+      },
+      success: function(result) {
+        if(result) {
+          window.location.replace('/survey/complete');
+        }
+      },
+      complete: function() {
+        $('#main').removeClass('loading');
+      }
+    });
   });
 
   $(".sendMail").on('click', function (event) {
@@ -32,9 +54,7 @@ $(function (){
         surveyId: surveyId
       },
       success: function(result) {
-        console.log('result is ' + result);
         if(result) {
-          console.log('in if');
           button.parents('.modal-footer').find('.mailResultArea').append('<div class="mailResult"><b>메일이 성공적으로 보내졌습니다!</b></div>');
           button.remove();
         }
