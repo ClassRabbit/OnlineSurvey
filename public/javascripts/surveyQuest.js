@@ -114,10 +114,13 @@ $(function() {
         }
         else if ($(this).find('[name="scoreValue"]').length != 0) {
           $(this).find('[name="scoreValue"]').each(function() {
-            if($(this).checked){
-              if(isEmpty) {
-                isEmpty = false;
-              }
+            console.log('this is ' + this);
+            console.log('this checked : ' + this.checked);
+            console.log('now isEmpty value : ' + isEmpty);
+            if(this.checked){
+
+              isEmpty = false;
+              return false;
             }
           });
         }
