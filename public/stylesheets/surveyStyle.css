@@ -1,3 +1,36 @@
+@media screen and (max-width: 700px) {
+  .mainBtn {
+    font-size: 12px;
+  }
+  .fbBtn {
+    font-size: 12px;
+  }
+  .pwResetBtn {
+    font-size: 13px;
+  }
+  h1.page-header {
+    font-size: 30px;
+  }
+  h2.list-header {
+    font-size: 20px;
+  }
+  h1.pageTitle {
+    font-size: 25px;
+  }
+}
+@media screen and (max-width: 320px) {
+
+  input.objOptValue {
+    width: 140px;
+  }
+  input.objEtcValue {
+    width: 140px;
+  }
+  a.objEtcCreate {
+    margin-left: 30%;
+  }
+}
+
 body {
   padding: 50px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
@@ -11,33 +44,6 @@ button#newIdBtn {
   float: right;
 }
 
-.form-signin {
-  width: 320px;
-  height: 300px;
-  padding: 0;
-  top: 10em;
-  left: 50%;
-  position: absolute;
-  margin: 0 0 0 -160px; }
-  .form-signin .checkbox {
-    margin-bottom: 10px;
-    font-weight: normal; }
-  .form-signin .form-control {
-    position: relative;
-    height: auto;
-    box-sizing: border-box;
-    padding: 10px;
-    font-size: 16px; }
-  .form-signin .form-control:focus {
-    z-index: 2; }
-  .form-signin input[type="email"] {
-    margin-bottom: -1px;
-    border-bottom-right-radius: 0;
-    border-bottom-left-radius: 0; }
-  .form-signin input[type="password"] {
-    margin-bottom: 10px;
-    border-top-left-radius: 0;
-    border-top-right-radius: 0; }
 
 a.pwResetBtn {
   float: right;
@@ -89,6 +95,15 @@ th {
   margin-bottom: 30px;
 }
 
+button.sendMail {
+  float: left;
+}
+
+div.mailResult {
+  color: blue;
+  float: left;
+}
+
 #main .spinner {
   display: none;
   width: 100%;
@@ -113,29 +128,3 @@ th {
 
 #main.loading .spinner {
   display: block; }
-
-
-.deadlineArea {
-  color: blue;
-}
-
-b.isDead {
-  color: red;
-}
-
-span.spanRight {
-  float: right;
-}
-
-span.spanRight2 {
-  float: right;
-}
-
-button.sendMail {
-  float: left;
-}
-
-div.mailResult {
-  color: blue;
-  float: left;
-}

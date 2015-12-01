@@ -10,11 +10,11 @@ block content
         p Loading...
     case source
       when 'edit'
-        h2 설문지 이어 만들기
+        h2.list-header 설문지 이어 만들기
       when 'complete'
-        h2 설문 결과 보기
+        h2.list-header 설문 결과 보기
       when 'quest'
-        h2 완성된 설문지 보기    
+        h2.list-header 완성된 설문지 보기    
     .list-group
       each survey, i in surveys
         case source

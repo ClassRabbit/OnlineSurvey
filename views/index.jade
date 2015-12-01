@@ -4,22 +4,22 @@ block content
   .container
     if (currentUser) 
       .row
-        .col-sm-2
-        .col-sm-4
+        .col-md-2
+        .col-md-4
           a.btn.btn-primary.btn-lg.btn-block.mainBtn(href='/survey/new')
             img(src='/image/new.png')
             panel 새 설문지 만들기
-        .col-sm-4
+        .col-md-4
           a.btn.btn-success.btn-lg.btn-block.mainBtn(href='/survey/edit')
             img(src='/image/edit.png')
             panel 설문지 이어 만들기
       .row
-        .col-sm-2
-        .col-sm-4
+        .col-md-2
+        .col-md-4
           a.btn.btn-info.btn-lg.btn-block.mainBtn(href='/survey/quest')
             img(src='/image/quest.png')
             panel 완성된 설문지 보기
-        .col-sm-4
+        .col-md-4
           a.btn.btn-danger.btn-lg.btn-block.mainBtn(href='/survey/complete')
             img(src='/image/result.png')
             panel 설문지 결과 보기

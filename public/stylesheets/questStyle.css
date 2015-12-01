@@ -1,0 +1,27 @@
+.deadlineArea {
+  color: blue;
+}
+
+b.isDead {
+  color: red;
+}
+
+span.spanRight {
+  float: right;
+}
+
+span.spanRight2 {
+  float: right;
+}
+
+div .questCntArea {
+  float: right;
+}
+
+span.contentTitle {
+  font-size: 20px;
+}
+
+div.contentNum {
+  font-size: 20px;
+}
