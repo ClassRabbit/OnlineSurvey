@@ -213,87 +213,97 @@ router.get('/complete/:id', function(req, res, next) {
           // console.log('b is ' + b);
           // console.log('results.length is ' + results.length);
           if(b == '_schema') break;
-          switch(results[b].type) {
-            case '0':
-              for(var c in results[b].answer) {
-                if(results[b].answer[c].value == 'optEtc' || results[b].answer[c].value == 'optMultiEtc') {
-                  continue;
+
+          if(results[b].answer) {
+            switch(results[b].type) {
+
+              case '0':
+                for(var c in results[b].answer) {
+                  if(results[b].answer[c].value == 'optEtc' || results[b].answer[c].value == 'optMultiEtc') {
+                    continue;
+                  }
+                  else if(results[b].answer[c].name == 'opt' || results[b].answer[c].name == 'optMulti'){
+                    scores[results[b].index].values[results[b].answer[c].value].cnt++;
+                  }
+                  if(results[b].answer[c].name == 'optEtcText' || results[b].answer[c].name == 'optMultiEtcText') {
+                    scores[results[b].index].etcValues.push(results[b].answer[c].value);
+                    scores[results[b].index].etcCnt++;
+        //            console.log('etcCnt ++ : ' + scores[results[b].index].etcCnt);
+                  }
                 }
-                else if(results[b].answer[c].name == 'opt' || results[b].answer[c].name == 'optMulti'){
-                  scores[results[b].index].values[results[b].answer[c].value].cnt++;
+                break;
+              case '1':
+                if(results[b].answer.length !== 0) {
+                  scores[results[b].index].values.push(results[b].answer[0].value);
                 }
-                if(results[b].answer[c].name == 'optEtcText' || results[b].answer[c].name == 'optMultiEtcText') {
-                  scores[results[b].index].etcValues.push(results[b].answer[c].value);
-                  scores[results[b].index].etcCnt++;
-      //            console.log('etcCnt ++ : ' + scores[results[b].index].etcCnt);
+                break;
+              case '2':
+                if(results[b].answer.length !== 0) {
+                  scores[results[b].index].values.push(results[b].answer[0].value);
                 }
-              }
-              break;
-            case '1':
-              if(results[b].answer.length !== 0) {
-                scores[results[b].index].values.push(results[b].answer[0].value);
-              }
-              break;
-            case '2':
-              if(results[b].answer.length !== 0) {
-                scores[results[b].index].values.push(results[b].answer[0].value);
-              }
-              break;
-            case '3':
-              if(results[b].answer.length !== 0) {
-                scores[results[b].index].values.push(results[b].answer[0].value);
-              }
-              break;
-            case '4':
-              if(results[b].answer.length !== 0) {
-                switch (results[b].answer[0].value) {
-                  case '1':
-                    scores[results[b].index].values[0]++;
-                    break;
-                  case '2':
-                    scores[results[b].index].values[1]++;
-                    break;
-                  case '3':
-                    scores[results[b].index].values[2]++;
-                    break;
-                  case '4':
-                    scores[results[b].index].values[3]++;
-                    break;
-                  case '5':
-                    scores[results[b].index].values[4]++;
-                    break;
+                break;
+              case '3':
+                if(results[b].answer.length !== 0) {
+                  scores[results[b].index].values.push(results[b].answer[0].value);
                 }
-              }
-              break;
-          }
-        //  console.log('results is ' + results[b]);
-          if(results[b].answer.length != 1) {
-            var str = '';
-            for(var e in results[b].answer) {
-              if(results[b].answer[e].value == 'optEtc' || results[b].answer[e].value == 'optMultiEtc') {
-                continue;  //기타입력
-              }
-              else {
-                if(results[b].answer[e].name == 'optEtcText' || results[b].answer[e].name == 'optMultiEtcText') {
-                  str += results[b].answer[e].value;
+                break;
+              case '4':
+              console.log(results[b].answer);
+                if(results[b].answer.length !== 0) {
+                  switch (results[b].answer[0].value) {
+                    case '1':
+                      scores[results[b].index].values[0]++;
+                      break;
+                    case '2':
+                      scores[results[b].index].values[1]++;
+                      break;
+                    case '3':
+                      scores[results[b].index].values[2]++;
+                      break;
+                    case '4':
+                      scores[results[b].index].values[3]++;
+                      break;
+                    case '5':
+                      scores[results[b].index].values[4]++;
+                      break;
+                  }
+                }
+                break;
+            }
+
+
+           //console.log('results is ' + results[b].toString());
+            if(results[b].answer.length != 1) {
+              var str = '';
+              for(var e in results[b].answer) {
+                if(results[b].answer[e].value == 'optEtc' || results[b].answer[e].value == 'optMultiEtc') {
+                  continue;  //기타입력
                 }
                 else {
-                    str += contents[b].optValues[results[b].answer[e].value] + '\n'; //다중입력
+                  if(results[b].answer[e].name == 'optEtcText' || results[b].answer[e].name == 'optMultiEtcText') {
+                    str += results[b].answer[e].value;
+                  }
+                  else {
+                      str += contents[b].optValues[results[b].answer[e].value] + '\n'; //다중입력
+                  }
+                }
+              }
+              tds.push(str);
+            }
+            else {
+              for(var d in results[b].answer) {
+                if(results[b].answer[d].name == 'opt' ||results[b].answer[d].name == 'optMulti') {
+                  tds.push(contents[b].optValues[results[b].answer[d].value]);
+                }
+                else {
+                  //console.log(results[b].answer[d].value);
+                  tds.push(results[b].answer[d].value);
                 }
               }
             }
-            tds.push(str);
           }
           else {
-            for(var d in results[b].answer) {
-              if(results[b].answer[d].name == 'opt' ||results[b].answer[d].name == 'optMulti') {
-                tds.push(contents[b].optValues[results[b].answer[d].value]);
-              }
-              else {
-                //console.log(results[b].answer[d].value);
-                tds.push(results[b].answer[d].value);
-              }
-            }
+            tds.push(" ");
           }
         }
         tdsArr.push(tds);

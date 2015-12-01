@@ -61,9 +61,10 @@ $(function() {
       alert("이메일을 입력하세요!");
       return;
     }
-    var isEmpty = true;
+    var isEmpty;
     $('form').each(function(){
       //console.log($(this).find('[name="longSubjective"]').val());
+      isEmpty = false;
       if($(this).find('.necessary').length != 0) {
         isEmpty = true;
         if($(this).find('[name="opt"]').length != 0) {
