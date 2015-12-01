@@ -30,8 +30,6 @@ $(function() {
     }
   });
 
-
-
   $('.scoreType4').each(function(){
     var chart = [];
     var sum = 0;

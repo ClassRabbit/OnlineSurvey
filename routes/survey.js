@@ -316,6 +316,7 @@ router.get('/complete/:id', function(req, res, next) {
       // }
       //res.render('survey/result',{scores: scores});
       res.render('survey/result',{
+        survey: survey,
         contents: contents,
         tdsArr: tdsArr,
         scores: scores
