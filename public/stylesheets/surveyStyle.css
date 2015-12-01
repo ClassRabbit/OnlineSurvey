@@ -71,21 +71,11 @@ img.mainImg {
   max-width: 600px;
 }
 
-div .questCntArea {
-  float: right;
-}
-
 b.necessary {
   color: red;
 }
 
-span.contentTitle {
-  font-size: 20px;
-}
 
-div.contentNum {
-  font-size: 20px;
-}
 
 th {
   text-align: center;
