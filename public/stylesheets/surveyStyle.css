@@ -1,3 +1,8 @@
+@media (min-width: 701px) {
+  .form-signin {
+    width: 50%;
+  }
+}
 @media screen and (max-width: 700px) {
   .mainBtn {
     font-size: 12px;
@@ -44,6 +49,11 @@ button#newIdBtn {
   float: right;
 }
 
+.form-signin {
+
+  margin: auto;
+  margin-top: 30px;
+}
 
 a.pwResetBtn {
   float: right;

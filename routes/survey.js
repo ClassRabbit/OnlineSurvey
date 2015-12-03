@@ -1,5 +1,6 @@
 var express = require('express'),
     Survey = require('../models/Survey'),
+    moment = require('moment'),
     Quest = require('../models/Quest');
 var router = express.Router();
 
@@ -208,7 +209,8 @@ router.get('/complete/:id', function(req, res, next) {
       for(var a in quests) {                          //응답수만큼
         var results = quests[a].results;    //응답의 결과들
         var tds = [];
-        tds.push(quests[a].createdAt);
+        var createdDate = new Date(quests[a].createdAt);
+        tds.push(moment(createdDate).format('YYYY-MM-DD h:mm:ss a'));
         for(var b in results) {           //한문제당 응답
           // console.log('b is ' + b);
           // console.log('results.length is ' + results.length);
@@ -244,11 +246,23 @@ router.get('/complete/:id', function(req, res, next) {
                 break;
               case '3':
                 if(results[b].answer.length !== 0) {
+
+                  // if(results[b].answer[0].value.length > 10) {
+                  //   var timeValue = new Date(results[b].answer[0].value);
+                  //   console.log("10 초과구나! : " + moment(timeValue).format('YYYY-MM-DD h:mm:ss a'));
+                  //   scores[results[b].index].values.push(moment(timeValue).format('YYYY-MM-DD h:mm:ss a'));
+                  //   //moment(timeValue).format('YYYY-MM-DD h:mm:ss a');
+                  // }
+                  // else {
+                  //   scores[results[b].index].values.push(results[b].answer[0].value);
+                  // }
+
+                  //if(timeValue !== 'Invalid date')
                   scores[results[b].index].values.push(results[b].answer[0].value);
                 }
                 break;
               case '4':
-              console.log(results[b].answer);
+              //console.log(results[b].answer);
                 if(results[b].answer.length !== 0) {
                   switch (results[b].answer[0].value) {
                     case '1':
@@ -295,6 +309,25 @@ router.get('/complete/:id', function(req, res, next) {
                 if(results[b].answer[d].name == 'opt' ||results[b].answer[d].name == 'optMulti') {
                   tds.push(contents[b].optValues[results[b].answer[d].value]);
                 }
+                else if (results[b].answer[d].name == 'subjective' || results[b].answer[d].name == 'longSubjective') {
+                  if(results[b].answer[d].value == '') {
+                    tds.push('-');
+                  }
+                  else {
+                    tds.push(results[b].answer[d].value);
+                  }
+                }
+                else if (results[b].answer[d].name == 'dateTime'){
+                  var timeValue = new Date(results[b].answer[0].value);
+                  timeValue = moment(timeValue).format('YYYY-MM-DD h:mm:ss a');
+                  if(timeValue === 'Invalid date') {
+                    tds.push('-');
+                  }
+                  else {
+                    tds.push(moment(timeValue).format('YYYY-MM-DD h:mm:ss a'));
+                  }
+
+                }
                 else {
                   //console.log(results[b].answer[d].value);
                   tds.push(results[b].answer[d].value);
@@ -303,7 +336,7 @@ router.get('/complete/:id', function(req, res, next) {
             }
           }
           else {
-            tds.push(" ");
+            tds.push("-");
           }
         }
         tdsArr.push(tds);

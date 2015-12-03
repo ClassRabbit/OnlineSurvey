@@ -86,12 +86,12 @@ $(function() {
     }
   });
 
-  $('table').find('tr:gt(0)').each(function() {
-    //console.log($(this).find('td:first').text());
-    var date = new Date($(this).find('td:first').text());
-    $(this).find('td:first').text(moment(date).format('YYYY-MM-DD h:mm:ss a'));
-    //console.log(moment(date).format('YYYY-MM-DD h:mm:ss a'));
-  });
+  // $('table').find('tr:gt(0)').each(function() {
+  //   //console.log($(this).find('td:first').text());
+  //   var date = new Date($(this).find('td:first').text());
+  //   $(this).find('td:first').text(moment(date).format('YYYY-MM-DD h:mm:ss a'));
+  //   //console.log(moment(date).format('YYYY-MM-DD h:mm:ss a'));
+  // });
   //$('#surveyDeadline').val(moment(survey.deadline).format('YYYY-MM-DD'));
 
   // $("#btnExcel").live("click", function () {
