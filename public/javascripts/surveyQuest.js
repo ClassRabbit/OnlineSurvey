@@ -61,6 +61,10 @@ $(function() {
       alert("이메일을 입력하세요!");
       return;
     }
+    if(!$('[name="email"]').val().match('@')) {
+      alert("이메일 형식을 입력하세요!");
+      return;
+    }
     var isEmpty;
     $('form').each(function(){
       //console.log($(this).find('[name="longSubjective"]').val());

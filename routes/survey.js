@@ -310,7 +310,7 @@ router.get('/complete/:id', needAuth, function(req, res, next) {
                   tds.push(contents[b].optValues[results[b].answer[d].value]);
                 }
                 else if (results[b].answer[d].name == 'subjective' || results[b].answer[d].name == 'longSubjective') {
-                  if(results[b].answer[d].value == '') {
+                  if(results[b].answer[d].value === '') {
                     tds.push('-');
                   }
                   else {
