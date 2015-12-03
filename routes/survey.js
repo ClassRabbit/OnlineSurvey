@@ -22,7 +22,7 @@ router.get('/new', needAuth, function(req, res, next) {         //설문 새로 
 });
 
 
-router.post('/new', function(req, res, next) {
+router.post('/new', needAuth, function(req, res, next) {
   if(req.body.surveyId){
     Survey.findById(req.body.surveyId, function(err, existSurvey){
       if (err) {
@@ -66,7 +66,7 @@ router.post('/new', function(req, res, next) {
   }
 });
 
-router.delete('/new', function(req, res, next) {
+router.delete('/new', needAuth, function(req, res, next) {
   var query = Quest.find({survey: req.body.surveyId}).remove();
   query.exec(function(err){
     if(err) {
@@ -81,7 +81,7 @@ router.delete('/new', function(req, res, next) {
   });
 });
 
-router.put('/new', function(req, res, next) {
+router.put('/new', needAuth, function(req, res, next) {
   if(req.body.surveyId){
     Survey.findById(req.body.surveyId, function(err, existSurvey){
       if (err) {
@@ -158,7 +158,7 @@ router.post('/editing', needAuth, function(req, res, next) {
   });
 });
 
-router.get('/complete', function(req, res, next) {
+router.get('/complete', needAuth, function(req, res, next) {
   var query = Survey.find({user: req.user.id, complete: true}).sort({createdAt: -1});
   //Survey.find({user: req.user.id, complete: true}, function(err, surveys){
   query.exec(function(err, surveys){
@@ -169,7 +169,7 @@ router.get('/complete', function(req, res, next) {
   });
 });
 
-router.get('/complete/:id', function(req, res, next) {
+router.get('/complete/:id', needAuth, function(req, res, next) {
   Survey.findById({_id: req.params.id}, function(err, survey) {
     if (err) {
       return next(err);
