@@ -24,8 +24,15 @@ $(function() {
       $(this).find('.chartArea').append('<div class="row">');
       $(this).find('.chartArea').append('<div class="col-sm-2">'+ chart[i].name +'</div>');
       //$(this).find('.chartArea').append('<div class="col-sm-7">'+ '<img src="/image/chart.jpg" width="'+percent+'%" height="15px"> '+ chart[i].value +'표(' +  percent +'%)</div>');
-      $(this).find('.chartArea').append('<div class="col-sm-7">'+ '<img src="/image/chart.jpg" width="'+percent+'%" height="15px"></div>');
-      $(this).find('.chartArea').append('<div class="col-sm-3">'+ chart[i].value +'표(' +  percent +'%)' +'</div>');
+
+      if(isNaN(percent)) {
+        $(this).find('.chartArea').append('<div class="col-sm-7">'+ '<img src="/image/chart.jpg" width="0%" height="15px"></div>');
+        $(this).find('.chartArea').append('<div class="col-sm-3">'+ chart[i].value +'표' +'</div>');
+      }
+      else {
+        $(this).find('.chartArea').append('<div class="col-sm-7">'+ '<img src="/image/chart.jpg" width="'+percent+'%" height="15px"></div>');
+        $(this).find('.chartArea').append('<div class="col-sm-3">'+ chart[i].value +'표(' +  percent +'%)' +'</div>');
+      }
       $(this).find('.chartArea').append('</div>');
     }
   });
@@ -72,8 +79,15 @@ $(function() {
       var name = chart[i].name
       $(this).find('.chartArea').append('<div class="row">');
       $(this).find('.chartArea').append('<div class="col-sm-2">'+ chart[i].name +'</div>');
-      $(this).find('.chartArea').append('<div class="col-sm-7">'+ '<img src="/image/chart.jpg" width="'+percent+'%" height="15px"></div>');
-      $(this).find('.chartArea').append('<div class="col-sm-3">'+ chart[i].value +'표(' +  percent +'%)' +'</div>');
+      if(isNaN(percent)) {
+        $(this).find('.chartArea').append('<div class="col-sm-7">'+ '<img src="/image/chart.jpg" width="0%" height="15px"></div>');
+        $(this).find('.chartArea').append('<div class="col-sm-3">'+ chart[i].value +'표' +'</div>');
+      }
+      else {
+        $(this).find('.chartArea').append('<div class="col-sm-7">'+ '<img src="/image/chart.jpg" width="'+percent+'%" height="15px"></div>');
+        $(this).find('.chartArea').append('<div class="col-sm-3">'+ chart[i].value +'표(' +  percent +'%)' +'</div>');
+      }
+
       $(this).find('.chartArea').append('</div>');
     }
 

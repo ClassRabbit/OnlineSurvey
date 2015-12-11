@@ -320,6 +320,7 @@ router.get('/complete/:id', needAuth, function(req, res, next) {
                 else if (results[b].answer[d].name == 'dateTime'){
                   var timeValue = new Date(results[b].answer[0].value);
                   timeValue = moment(timeValue).format('YYYY-MM-DD h:mm:ss a');
+                  console.log('비어있을때는 : ' + timeValue);
                   if(timeValue === 'Invalid date') {
                     tds.push('-');
                   }
@@ -329,8 +330,14 @@ router.get('/complete/:id', needAuth, function(req, res, next) {
 
                 }
                 else {
-                  //console.log(results[b].answer[d].value);
-                  tds.push(results[b].answer[d].value);
+                  //console.log('else' + results[b].answer[d].name);
+                  if(results[b].answer[d].value === '') {
+                    tds.push('-');
+                  }
+                  else {
+                    tds.push(results[b].answer[d].value);
+                  }
+
                 }
               }
             }
