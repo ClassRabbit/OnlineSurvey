@@ -293,7 +293,7 @@ $(function() {
         $(item).find('.contentNum').empty();
         $(item).find('.contentNum').append(index);
         //$(item).find('.contentNum').append('<div class="contentDelArea"><a class="contentDel "><span class="glyphicon glyphicon-remove"></span></a></div>');
-        $('.content:eq(' + contentCnt + ')').find('.contentNum').append($('#contentDelAreaTemplate').html());
+        $(item).find('.contentNum').append($('#contentDelAreaTemplate').html());
       }
     });
     $(this).parents('.content').remove();
